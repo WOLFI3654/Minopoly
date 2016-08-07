@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 
 public enum Messages {
 
+	MINIGAME_WIN("Das Minispiel $0 wurde von $1 gewonnen!"),
 	TELEPORT("Du wurdest teleportiert."),
 	OTHER_FIELD_ENTERED("$0 ist auf ein Feld von $1 getreten! §l($2)");
 	

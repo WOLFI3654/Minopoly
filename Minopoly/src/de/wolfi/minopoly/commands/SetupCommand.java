@@ -19,7 +19,6 @@ import org.bukkit.inventory.ItemStack;
 import de.wolfi.minopoly.Main;
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.utils.ItemBuilder;
-import net.minecraft.server.v1_8_R3.PacketPlayInCustomPayload;
 
 public class SetupCommand implements CommandExecutor,Listener {
 
