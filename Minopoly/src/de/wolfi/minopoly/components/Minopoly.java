@@ -3,8 +3,11 @@ package de.wolfi.minopoly.components;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import javax.annotation.Nullable;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.event.HandlerList;
 
 import de.wolfi.minopoly.components.fields.Field;
 
@@ -23,6 +26,8 @@ public class Minopoly implements Serializable{
 	
 	private transient ArrayList<Player> playingPlayers = new ArrayList<>();
 	
+	private transient GameListener listener;
+	
 	private final String world;
 	
 	public Minopoly(String world) {
@@ -36,6 +41,12 @@ public class Minopoly implements Serializable{
 			f.load();
 		}
 		mgManager.load();
+		
+		listener = new GameListener();
+	}
+	
+	public void unload(){
+		HandlerList.unregisterAll(listener);
 	}
 	
 	public World getWorld(){
@@ -45,6 +56,15 @@ public class Minopoly implements Serializable{
 	public String getWorldName() {
 		return world;
 
+	}
+	
+	public @Nullable Player getByBukkitPlayer(org.bukkit.entity.Player player){
+		for(Player p : playingPlayers){
+			if(p.getHook().equals(player)){
+				return p;
+			}
+		}
+		return null;
 	}
 	
 }
