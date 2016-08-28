@@ -72,4 +72,12 @@ public class Player{
 		return hook.getName();
 	}
 	
+	protected org.bukkit.entity.Player getHook() {
+		return hook;
+	}
+	
+	public void setInventory(){
+		
+	}
+	
 }
