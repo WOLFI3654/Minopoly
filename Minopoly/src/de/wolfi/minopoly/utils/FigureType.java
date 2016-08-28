@@ -24,4 +24,8 @@ public enum FigureType {
 	public EntityType getEntityType() {
 		return entityType;
 	}
+
+	public String getName() {
+		return d.getType().toString();
+	}
 }
