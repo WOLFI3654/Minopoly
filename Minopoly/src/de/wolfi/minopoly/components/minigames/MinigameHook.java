@@ -3,11 +3,13 @@ package de.wolfi.minopoly.components.minigames;
 import java.util.List;
 import java.util.Vector;
 
+import org.bukkit.event.Listener;
+
 import de.wolfi.minopoly.components.Player;
 import de.wolfi.minopoly.utils.Messages;
 import de.wolfi.minopoly.utils.TeleportCause;
 
-public class MinigameHook {
+public class MinigameHook implements Listener{
 	
 	private final Minigame mg;
 	public MinigameHook(Minigame mg) {
@@ -24,7 +26,7 @@ public class MinigameHook {
 	
 	public void start(){}
 	
-	public List<Player> getPlayers(){return players;};
+	public final List<Player> getPlayers(){return players;};
 	
 	protected final void win(Player... players){
 		StringBuilder string = new StringBuilder(players[0].getName());
