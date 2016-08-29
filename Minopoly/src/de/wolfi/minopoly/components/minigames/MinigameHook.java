@@ -9,7 +9,7 @@ import de.wolfi.minopoly.components.Player;
 import de.wolfi.minopoly.utils.Messages;
 import de.wolfi.minopoly.utils.TeleportCause;
 
-public class MinigameHook implements Listener{
+public abstract class MinigameHook implements Listener{
 	
 	private final Minigame mg;
 	public MinigameHook(Minigame mg) {
@@ -24,7 +24,7 @@ public class MinigameHook implements Listener{
 	
 	public void removePlayer(Player player){players.remove(player);}
 	
-	public void start(){}
+	public abstract void start();
 	
 	public final List<Player> getPlayers(){return players;};
 	
