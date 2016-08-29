@@ -20,8 +20,10 @@ public enum Messages {
 		this.txt = txt;
 	}
 	
-	public void send(Player player){
-		player.sendMessage(Prefix+txt);
+	public void send(Player player,String... target){
+		String end = Prefix+txt;
+		for(int i = 0; i < target.length; i++) end.replaceAll("$"+i, target[i]); 
+		player.sendMessage(end);
 	}
 	
 	public void broadcast(String...target){
