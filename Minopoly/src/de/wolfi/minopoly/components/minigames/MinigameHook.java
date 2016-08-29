@@ -1,5 +1,6 @@
 package de.wolfi.minopoly.components.minigames;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -26,7 +27,7 @@ public abstract class MinigameHook implements Listener{
 	
 	public abstract void start();
 	
-	public final List<Player> getPlayers(){return players;};
+	public final List<Player> getPlayers(){return new ArrayList<>(players);};
 	
 	protected final void win(Player... players){
 		StringBuilder string = new StringBuilder(players[0].getName());
