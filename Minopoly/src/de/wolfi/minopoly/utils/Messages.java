@@ -4,12 +4,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public enum Messages {
-
+	
 	MINIGAME_WIN("Das Minispiel $0 wurde von $1 gewonnen!"),
 	MINIGAME_DEATH("$0 ist in $1 gestorben."),
 	MINIGAME_GOT_KILLED("$0 wurde in $1 von $2 getötet!"),
 	MINIGAME_KILL("Du hast $0 in $1 getötet!"),
 	TELEPORT("Du wurdest teleportiert."),
+	COMMUNITY_FIELD_ENTER("$0 hat ein Gemeinschaffts Feld betreten!"),
+	POLICE_FIELD_ENTER("$0 betrat das Feld der Polizei und wurde dafür ins Gefängnis geschickt."),
+	JAIL_FIELD_ENTER("$0 stattet dem Gefängnis einen Besuch ab."),
 	OTHER_FIELD_ENTERED("$0 ist auf ein Feld von $1 getreten! §l($2)");
 	
 	
