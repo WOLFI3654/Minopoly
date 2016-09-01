@@ -4,6 +4,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 
 public enum FieldColor {
+	SPECIAL(DyeColor.SILVER,ChatColor.GRAY),
+	
+	
 	BLUE(DyeColor.BLUE,ChatColor.BLUE),
 	GREEN(DyeColor.GREEN,ChatColor.GREEN),
 	YELLOW(DyeColor.YELLOW,ChatColor.YELLOW),

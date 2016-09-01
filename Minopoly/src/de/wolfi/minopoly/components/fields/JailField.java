@@ -6,26 +6,26 @@ import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
 import de.wolfi.minopoly.utils.Messages;
 
-public class CommunityField extends Field{
+public class JailField extends Field{
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2546033930136925490L;
+	private static final long serialVersionUID = -2034500067547136860L;
 
-	public CommunityField(Location l, Minopoly game) {
-		super("Gemeinschaffts Feld",FieldColor.SPECIAL, l, game);
-		
+	public JailField(Location l, Minopoly game) {
+		super("Gefängniss", FieldColor.SPECIAL, l, game);
 	}
+
 	
 	@Override
 	public void playerStand(Player player) {
-		Messages.COMMUNITY_FIELD_ENTER.broadcast(player.getName());
+		Messages.JAIL_FIELD_ENTER.broadcast(player.getName());
 	}
 
-	
 	@Override
 	public boolean isOwned() {
 		return false;
 	}
+
 }

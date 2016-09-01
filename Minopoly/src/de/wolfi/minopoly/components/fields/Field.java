@@ -7,6 +7,7 @@ import java.util.HashMap;
 import org.bukkit.Location;
 import org.bukkit.World;
 
+import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
 import de.wolfi.minopoly.utils.Messages;
 
@@ -29,6 +30,9 @@ public abstract class Field implements Serializable {
 	
 	private final HashMap<String, Object> storedLocation;
 	private transient Location location;
+
+
+	protected final Minopoly game;
 	
 	
 	private static final void add(FieldColor color2, Field field) {
@@ -39,11 +43,12 @@ public abstract class Field implements Serializable {
 	}
 
 	
-	public Field(String name, FieldColor color, Location l) {
+	public Field(String name, FieldColor color, Location l, Minopoly game) {
 		this.color = color;
 		this.name = name;
 		this.storedLocation = new HashMap<>(l.serialize());
 		this.location = l;
+		this.game = game;
 		add(color, this);
 	}
 	
@@ -75,7 +80,6 @@ public abstract class Field implements Serializable {
 	}
 	
 	private String getName() {
-		// TODO Auto-generated method stub
 		return name;
 	}
 
