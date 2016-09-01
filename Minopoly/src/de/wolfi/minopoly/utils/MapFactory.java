@@ -15,10 +15,11 @@ import de.wolfi.minopoly.components.Minopoly;
 
 public final class MapFactory {
 
-	public static void getMap(Minopoly game, Player player){
+	public static MapView getMap(Minopoly game, Player player){
 		MapView map = Bukkit.createMap(player.getWorld());
 		clearMap(map);
 		map.addRenderer(new InternMapRenderer(game));
+		return map;
 	}
 	
 	private static void clearMap(MapView m){
@@ -41,7 +42,6 @@ public final class MapFactory {
 				paramMapCanvas.drawImage(0, 0, ImageIO.read(ClassLoader.getSystemResource("res/monopoly.png")));
 				paramMapCanvas.drawText(0, 0, new MinecraftFont(), p.getFigure().getName());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
