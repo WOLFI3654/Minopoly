@@ -73,6 +73,8 @@ public abstract class Field implements Serializable {
 			}
 		}
 	}
+	
+	public abstract void byPass(Player player);
 
 
 	public void load(){

@@ -36,7 +36,7 @@ public class DisguiseBuilder {
 
 
 
-	public Disguise create() {
+	protected Disguise create() {
 		// TODO Auto-generated method stub
 		return applyTo;
 	}

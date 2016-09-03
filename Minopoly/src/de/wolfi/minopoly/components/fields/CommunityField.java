@@ -28,4 +28,9 @@ public class CommunityField extends Field{
 	public boolean isOwned() {
 		return false;
 	}
+
+	@Override
+	public void byPass(Player player) {
+		
+	}
 }

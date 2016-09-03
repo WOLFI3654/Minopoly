@@ -11,13 +11,14 @@ import de.wolfi.minopoly.Main;
 import de.wolfi.minopoly.components.fields.Field;
 import de.wolfi.minopoly.utils.DisguiseManager;
 import de.wolfi.minopoly.utils.FigureType;
+import de.wolfi.minopoly.utils.MapFactory;
 import de.wolfi.minopoly.utils.Messages;
 import de.wolfi.minopoly.utils.TeleportCause;
 
 public class Player{
 
-	private org.bukkit.entity.Player hook;
-	private FigureType type;
+	private final org.bukkit.entity.Player hook;
+	private final FigureType type;
 	
 	private Bank money;
 	
@@ -25,9 +26,12 @@ public class Player{
 	
 	private Entity tmp;
 	
-	public Player(org.bukkit.entity.Player hook, FigureType t){
+	private final Minopoly game;
+	
+	public Player(org.bukkit.entity.Player hook, FigureType t, Minopoly game){
 		this.hook = hook;
 		this.type = t;
+		this.game = game;
 	}
 
 	
@@ -77,6 +81,21 @@ public class Player{
 	}
 	
 	public void setInventory(){
+		hook.getInventory().clear();
+		hook.sendMap(MapFactory.getMap(game, hook));
+		
+	}
+	
+	public void addMoney(int amount){
+		this.addMoney(amount, "Grundlos");
+	}
+	
+	public void addMoney(int amount, String reason){
+		this.money.addMoney(this, amount);
+		Messages.MONEY_GAIN.send(hook, String.valueOf(amount),reason);
+	}
+	
+	public void transferMoneyTo(Player player, String reason){
 		
 	}
 	

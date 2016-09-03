@@ -8,10 +8,14 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -34,7 +38,8 @@ public class SetupCommand implements CommandExecutor,Listener {
 	 * Main Setup Menu
 	 */
 	private static final ItemStack mainSetup = new ItemBuilder(Material.SAPLING).setName("§aMain Setup").addLore("< Zurück").build();
-	
+	private static final ItemStack fieldSetupItem = new ItemBuilder(Material.WOOD_PLATE).setName("§eFields").addLore(" Füge Felder hinzu").build();
+	private static final ItemStack mainMinigameSetupItem = new ItemBuilder(Material.EMERALD).setName("§eMinigames").addLore("> Minigame Verwaltung").build();
 	
 	//-------------------------------------------
 	/**
@@ -51,6 +56,17 @@ public class SetupCommand implements CommandExecutor,Listener {
 	 */
 	
 	private static final ItemStack minigameSetup = new ItemBuilder(Material.EMERALD).setName("§aMinigame Setup").addLore("< Zurück").build();
+	
+	//--------------------------------------------
+	
+	/**
+	 * Field Setup Items
+	 */
+	
+	private static final ItemStack normalField = new ItemBuilder(Material.WOOD_PLATE).setName("§7Normales Feld").build();
+	private static final ItemStack eventField = new ItemBuilder(Material.IRON_PLATE).setName("§7Normales Feld").build();
+	private static final ItemStack communityField = new ItemBuilder(Material.GOLD_PLATE).setName("§7Normales Feld").build();
+
 	
 	//--------------------------------------------
 	
@@ -83,20 +99,33 @@ public class SetupCommand implements CommandExecutor,Listener {
 	}
 	
 	private Inventory createGameManagmentInventory(Minopoly m){
-		Inventory inv = Bukkit.createInventory(holder, 9*5,"§c"+m.getWorldName()+" - Setup");
+		Inventory inv = Bukkit.createInventory(holder, InventoryType.HOPPER,"§c"+m.getWorldName()+" - Setup");
 		inv.setItem(0, mainSetup);
-		
+		inv.setItem(1, fieldSetupItem);
+		inv.setItem(2, mainMinigameSetupItem);
 		
 		return inv;
 	}
 	
+	private Inventory createFieldSetup(){
+		return null;
+		
+	}
+	
+	private void giveFieldSetupItems(HumanEntity whoClicked) {
+		whoClicked.getInventory().addItem(normalField,eventField,communityField);		
+	}
+
+	
 	
 	@EventHandler
 	public void onClick(InventoryClickEvent e){
-		if(e.getCurrentItem() == null) return;
+		final ItemStack clicked = e.getCurrentItem();
+		if(clicked == null) return;
 		if(e.getClickedInventory().getHolder() != holder) return;
+		
 		if(e.getClickedInventory() == minopolyChooser){
-			ItemStack clicked = e.getCurrentItem();
+			
 			World w = Bukkit.getWorld(clicked.getItemMeta().getDisplayName());
 			if(w == null) Bukkit.broadcastMessage("§cError while converting world");
 			Minopoly m = main.loadMap(w);
@@ -105,7 +134,7 @@ public class SetupCommand implements CommandExecutor,Listener {
 		}else{
 			ItemStack checker = e.getClickedInventory().getItem(0);
 			if(checker.equals(mainSetup)){
-				
+				if(clicked.equals(fieldSetupItem)) giveFieldSetupItems(e.getWhoClicked());
 			}else if(checker.equals(mainMinigameSetup)){
 				
 			}else if(checker.equals(minigameSetup)){
@@ -113,5 +142,16 @@ public class SetupCommand implements CommandExecutor,Listener {
 			}else e.getWhoClicked().sendMessage("§cError while converting inventory");
 		}
 	}
+	
+	@EventHandler
+	public void onInteract(PlayerInteractEvent e){
+		if(e.getItem() != null && e.getAction() == Action.RIGHT_CLICK_BLOCK){
+			if(e.getItem().equals(normalField)){
+				
+			}
+		}
+	}
+	
 
+	
 }

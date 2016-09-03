@@ -28,4 +28,10 @@ public class JailField extends Field{
 		return false;
 	}
 
+
+	@Override
+	public void byPass(Player player) {
+		
+	}
+
 }
