@@ -17,6 +17,7 @@ public enum Messages {
 	OTHER_FIELD_ENTERED("$0 ist auf ein Feld von $1 getreten! §l($2)"),
 	
 	MONEY_GAIN("Du hast $0 Geld bekommen. ($1)"),
+	MONEY_PAYD("Du hast $0 Geld bezahlt. ($1)"),
 	MONEY_TRANSFER_GAIN("Du hast $0 Geld von $1 bekommen. ($2)"),
 	MONEY_TRANSFER_SENT("Du hast $0 Geld an $1 bezahlt. ($2)"),
 	;

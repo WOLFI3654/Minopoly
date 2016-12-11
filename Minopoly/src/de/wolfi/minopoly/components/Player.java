@@ -71,7 +71,10 @@ public class Player{
 		tmp = e;
 	}
 
-
+	private String getDisplay() {
+		return this.getName()+"("+this.getFigure().getName()+")";
+	}
+	
 	public String getName(){
 		return hook.getName();
 	}
@@ -95,8 +98,22 @@ public class Player{
 		Messages.MONEY_GAIN.send(hook, String.valueOf(amount),reason);
 	}
 	
-	public void transferMoneyTo(Player player, String reason){
-		
+	public void removeMoney(int amount, String reason){
+		this.money.removeMoney(this, amount);
+		Messages.MONEY_PAYD.send(hook, String.valueOf(amount),reason);
+	}
+	
+	public void transferMoneyFrom(Player player, int amount, String reason){
+		this.money.addMoney(this, amount);
+		Messages.MONEY_TRANSFER_GAIN.send(hook, String.valueOf(amount),player.getDisplay(), reason);
+	}
+	
+	
+
+
+	public void transferMoneyTo(Player player,int amount, String reason){
+		this.money.removeMoney(this, amount);
+		Messages.MONEY_TRANSFER_SENT.send(hook, String.valueOf(amount),player.getDisplay(),reason);
 	}
 	
 }
