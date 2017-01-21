@@ -12,6 +12,7 @@ public enum Messages {
 	TELEPORT("Du wurdest teleportiert."),
 	START_FIELD_BYPASS("$0 ist über Los gezogen."),
 	COMMUNITY_FIELD_ENTER("$0 hat ein Gemeinschaffts Feld betreten!"),
+	EVENT_FIELD_ENTER("$0 hat ein Ereigniss Feld betreten!"),
 	POLICE_FIELD_ENTER("$0 betrat das Feld der Polizei und wurde dafür ins Gefängnis geschickt."),
 	JAIL_FIELD_ENTER("$0 stattet dem Gefängnis einen Besuch ab."),
 	OTHER_FIELD_ENTERED("$0 ist auf ein Feld von $1 getreten! §l($2)"),

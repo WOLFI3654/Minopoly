@@ -22,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 
 import de.wolfi.minopoly.Main;
 import de.wolfi.minopoly.components.Minopoly;
+import de.wolfi.minopoly.components.fields.EventField;
 import de.wolfi.utils.ItemBuilder;
 
 public class SetupCommand implements CommandExecutor,Listener {
@@ -64,9 +65,12 @@ public class SetupCommand implements CommandExecutor,Listener {
 	 */
 	
 	private static final ItemStack normalField = new ItemBuilder(Material.WOOD_PLATE).setName("§7Normales Feld").build();
-	private static final ItemStack eventField = new ItemBuilder(Material.IRON_PLATE).setName("§7Normales Feld").build();
-	private static final ItemStack communityField = new ItemBuilder(Material.GOLD_PLATE).setName("§7Normales Feld").build();
-
+	private static final ItemStack eventField = new ItemBuilder(Material.IRON_PLATE).setName("§Event Feld").build();
+	private static final ItemStack communityField = new ItemBuilder(Material.GOLD_PLATE).setName("§7Community Feld").build();
+	private static final ItemStack policeField = new ItemBuilder(Material.IRON_SWORD).setName("§7Polizei Feld").build();
+	private static final ItemStack jailField = new ItemBuilder(Material.IRON_BARDING).setName("§7Jelly Feld").build();
+	private static final ItemStack startField = new ItemBuilder(Material.BANNER).setName("§7Start Feld").build();
+	
 	
 	//--------------------------------------------
 	
@@ -113,7 +117,7 @@ public class SetupCommand implements CommandExecutor,Listener {
 	}
 	
 	private void giveFieldSetupItems(HumanEntity whoClicked) {
-		whoClicked.getInventory().addItem(normalField,eventField,communityField);		
+		whoClicked.getInventory().addItem(normalField,eventField,communityField,policeField,jailField,startField);		
 	}
 
 	
@@ -146,8 +150,11 @@ public class SetupCommand implements CommandExecutor,Listener {
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e){
 		if(e.getItem() != null && e.getAction() == Action.RIGHT_CLICK_BLOCK){
+			Minopoly m = setups.get(e.getPlayer());
 			if(e.getItem().equals(normalField)){
 				
+			}else if(e.getItem().equals(eventField)){
+				m.addField(new EventField(e.getClickedBlock().getLocation(), m));
 			}
 		}
 	}

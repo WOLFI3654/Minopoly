@@ -9,6 +9,7 @@ import java.util.HashMap;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import de.wolfi.minopoly.commands.BankCommand;
 import de.wolfi.minopoly.commands.SetupCommand;
 import de.wolfi.minopoly.components.Minopoly;
 
@@ -21,6 +22,8 @@ public class Main extends JavaPlugin{
 	@Override
 	public void onEnable() {
 		getCommand("setupminopoly").setExecutor(new SetupCommand());
+		getCommand("bank").setExecutor(new BankCommand());
+		
 	}
 	
 	public static Main getMain(){
@@ -50,7 +53,6 @@ public class Main extends JavaPlugin{
 					}
 					in.close();
 				} catch (IOException | ClassNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			

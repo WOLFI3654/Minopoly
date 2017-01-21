@@ -67,5 +67,11 @@ public class Minopoly implements Serializable{
 		return null;
 	}
 	
+	
+	public void addField(Field f){
+		f.spawn();
+		fields.add(f);
+	}
+	
 }
 
