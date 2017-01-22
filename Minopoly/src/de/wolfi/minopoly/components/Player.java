@@ -1,5 +1,6 @@
 package de.wolfi.minopoly.components;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -61,6 +62,7 @@ public class Player{
 	
 	
 	private void spawnFigure() {
+		if(tmp != null) tmp.remove();
 		Entity e = location.getWorld().spawnEntity(location.getLocation(), type.getEntityType());
 		e.setCustomName(hook.getName());
 		e.setCustomNameVisible(true);
@@ -108,12 +110,29 @@ public class Player{
 		Messages.MONEY_TRANSFER_GAIN.send(hook, String.valueOf(amount),player.getDisplay(), reason);
 	}
 	
-	
-
-
 	public void transferMoneyTo(Player player,int amount, String reason){
 		this.money.removeMoney(this, amount);
 		Messages.MONEY_TRANSFER_SENT.send(hook, String.valueOf(amount),player.getDisplay(),reason);
 	}
 	
+	public void move(int amount){
+		Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), new Runnable() {
+			public void run() {
+				for(int i = 0; i < amount; i++){
+					Bukkit.getScheduler().runTask(Main.getMain(), new Runnable() {
+						public void run() {
+							Player.this.location = Player.this.game.getNextField(Player.this.location);
+							Player.this.spawnFigure();
+						}
+					});
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		
+	}
 }

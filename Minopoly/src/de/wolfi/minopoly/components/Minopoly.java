@@ -73,5 +73,20 @@ public class Minopoly implements Serializable{
 		fields.add(f);
 	}
 	
+	public Field getNextField(Field from){
+		boolean next = false;
+		for(Field f : fields){
+			if(f.equals(from)){
+				next = true;
+				continue;
+			}
+			if(next){
+				return from;
+			}
+		}
+		if(!next) return null;
+		return fields.get(0);
+	}
+	
 }
 
