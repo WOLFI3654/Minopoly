@@ -1,7 +1,0 @@
-name: Mineopoly
-version: 1.0
-author: WOLFI3654
-main: de.wolfi.minopoly.Main
-commands:
-  bank:
-  setupminopoly:
