@@ -10,7 +10,7 @@ import de.wolfi.minopoly.Main;
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
 
-public class MoveCommand implements CommandExecutor{
+public class MoveCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender paramCommandSender, Command arg1, String arg2, String[] args) {
@@ -35,10 +35,10 @@ public class MoveCommand implements CommandExecutor{
 			return true;
 		}
 		int steps = 0;
-		try{
+		try {
 			steps = Integer.parseInt(args[1]);
-		}catch(Exception e){
-			sender.sendMessage(ChatColor.DARK_RED +e.getMessage());
+		} catch (final Exception e) {
+			sender.sendMessage(ChatColor.DARK_RED + e.getMessage());
 		}
 		p.move(steps);
 		return false;

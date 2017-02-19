@@ -5,9 +5,8 @@ import org.bukkit.event.Listener;
 
 import de.wolfi.minopoly.Main;
 
-public class GameListener implements Listener{
+public class GameListener implements Listener {
 
-	
 	public GameListener() {
 		Bukkit.getPluginManager().registerEvents(this, Main.getMain());
 	}

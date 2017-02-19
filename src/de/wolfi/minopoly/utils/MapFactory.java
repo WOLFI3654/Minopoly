@@ -15,36 +15,36 @@ import de.wolfi.minopoly.components.Minopoly;
 
 public final class MapFactory {
 
-	public static MapView getMap(Minopoly game, Player player){
-		MapView map = Bukkit.createMap(player.getWorld());
-		clearMap(map);
-		map.addRenderer(new InternMapRenderer(game));
-		return map;
-	}
-	
-	private static void clearMap(MapView m){
-		for(MapRenderer r : m.getRenderers()){
-			m.removeRenderer(r);
-		}
-	}
-	
-	private static class InternMapRenderer extends MapRenderer{
+	private static class InternMapRenderer extends MapRenderer {
 
 		private final Minopoly game;
+
 		protected InternMapRenderer(Minopoly game) {
 			this.game = game;
 		}
-		
+
 		@Override
 		public void render(MapView paramMapView, MapCanvas paramMapCanvas, Player paramPlayer) {
-			de.wolfi.minopoly.components.Player p = game.getByBukkitPlayer(paramPlayer);
+			final de.wolfi.minopoly.components.Player p = this.game.getByBukkitPlayer(paramPlayer);
 			try {
 				paramMapCanvas.drawImage(0, 0, ImageIO.read(ClassLoader.getSystemResource("res/monopoly.png")));
 				paramMapCanvas.drawText(0, 0, new MinecraftFont(), p.getFigure().getName());
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
+	}
+
+	private static void clearMap(MapView m) {
+		for (final MapRenderer r : m.getRenderers())
+			m.removeRenderer(r);
+	}
+
+	public static MapView getMap(Minopoly game, Player player) {
+		final MapView map = Bukkit.createMap(player.getWorld());
+		MapFactory.clearMap(map);
+		map.addRenderer(new InternMapRenderer(game));
+		return map;
 	}
 }

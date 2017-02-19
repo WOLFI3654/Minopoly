@@ -5,64 +5,61 @@ import java.util.HashMap;
 
 import org.bukkit.Location;
 
-public class Minigame implements Serializable{
+public class Minigame implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -948671377374764648L;
 
-	private boolean supportHook = false;
-	private String hookClazz = "de.wolfi.minopoly.components.minigames.MinigameHook";
-	private String name = "Unknown Minigame";
-	private String addPlayer = "say adding $p to "+name;
-	private String start = "start "+name;
-	private final HashMap<String, Object> storedLocation;
+	private String addPlayer = "say adding $p to " + this.name;
+	private final String hookClazz = "de.wolfi.minopoly.components.minigames.MinigameHook";
 	private transient Location location;
+	private String name = "Unknown Minigame";
+	private String start = "start " + this.name;
+	private final HashMap<String, Object> storedLocation;
+	private boolean supportHook = false;
 
 	public Minigame(Location spawn, boolean supportHook) {
 		this.storedLocation = new HashMap<>(spawn.serialize());
 		this.location = spawn;
 		this.supportHook = supportHook;
 	}
-	
-	public void load(){
-		this.location = Location.deserialize(storedLocation);
+
+	public String getAddPlayer() {
+		return this.addPlayer;
 	}
-	
-	public boolean isHookSupported() {
-		return supportHook;
-	}
-	
-	
+
 	public Location getLocation() {
-		return location;
+		return this.location;
 	}
-	
+
 	public String getName() {
-		return name;
+		return this.name;
 	}
-	
-	public void setName(String name) {
-		this.name = name;
+
+	public String getStart() {
+		return this.start;
 	}
-	
+
+	public boolean isHookSupported() {
+		return this.supportHook;
+	}
+
+	public void load() {
+		this.location = Location.deserialize(this.storedLocation);
+	}
+
 	public void setAddPlayer(String addPlayer) {
 		this.addPlayer = addPlayer;
 	}
-	
-	public String getAddPlayer() {
-		return addPlayer;
+
+	public void setName(String name) {
+		this.name = name;
 	}
-	
-	
+
 	public void setStart(String start) {
 		this.start = start;
 	}
-	
-	public String getStart() {
-		return start;
-	}
-	
-	
+
 }

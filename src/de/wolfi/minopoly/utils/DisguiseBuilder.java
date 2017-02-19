@@ -9,35 +9,30 @@ import de.robingrether.idisguise.disguise.WolfDisguise;
 
 public class DisguiseBuilder {
 
-	private Disguise applyTo;
-	
-	private DisguiseBuilder(){
-		
-	}
-	
-	
-
-	public static DisguiseBuilder create(DisguiseType type){
-		DisguiseBuilder b = new DisguiseBuilder();
+	public static DisguiseBuilder create(DisguiseType type) {
+		final DisguiseBuilder b = new DisguiseBuilder();
 		b.applyTo = type.newInstance();
 		return b;
 	}
-	
-	public DisguiseBuilder setCollar(DyeColor color){
-		((WolfDisguise)applyTo).setCollarColor(color);
-		return this;
-	}
-	
-	
-	public DisguiseBuilder setDisplayName(String name){
-		((MobDisguise) applyTo).setCustomName(name);
-		return this;
-	}
 
+	private Disguise applyTo;
 
+	private DisguiseBuilder() {
+
+	}
 
 	protected Disguise create() {
 		// TODO Auto-generated method stub
-		return applyTo;
+		return this.applyTo;
+	}
+
+	public DisguiseBuilder setCollar(DyeColor color) {
+		((WolfDisguise) this.applyTo).setCollarColor(color);
+		return this;
+	}
+
+	public DisguiseBuilder setDisplayName(String name) {
+		((MobDisguise) this.applyTo).setCustomName(name);
+		return this;
 	}
 }

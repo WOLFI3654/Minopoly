@@ -20,14 +20,14 @@ public class NormalField extends Field {
 
 	@Override
 	public void byPass(Player player) {
-		
+
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public void spawn() {
-		getCircle(1, 0, false, new MaterialData(Material.AIR));
-		getCircle(1, 0, true, new MaterialData(Material.STAINED_CLAY,getColor().getColor().getData()));
+		this.getCircle(1, 0, false, new MaterialData(Material.AIR));
+		this.getCircle(1, 0, true, new MaterialData(Material.STAINED_CLAY, this.getColor().getColor().getData()));
 	}
 
 }

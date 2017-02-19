@@ -8,7 +8,7 @@ import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
 import de.wolfi.minopoly.utils.Messages;
 
-public class JailField extends Field{
+public class JailField extends Field {
 
 	/**
 	 * 
@@ -19,10 +19,9 @@ public class JailField extends Field{
 		super("Gefängniss", FieldColor.SPECIAL, l, game);
 	}
 
-	
 	@Override
-	public void playerStand(Player player) {
-		Messages.JAIL_FIELD_ENTER.broadcast(player.getName());
+	public void byPass(Player player) {
+
 	}
 
 	@Override
@@ -30,16 +29,14 @@ public class JailField extends Field{
 		return false;
 	}
 
-
 	@Override
-	public void byPass(Player player) {
-		
+	public void playerStand(Player player) {
+		Messages.JAIL_FIELD_ENTER.broadcast(player.getName());
 	}
 
-	
 	@Override
 	public void spawn() {
-		getCircle(1, 0, false, new MaterialData(Material.AIR));
-		getCircle(1, 0, true, new MaterialData(Material.IRON_BARDING));
+		this.getCircle(1, 0, false, new MaterialData(Material.AIR));
+		this.getCircle(1, 0, true, new MaterialData(Material.IRON_BARDING));
 	}
 }

@@ -16,123 +16,117 @@ import de.wolfi.minopoly.utils.MapFactory;
 import de.wolfi.minopoly.utils.Messages;
 import de.wolfi.minopoly.utils.TeleportCause;
 
-public class Player{
+public class Player {
 
-	private final org.bukkit.entity.Player hook;
-	private final FigureType type;
-	
-	private Bank money;
-	
-	private Field location;
-	
-	private Entity tmp;
-	
 	private final Minopoly game;
-	
-	public Player(org.bukkit.entity.Player hook, FigureType t, Minopoly game){
+	private final org.bukkit.entity.Player hook;
+
+	private Field location;
+
+	private Bank money;
+
+	private Entity tmp;
+
+	private final FigureType type;
+
+	public Player(org.bukkit.entity.Player hook, FigureType t, Minopoly game) {
 		this.hook = hook;
 		this.type = t;
 		this.game = game;
 	}
 
-	
-	public FigureType getFigure() {
-		return this.type;
+	public void addMoney(int amount) {
+		this.addMoney(amount, "Grundlos");
+	}
+
+	public void addMoney(int amount, String reason) {
+		this.money.addMoney(this, amount);
+		Messages.MONEY_GAIN.send(this.hook, String.valueOf(amount), reason);
 	}
 
 	@Override
 	public boolean equals(Object compare) {
-		if(!(compare instanceof Player)) return false;
+		if (!(compare instanceof Player))
+			return false;
 		return this.getFigure() == ((Player) compare).getFigure();
-	}
-	
-	public void teleport(Location to, TeleportCause cause){
-		hook.teleport(to);
-		if(cause == TeleportCause.MINIGAME_STARTED){
-			DisguiseManager.disguise(hook, type);
-			if(tmp != null) tmp.remove();
-		}else if(cause == TeleportCause.MINIGAME_END){
-			DisguiseManager.vanish(hook);
-			spawnFigure();
-		}else if(cause == TeleportCause.MINIGAME_ACTION){
-			Messages.TELEPORT.send(hook);
-		}
-	}
-	
-	
-	
-	private void spawnFigure() {
-		if(tmp != null) tmp.remove();
-		Entity e = location.getWorld().spawnEntity(location.getLocation(), type.getEntityType());
-		e.setCustomName(hook.getName());
-		e.setCustomNameVisible(true);
-		e.setMetadata("PlayerNPC", new FixedMetadataValue(Main.getMain(), this));
-		if(e instanceof LivingEntity){
-			((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20*60*60, 20));
-		}
-		tmp = e;
 	}
 
 	private String getDisplay() {
-		return this.getName()+"("+this.getFigure().getName()+")";
+		return this.getName() + "(" + this.getFigure().getName() + ")";
 	}
-	
-	public String getName(){
-		return hook.getName();
+
+	public FigureType getFigure() {
+		return this.type;
 	}
-	
+
 	protected org.bukkit.entity.Player getHook() {
-		return hook;
+		return this.hook;
 	}
-	
-	public void setInventory(){
-		hook.getInventory().clear();
-		hook.sendMap(MapFactory.getMap(game, hook));
-		
+
+	public String getName() {
+		return this.hook.getName();
 	}
-	
-	public void addMoney(int amount){
-		this.addMoney(amount, "Grundlos");
-	}
-	
-	public void addMoney(int amount, String reason){
-		this.money.addMoney(this, amount);
-		Messages.MONEY_GAIN.send(hook, String.valueOf(amount),reason);
-	}
-	
-	public void removeMoney(int amount, String reason){
-		this.money.removeMoney(this, amount);
-		Messages.MONEY_PAYD.send(hook, String.valueOf(amount),reason);
-	}
-	
-	public void transferMoneyFrom(Player player, int amount, String reason){
-		this.money.addMoney(this, amount);
-		Messages.MONEY_TRANSFER_GAIN.send(hook, String.valueOf(amount),player.getDisplay(), reason);
-	}
-	
-	public void transferMoneyTo(Player player,int amount, String reason){
-		this.money.removeMoney(this, amount);
-		Messages.MONEY_TRANSFER_SENT.send(hook, String.valueOf(amount),player.getDisplay(),reason);
-	}
-	
-	public void move(int amount){
-		Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), new Runnable() {
-			public void run() {
-				for(int i = 0; i < amount; i++){
-					Bukkit.getScheduler().runTask(Main.getMain(), new Runnable() {
-						public void run() {
-							Player.this.location = Player.this.game.getNextField(Player.this.location);
-							Player.this.spawnFigure();
-						}
-					});
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+
+	public void move(int amount) {
+		Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
+			for (int i = 0; i < amount; i++) {
+				Bukkit.getScheduler().runTask(Main.getMain(), () -> {
+					Player.this.location = Player.this.game.getNextField(Player.this.location);
+					Player.this.spawnFigure();
+				});
+				try {
+					Thread.sleep(1000);
+				} catch (final InterruptedException e) {
+					e.printStackTrace();
 				}
 			}
 		});
-		
+
+	}
+
+	public void removeMoney(int amount, String reason) {
+		this.money.removeMoney(this, amount);
+		Messages.MONEY_PAYD.send(this.hook, String.valueOf(amount), reason);
+	}
+
+	public void setInventory() {
+		this.hook.getInventory().clear();
+		this.hook.sendMap(MapFactory.getMap(this.game, this.hook));
+
+	}
+
+	private void spawnFigure() {
+		if (this.tmp != null)
+			this.tmp.remove();
+		final Entity e = this.location.getWorld().spawnEntity(this.location.getLocation(), this.type.getEntityType());
+		e.setCustomName(this.hook.getName());
+		e.setCustomNameVisible(true);
+		e.setMetadata("PlayerNPC", new FixedMetadataValue(Main.getMain(), this));
+		if (e instanceof LivingEntity)
+			((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 60 * 60, 20));
+		this.tmp = e;
+	}
+
+	public void teleport(Location to, TeleportCause cause) {
+		this.hook.teleport(to);
+		if (cause == TeleportCause.MINIGAME_STARTED) {
+			DisguiseManager.disguise(this.hook, this.type);
+			if (this.tmp != null)
+				this.tmp.remove();
+		} else if (cause == TeleportCause.MINIGAME_END) {
+			DisguiseManager.vanish(this.hook);
+			this.spawnFigure();
+		} else if (cause == TeleportCause.MINIGAME_ACTION)
+			Messages.TELEPORT.send(this.hook);
+	}
+
+	public void transferMoneyFrom(Player player, int amount, String reason) {
+		this.money.addMoney(this, amount);
+		Messages.MONEY_TRANSFER_GAIN.send(this.hook, String.valueOf(amount), player.getDisplay(), reason);
+	}
+
+	public void transferMoneyTo(Player player, int amount, String reason) {
+		this.money.removeMoney(this, amount);
+		Messages.MONEY_TRANSFER_SENT.send(this.hook, String.valueOf(amount), player.getDisplay(), reason);
 	}
 }
