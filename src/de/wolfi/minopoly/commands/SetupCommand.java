@@ -28,149 +28,182 @@ import de.wolfi.minopoly.components.fields.JailField;
 import de.wolfi.minopoly.components.fields.PoliceField;
 import de.wolfi.minopoly.components.fields.StartField;
 import de.wolfi.utils.ItemBuilder;
+import de.wolfi.utils.nms.AnvilGUI;
+import de.wolfi.utils.nms.AnvilGUI.AnvilSlot;
 
-public class SetupCommand implements CommandExecutor,Listener {
+public class SetupCommand implements CommandExecutor, Listener {
 
-	private static final Inventory minopolyChooser;
-	private static final Main main = Main.getMain();
-	
-	private static final HashMap<Player,Minopoly> setups = new HashMap<>();
-	
-	private static final InventoryHolder holder = () -> SetupCommand.minopolyChooser;	
-	
-	//-------------------------------------------
-	/**
-	 * Main Setup Menu
-	 */
-	private static final ItemStack mainSetup = new ItemBuilder(Material.SAPLING).setName("§aMain Setup").addLore("< Zurück").build();
-	private static final ItemStack fieldSetupItem = new ItemBuilder(Material.WOOD_PLATE).setName("§eFields").addLore(" Füge Felder hinzu").build();
-	private static final ItemStack mainMinigameSetupItem = new ItemBuilder(Material.EMERALD).setName("§eMinigames").addLore("> Minigame Verwaltung").build();
-	
-	//-------------------------------------------
-	/**
-	 * Main Minigame Menu
-	 */
-	
-	private static final ItemStack mainMinigameSetup = new ItemBuilder(Material.CHEST).setName("§aMinigame übersicht").addLore("< Zurück").build();
-	
-	
-	//--------------------------------------------
-	
-	/**
-	 * Minigame Setup Menu
-	 */
-	
-	private static final ItemStack minigameSetup = new ItemBuilder(Material.EMERALD).setName("§aMinigame Setup").addLore("< Zurück").build();
-	
-	//--------------------------------------------
-	
 	/**
 	 * Field Setup Items
 	 */
+	private static final ItemStack field_setup = new ItemBuilder(Material.WOOD_PLATE).setName("§eFields")
+			.addLore("< Zurück").build();
+	private static final ItemStack field_setup_colorer = new ItemBuilder(Material.INK_SACK).setName("§eColor")
+			.addLore("# Gib deiner Straße eine schöne Farbe").build();
+	private static final ItemStack field_setup_renamer = new ItemBuilder(Material.ANVIL).setName("§eName")
+			.addLore("> Benenne deine Straße").build();
+
+	private static final ItemStack fieldtype_communityField = new ItemBuilder(Material.GOLD_PLATE)
+			.setName("§7Community Feld").build();
+	private static final ItemStack fieldtype_eventField = new ItemBuilder(Material.IRON_PLATE).setName("§Event Feld")
+			.build();
+	private static final ItemStack fieldtype_jailField = new ItemBuilder(Material.IRON_BARDING).setName("§7Jelly Feld")
+			.build();
+	private static final ItemStack fieldtype_normalField = new ItemBuilder(Material.WOOD_PLATE)
+			.setName("§7Normales Feld").build();
+	private static final ItemStack fieldtype_policeField = new ItemBuilder(Material.IRON_SWORD)
+			.setName("§7Polizei Feld").build();
+
+	// --------------------------------------------
+
+	private static final ItemStack fieldtype_startField = new ItemBuilder(Material.BANNER).setName("§7Start Feld")
+			.build();
+
+	// --------------------------------------------
+
+	private static final InventoryHolder holder = () -> SetupCommand.minopolyChooser;
+	private static final Main main = Main.getMain();
+	// -------------------------------------------
+	/**
+	 * Main Setup Menu
+	 */
+	private static final ItemStack main_setup = new ItemBuilder(Material.SAPLING).setName("§aMain Setup")
+			.addLore("< Zurück").build();
+	private static final ItemStack main_setup_fieldItem = new ItemBuilder(Material.WOOD_PLATE).setName("§eFields")
+			.addLore("> Füge Felder hinzu").build();
+	private static final ItemStack main_setup_minigameItem = new ItemBuilder(Material.EMERALD).setName("§eMinigames")
+			.addLore("> Minigame Verwaltung").build();
+	// -------------------------------------------
+	/**
+	 * Main Minigame Menu
+	 */
+
+	private static final ItemStack minigame_main = new ItemBuilder(Material.CHEST).setName("§aMinigame Übersicht")
+			.addLore("< Zurück").build();
+	/**
+	 * Minigame Setup Menu
+	 */
+
+	private static final ItemStack minigame_setup = new ItemBuilder(Material.EMERALD).setName("§aMinigame Setup")
+			.addLore("< Zurück").build();
 	
-	private static final ItemStack normalField = new ItemBuilder(Material.WOOD_PLATE).setName("§7Normales Feld").build();
-	private static final ItemStack eventField = new ItemBuilder(Material.IRON_PLATE).setName("§Event Feld").build();
-	private static final ItemStack communityField = new ItemBuilder(Material.GOLD_PLATE).setName("§7Community Feld").build();
-	private static final ItemStack policeField = new ItemBuilder(Material.IRON_SWORD).setName("§7Polizei Feld").build();
-	private static final ItemStack jailField = new ItemBuilder(Material.IRON_BARDING).setName("§7Jelly Feld").build();
-	private static final ItemStack startField = new ItemBuilder(Material.BANNER).setName("§7Start Feld").build();
 	
-	
-	//--------------------------------------------
-	
-	static{
-		minopolyChooser = Bukkit.createInventory(holder, 9*5,"§cWähle eine Welt / Setup");
-		for(World w : Bukkit.getWorlds()){
-			ItemBuilder i = new ItemBuilder(Material.SPONGE);
+	private static final Inventory minopolyChooser;
+	private static final HashMap<Player, Minopoly> setups = new HashMap<>();
+
+	// --------------------------------------------
+
+	static {
+		minopolyChooser = Bukkit.createInventory(SetupCommand.holder, 9 * 5, "§cWähle eine Welt / Setup");
+		for (final World w : Bukkit.getWorlds()) {
+			final ItemBuilder i = new ItemBuilder(Material.SPONGE);
 			i.setName(w.getName());
-			if(!main.isMinopolyWorld(w)){
+			if (!SetupCommand.main.isMinopolyWorld(w))
 				i.addLore("Not setup yet!");
-			}
-			
-			minopolyChooser.addItem(i.build());
+
+			SetupCommand.minopolyChooser.addItem(i.build());
 		}
 	}
-	
-	
-	
+
 	public SetupCommand() {
-		Bukkit.getPluginManager().registerEvents(this, main);
-		
+		Bukkit.getPluginManager().registerEvents(this, SetupCommand.main);
+
 	}
-	
-	@Override
-	public boolean onCommand(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
-		if(arg0 instanceof Player){
-			((Player) arg0).openInventory(minopolyChooser);
-		}
-		return true;
+
+	private Inventory createFieldSetup(Minopoly m) {
+		final Inventory inv = Bukkit.createInventory(SetupCommand.holder, 9, "§c" + m.getWorldName() + " - Field");
+		inv.setItem(0, SetupCommand.field_setup);
+		inv.setItem(1, SetupCommand.field_setup_renamer);
+		inv.setItem(2, SetupCommand.field_setup_colorer);
+		return inv;
+
 	}
-	
-	private Inventory createGameManagmentInventory(Minopoly m){
-		Inventory inv = Bukkit.createInventory(holder, InventoryType.HOPPER,"§c"+m.getWorldName()+" - Setup");
-		inv.setItem(0, mainSetup);
-		inv.setItem(1, fieldSetupItem);
-		inv.setItem(2, mainMinigameSetupItem);
-		
+
+	private Inventory createGameManagmentInventory(Minopoly m) {
+		final Inventory inv = Bukkit.createInventory(SetupCommand.holder, InventoryType.HOPPER,
+				"§c" + m.getWorldName() + " - Setup");
+		inv.setItem(0, SetupCommand.main_setup);
+		inv.setItem(1, SetupCommand.main_setup_fieldItem);
+		inv.setItem(2, SetupCommand.main_setup_minigameItem);
+
 		return inv;
 	}
-	
-	private Inventory createFieldSetup(){
-		return null;
-		
-	}
-	
+
 	private void giveFieldSetupItems(HumanEntity whoClicked) {
-		whoClicked.getInventory().addItem(normalField,eventField,communityField,policeField,jailField,startField);		
+		whoClicked.getInventory().addItem(SetupCommand.fieldtype_normalField, SetupCommand.fieldtype_eventField,
+				SetupCommand.fieldtype_communityField, SetupCommand.fieldtype_policeField,
+				SetupCommand.fieldtype_jailField, SetupCommand.fieldtype_startField);
 	}
 
-	
-	
 	@EventHandler
-	public void onClick(InventoryClickEvent e){
+	public void onClick(InventoryClickEvent e) {
 		final ItemStack clicked = e.getCurrentItem();
-		if(clicked == null) return;
-		if(e.getClickedInventory().getHolder() != holder) return;
-		
-		if(e.getClickedInventory() == minopolyChooser){
-			
-			World w = Bukkit.getWorld(clicked.getItemMeta().getDisplayName());
-			if(w == null) Bukkit.broadcastMessage("§cError while converting world");
-			Minopoly m = main.loadMap(w);
-			setups.put((Player) e.getWhoClicked(), m);
-			e.getWhoClicked().openInventory(createGameManagmentInventory(m));
-		}else{
-			ItemStack checker = e.getClickedInventory().getItem(0);
-			if(checker.equals(mainSetup)){
-				if(clicked.equals(fieldSetupItem)) giveFieldSetupItems(e.getWhoClicked());
-			}else if(checker.equals(mainMinigameSetup)){
-				
-			}else if(checker.equals(minigameSetup)){
-				
-			}else e.getWhoClicked().sendMessage("§cError while converting inventory");
-		}
-	}
-	
-	@EventHandler
-	public void onInteract(PlayerInteractEvent e){
-		if(e.getItem() != null && e.getAction() == Action.RIGHT_CLICK_BLOCK){
-			Minopoly m = setups.get(e.getPlayer());
-			if(e.getItem().equals(normalField)){
-				
-			}else if(e.getItem().equals(eventField)){
-				m.addField(new EventField(e.getClickedBlock().getLocation(), m));
-			}else if(e.getItem().equals(communityField)){
-				m.addField(new CommunityField(e.getClickedBlock().getLocation(), m));
-			}else if(e.getItem().equals(startField)){
-				m.addField(new StartField(e.getClickedBlock().getLocation(), m));
-			}else if(e.getItem().equals(policeField)){
-				m.addField(new PoliceField(e.getClickedBlock().getLocation(), m));
-			}else if(e.getItem().equals(jailField)){
-				m.addField(new JailField(e.getClickedBlock().getLocation(), m));
-			}
-		}
-	}
-	
+		if (clicked == null)
+			return;
+		if (e.getClickedInventory().getHolder() != SetupCommand.holder)
+			return;
 
-	
+		if (e.getClickedInventory() == SetupCommand.minopolyChooser) {
+
+			final World w = Bukkit.getWorld(clicked.getItemMeta().getDisplayName());
+			if (w == null)
+				Bukkit.broadcastMessage("§cError while converting world");
+			final Minopoly m = SetupCommand.main.loadMap(w);
+			SetupCommand.setups.put((Player) e.getWhoClicked(), m);
+			e.getWhoClicked().openInventory(this.createGameManagmentInventory(m));
+		} else {
+			final ItemStack checker = e.getClickedInventory().getItem(0);
+			if (checker.equals(SetupCommand.main_setup)) {
+				if (clicked.equals(SetupCommand.main_setup_fieldItem))
+					this.giveFieldSetupItems(e.getWhoClicked());
+			} else if(checker.equals(SetupCommand.field_setup)){
+				if(clicked.equals(SetupCommand.field_setup_renamer)){
+					AnvilGUI gui = new AnvilGUI((Player) e.getWhoClicked(),(event)->{new ItemBuilder(clicked).setName(event.getName());});
+					gui.setSlot(AnvilSlot.INPUT_LEFT, field_setup_renamer);
+					gui.open("RENAME YOUR STREET");
+				} else if(clicked.equals(SetupCommand.field_setup_colorer)){
+					
+				}
+			} else if (checker.equals(SetupCommand.minigame_main)) {
+
+			} else if (checker.equals(SetupCommand.minigame_setup)) {
+
+			} else
+				e.getWhoClicked().sendMessage("§cError while converting inventory");
+		}
+	}
+
+	@Override
+	public boolean onCommand(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
+		if (arg0 instanceof Player)
+			((Player) arg0).openInventory(SetupCommand.minopolyChooser);
+		return true;
+	}
+
+	/**
+	 * This method wil create Field
+	 * 
+	 * @category EventHandling
+	 * @param e
+	 *            Event Argument
+	 */
+	@EventHandler
+	public void onInteract(PlayerInteractEvent e) {
+		if (e.getItem() != null && e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+			final Minopoly m = SetupCommand.setups.get(e.getPlayer());
+			if (e.getItem().equals(SetupCommand.fieldtype_normalField))
+				e.getPlayer().openInventory(this.createFieldSetup(m));
+			else if (e.getItem().equals(SetupCommand.fieldtype_eventField))
+				m.addField(new EventField(e.getClickedBlock().getLocation(), m));
+			else if (e.getItem().equals(SetupCommand.fieldtype_communityField))
+				m.addField(new CommunityField(e.getClickedBlock().getLocation(), m));
+			else if (e.getItem().equals(SetupCommand.fieldtype_startField))
+				m.addField(new StartField(e.getClickedBlock().getLocation(), m));
+			else if (e.getItem().equals(SetupCommand.fieldtype_policeField))
+				m.addField(new PoliceField(e.getClickedBlock().getLocation(), m));
+			else if (e.getItem().equals(SetupCommand.fieldtype_jailField))
+				m.addField(new JailField(e.getClickedBlock().getLocation(), m));
+		}
+	}
+
 }
