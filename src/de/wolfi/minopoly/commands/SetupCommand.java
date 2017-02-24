@@ -3,6 +3,7 @@ package de.wolfi.minopoly.commands;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -27,10 +28,12 @@ import de.wolfi.minopoly.components.fields.EventField;
 import de.wolfi.minopoly.components.fields.JailField;
 import de.wolfi.minopoly.components.fields.PoliceField;
 import de.wolfi.minopoly.components.fields.StartField;
+import de.wolfi.utils.InventorySelector;
 import de.wolfi.utils.ItemBuilder;
 import de.wolfi.utils.nms.AnvilGUI;
 import de.wolfi.utils.nms.AnvilGUI.AnvilSlot;
 
+@SuppressWarnings("deprecation")
 public class SetupCommand implements CommandExecutor, Listener {
 
 	/**
@@ -61,8 +64,9 @@ public class SetupCommand implements CommandExecutor, Listener {
 
 	// --------------------------------------------
 
-	private static final InventoryHolder holder = () -> SetupCommand.minopolyChooser;
-	private static final Main main = Main.getMain();
+	private static final InventoryHolder HOLDER = () -> SetupCommand.minopolyChooser;
+	private static final Main MAIN = Main.getMain();
+	private static final InventorySelector COLOR_SELECTOR = new InventorySelector("ColorPicker");
 	// -------------------------------------------
 	/**
 	 * Main Setup Menu
@@ -94,24 +98,28 @@ public class SetupCommand implements CommandExecutor, Listener {
 	// --------------------------------------------
 
 	static {
-		minopolyChooser = Bukkit.createInventory(SetupCommand.holder, 9 * 5, "§cWähle eine Welt / Setup");
+		minopolyChooser = Bukkit.createInventory(SetupCommand.HOLDER, 9 * 5, "§cWähle eine Welt / Setup");
 		for (final World w : Bukkit.getWorlds()) {
 			final ItemBuilder i = new ItemBuilder(Material.SPONGE);
 			i.setName(w.getName());
-			if (!SetupCommand.main.isMinopolyWorld(w))
+			if (!SetupCommand.MAIN.isMinopolyWorld(w))
 				i.addLore("Not setup yet!");
 
 			SetupCommand.minopolyChooser.addItem(i.build());
 		}
+		
+		for(short i =0; i< 16; i++){
+			COLOR_SELECTOR.addEntry(new ItemBuilder(Material.WOOL).setMeta(i).setName(DyeColor.getByData((byte) i).toString()).build());
+		}
 	}
 
 	public SetupCommand() {
-		Bukkit.getPluginManager().registerEvents(this, SetupCommand.main);
+		Bukkit.getPluginManager().registerEvents(this, SetupCommand.MAIN);
 
 	}
 
 	private Inventory createFieldSetup(Minopoly m) {
-		final Inventory inv = Bukkit.createInventory(SetupCommand.holder, 9, "§c" + m.getWorldName() + " - Field");
+		final Inventory inv = Bukkit.createInventory(SetupCommand.HOLDER, 9, "§c" + m.getWorldName() + " - Field");
 		inv.setItem(0, SetupCommand.field_setup);
 		inv.setItem(1, SetupCommand.field_setup_renamer);
 		inv.setItem(2, SetupCommand.field_setup_colorer);
@@ -120,7 +128,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 	}
 
 	private Inventory createGameManagmentInventory(Minopoly m) {
-		final Inventory inv = Bukkit.createInventory(SetupCommand.holder, InventoryType.HOPPER,
+		final Inventory inv = Bukkit.createInventory(SetupCommand.HOLDER, InventoryType.HOPPER,
 				"§c" + m.getWorldName() + " - Setup");
 		inv.setItem(0, SetupCommand.main_setup);
 		inv.setItem(1, SetupCommand.main_setup_fieldItem);
@@ -140,7 +148,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 		final ItemStack clicked = e.getCurrentItem();
 		if (clicked == null)
 			return;
-		if (e.getClickedInventory().getHolder() != SetupCommand.holder)
+		if (e.getClickedInventory().getHolder() != SetupCommand.HOLDER)
 			return;
 
 		if (e.getClickedInventory() == SetupCommand.minopolyChooser) {
@@ -148,7 +156,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 			final World w = Bukkit.getWorld(clicked.getItemMeta().getDisplayName());
 			if (w == null)
 				Bukkit.broadcastMessage("§cError while converting world");
-			final Minopoly m = SetupCommand.main.loadMap(w);
+			final Minopoly m = SetupCommand.MAIN.loadMap(w);
 			SetupCommand.setups.put((Player) e.getWhoClicked(), m);
 			e.getWhoClicked().openInventory(this.createGameManagmentInventory(m));
 		} else {
@@ -158,11 +166,16 @@ public class SetupCommand implements CommandExecutor, Listener {
 					this.giveFieldSetupItems(e.getWhoClicked());
 			} else if(checker.equals(SetupCommand.field_setup)){
 				if(clicked.equals(SetupCommand.field_setup_renamer)){
-					AnvilGUI gui = new AnvilGUI((Player) e.getWhoClicked(),(event)->{new ItemBuilder(clicked).setName(event.getName());});
+					AnvilGUI gui = new AnvilGUI((Player) e.getWhoClicked(),(event)->{e.setCurrentItem(new ItemBuilder(Material.PAPER).setName(event.getName()).build());});
 					gui.setSlot(AnvilSlot.INPUT_LEFT, field_setup_renamer);
 					gui.open("RENAME YOUR STREET");
 				} else if(clicked.equals(SetupCommand.field_setup_colorer)){
-					
+					COLOR_SELECTOR.setCallback((i)->{
+						e.setCurrentItem(i);
+						e.getWhoClicked().openInventory(e.getInventory());
+						return true;
+					});
+					COLOR_SELECTOR.open((Player) e.getWhoClicked());
 				}
 			} else if (checker.equals(SetupCommand.minigame_main)) {
 
