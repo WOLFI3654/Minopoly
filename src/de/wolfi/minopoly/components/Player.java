@@ -71,7 +71,7 @@ public class Player {
 		Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
 			for (int i = 0; i < amount; i++) {
 				Bukkit.getScheduler().runTask(Main.getMain(), () -> {
-					Player.this.location = Player.this.game.getNextField(Player.this.location);
+					Player.this.location = Player.this.game.getFieldManager().getNextField(Player.this.location);
 					Player.this.spawnFigure();
 				});
 				try {

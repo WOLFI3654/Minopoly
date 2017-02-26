@@ -22,6 +22,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import de.wolfi.minopoly.Main;
+import de.wolfi.minopoly.components.FieldManager;
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.fields.CommunityField;
 import de.wolfi.minopoly.components.fields.EventField;
@@ -203,19 +204,20 @@ public class SetupCommand implements CommandExecutor, Listener {
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e) {
 		if (e.getItem() != null && e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			final Minopoly m = SetupCommand.setups.get(e.getPlayer());
+			final Minopoly mo = SetupCommand.setups.get(e.getPlayer());
+			final FieldManager m = mo.getFieldManager();
 			if (e.getItem().equals(SetupCommand.fieldtype_normalField))
-				e.getPlayer().openInventory(this.createFieldSetup(m));
+				e.getPlayer().openInventory(this.createFieldSetup(mo));
 			else if (e.getItem().equals(SetupCommand.fieldtype_eventField))
-				m.addField(new EventField(e.getClickedBlock().getLocation(), m));
+				m.addField(new EventField(e.getClickedBlock().getLocation(), mo));
 			else if (e.getItem().equals(SetupCommand.fieldtype_communityField))
-				m.addField(new CommunityField(e.getClickedBlock().getLocation(), m));
+				m.addField(new CommunityField(e.getClickedBlock().getLocation(), mo));
 			else if (e.getItem().equals(SetupCommand.fieldtype_startField))
-				m.addField(new StartField(e.getClickedBlock().getLocation(), m));
+				m.addField(new StartField(e.getClickedBlock().getLocation(), mo));
 			else if (e.getItem().equals(SetupCommand.fieldtype_policeField))
-				m.addField(new PoliceField(e.getClickedBlock().getLocation(), m));
+				m.addField(new PoliceField(e.getClickedBlock().getLocation(), mo));
 			else if (e.getItem().equals(SetupCommand.fieldtype_jailField))
-				m.addField(new JailField(e.getClickedBlock().getLocation(), m));
+				m.addField(new JailField(e.getClickedBlock().getLocation(), mo));
 		}
 	}
 

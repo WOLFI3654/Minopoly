@@ -110,4 +110,8 @@ public abstract class Field implements Serializable {
 
 	public abstract void spawn();
 
+	public boolean isOwnedBy(Player player) {
+		return this.isOwned() & this.getOwner().equals(player);
+	}
+
 }

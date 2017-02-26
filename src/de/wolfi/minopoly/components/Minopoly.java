@@ -26,9 +26,9 @@ public class Minopoly implements Serializable, CommandSender {
 	private static final long serialVersionUID = -7587244395086533643L;
 
 	private final Bank bank = new Bank();
-	private final ArrayList<Field> fields = new ArrayList<>();
 	private transient GameListener listener;
 
+	private final FieldManager fdManager = new FieldManager();
 	private final MinigameManager mgManager = new MinigameManager();
 
 	private transient ArrayList<Player> playingPlayers = new ArrayList<>();
@@ -61,10 +61,7 @@ public class Minopoly implements Serializable, CommandSender {
 		return null;
 	}
 
-	public void addField(Field f) {
-		f.spawn();
-		this.fields.add(f);
-	}
+	
 
 	public @Nullable Player getByBukkitPlayer(org.bukkit.entity.Player player) {
 		for (final Player p : this.playingPlayers)
@@ -83,20 +80,7 @@ public class Minopoly implements Serializable, CommandSender {
 		return this.toString();
 	}
 
-	public Field getNextField(Field from) {
-		boolean next = false;
-		for (final Field f : this.fields) {
-			if (f.equals(from)) {
-				next = true;
-				continue;
-			}
-			if (next)
-				return from;
-		}
-		if (!next)
-			return null;
-		return this.fields.get(0);
-	}
+	
 
 	@Override
 	public Server getServer() {
@@ -139,13 +123,15 @@ public class Minopoly implements Serializable, CommandSender {
 
 	public void load() {
 		this.bank.load();
-		for (final Field f : this.fields)
-			f.load();
+		this.fdManager.load();
 		this.mgManager.load();
 
 		this.listener = new GameListener();
 	}
 
+	public FieldManager getFieldManager() {
+		return fdManager;
+	}
 	@Override
 	public void recalculatePermissions() {
 	}
