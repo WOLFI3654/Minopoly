@@ -5,6 +5,7 @@ import org.bukkit.DyeColor;
 import de.robingrether.idisguise.disguise.Disguise;
 import de.robingrether.idisguise.disguise.DisguiseType;
 import de.robingrether.idisguise.disguise.MobDisguise;
+import de.robingrether.idisguise.disguise.SheepDisguise;
 import de.robingrether.idisguise.disguise.WolfDisguise;
 
 public class DisguiseBuilder {
@@ -26,6 +27,11 @@ public class DisguiseBuilder {
 		return this.applyTo;
 	}
 
+	public DisguiseBuilder setColor(DyeColor color){
+		((SheepDisguise) this.applyTo).setColor(color);
+		return this;
+	}
+	
 	public DisguiseBuilder setCollar(DyeColor color) {
 		((WolfDisguise) this.applyTo).setCollarColor(color);
 		return this;
