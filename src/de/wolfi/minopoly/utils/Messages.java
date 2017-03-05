@@ -19,7 +19,9 @@ public enum Messages {
 
 	OTHER_FIELD_ENTERED("$0 ist auf ein Feld von $1 getreten! §l($2)"), POLICE_FIELD_ENTER(
 			"$0 betrat das Feld der Polizei und wurde dafür ins Gefängnis geschickt."), START_FIELD_BYPASS(
-					"$0 ist über Los gezogen."), TELEPORT("Du wurdest teleportiert."),;
+					"$0 ist über Los gezogen."), TELEPORT(
+							"Du wurdest teleportiert."), MOVE_STARTED("$0 bewegt sich nun $1 Felder."),
+	MOVE_FINISHED("Der Zug von $0 wurde beendet.");
 
 	private static String Prefix = "§0[§1Minopoly§0] §a";
 	private String txt;
