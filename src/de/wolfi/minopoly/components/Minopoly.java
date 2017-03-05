@@ -16,7 +16,7 @@ import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 
-import de.wolfi.minopoly.components.fields.Field;
+import de.wolfi.minopoly.utils.FigureType;
 
 public class Minopoly implements Serializable, CommandSender {
 
@@ -37,8 +37,19 @@ public class Minopoly implements Serializable, CommandSender {
 
 	private final String world;
 
+	private final int size;
 	public Minopoly(String world) {
 		this.world = world;
+		this.size = FigureType.values().length;
+		this.createPlayers();
+	}
+
+	private void createPlayers() {
+		for(int i = 0; i < size; i++){
+			SerializeablePlayer p = new SerializeablePlayer(null, FigureType.values()[i], bank.checkIn());
+			this.savedPlayers.add(p);
+		}
+		
 	}
 
 	@Override
