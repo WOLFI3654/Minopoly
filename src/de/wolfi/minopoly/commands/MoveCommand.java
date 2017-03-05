@@ -41,7 +41,7 @@ public class MoveCommand implements CommandExecutor {
 			sender.sendMessage(ChatColor.DARK_RED + e.getMessage());
 		}
 		p.move(steps);
-		return false;
+		return true;
 	}
 
 }
