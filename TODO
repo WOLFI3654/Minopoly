@@ -6,7 +6,7 @@
    !*Fields
    +Minigames
 +*Würfel Befehl
--Move Befehl
+-!Move Befehl
 *Player Selector
 
 
@@ -18,6 +18,7 @@
 
 ------------------------------------------
 Main Settings >
+  - Self running
   - Miete per Farbe
   -Anzahl Spieler
   -(Gespielte Male)
