@@ -51,7 +51,7 @@ public class Player {
 		return this.getFigure() == ((Player) compare).getFigure();
 	}
 
-	private String getDisplay() {
+	public String getDisplay() {
 		return this.getName() + "(" + this.getFigure().getName() + ")";
 	}
 
@@ -68,10 +68,13 @@ public class Player {
 	}
 
 	public void move(int amount) {
+		Messages.MOVE_STARTED.broadcast(this.getDisplay(),Integer.toString(amount));
 		Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
 			for (int i = 0; i < amount; i++) {
+				final int currentNumber = i;
 				Bukkit.getScheduler().runTask(Main.getMain(), () -> {
 					Player.this.location = Player.this.game.getFieldManager().getNextField(Player.this.location);
+					if(currentNumber < amount - 1) Player.this.location.byPass(Player.this);
 					Player.this.spawnFigure();
 				});
 				try {
@@ -80,6 +83,13 @@ public class Player {
 					e.printStackTrace();
 				}
 			}
+			Messages.MOVE_FINISHED.broadcast(Player.this.getDisplay());
+			try {
+				Thread.sleep(700);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			Player.this.location.playerStand(Player.this);
 		});
 
 	}
