@@ -8,7 +8,8 @@ import de.robingrether.idisguise.disguise.DisguiseType;
 
 public enum FigureType {
 
-	WOLF(DisguiseBuilder.create(DisguiseType.WOLF).setCollar(DyeColor.RED).create(), EntityType.WOLF);
+	WOLF(DisguiseBuilder.create(DisguiseType.WOLF).setCollar(DyeColor.RED).create(), EntityType.WOLF),
+	SHEEP(DisguiseBuilder.create(DisguiseType.SHEEP).setColor(DyeColor.BLUE).create(),EntityType.SHEEP);
 
 	private Disguise d;
 	private EntityType entityType;
