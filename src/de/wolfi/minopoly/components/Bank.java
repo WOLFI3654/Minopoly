@@ -28,16 +28,26 @@ public class Bank implements Serializable {
 		this.setMoney(consumerID, this.getMoney(consumerID) + amount);
 	}
 
-	public void checkIn(Player newConsumer) {
-		this.checkIn(newConsumer, UUID.randomUUID());
+	public UUID checkIn(){
+		return this.checkIn(UUID.randomUUID());
+	}
+	
+	public UUID checkIn(Player newConsumer) {
+		return this.checkIn(newConsumer, UUID.randomUUID());
+	}
+	
+	public UUID checkIn(UUID consumerID){
+		if (!this.store.containsKey(consumerID))
+			this.store.put(consumerID, 2000);
+		return consumerID;
 	}
 
-	public void checkIn(Player newConsumer, UUID consumerID) {
+	public UUID checkIn(Player newConsumer, UUID consumerID) {
 		if (!this.isConsumer(newConsumer)) {
 			this.consumers.put(newConsumer, consumerID);
-			if (!this.store.containsKey(consumerID))
-				this.store.put(consumerID, 2000);
+			this.checkIn(consumerID);
 		}
+		return consumerID;
 	}
 
 	private UUID getConsumerID(Player consumer) {
