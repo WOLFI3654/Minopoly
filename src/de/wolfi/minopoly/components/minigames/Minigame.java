@@ -12,10 +12,11 @@ public class Minigame implements Serializable {
 	 */
 	private static final long serialVersionUID = -948671377374764648L;
 
-	private String addPlayer = "say adding $p to " + this.name;
+	
 	private final String hookClazz = "de.wolfi.minopoly.components.minigames.MinigameHook";
 	private transient Location location;
 	private String name = "Unknown Minigame";
+	private String addPlayer = "say adding $p to " + this.name;
 	private String start = "start " + this.name;
 	private final HashMap<String, Object> storedLocation;
 	private boolean supportHook = false;

@@ -3,6 +3,8 @@ package de.wolfi.minopoly.utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import gnu.trove.map.TMap;
+
 public enum Messages {
 
 	COMMUNITY_FIELD_ENTER("$0 hat ein Gemeinschaffts Feld betreten!"), EVENT_FIELD_ENTER(
@@ -32,15 +34,19 @@ public enum Messages {
 
 	public void broadcast(String... target) {
 		final String end = Messages.Prefix + this.txt;
+		StringBuilder tmp = new StringBuilder();
+		
 		for (int i = 0; i < target.length; i++)
-			end.replaceAll("$" + i, target[i]);
-		Bukkit.broadcastMessage(end);
+			tmp.append(end.replaceAll("$" + i, target[i]));
+		Bukkit.broadcastMessage(tmp.toString());
 	}
 
 	public void send(Player player, String... target) {
 		final String end = Messages.Prefix + this.txt;
+		StringBuilder tmp = new StringBuilder();
+		
 		for (int i = 0; i < target.length; i++)
-			end.replaceAll("$" + i, target[i]);
-		player.sendMessage(end);
+			tmp.append(end.replaceAll("$" + i, target[i]));
+		player.sendMessage(tmp.toString());
 	}
 }

@@ -155,8 +155,10 @@ public class SetupCommand implements CommandExecutor, Listener {
 		if (e.getClickedInventory() == SetupCommand.minopolyChooser) {
 
 			final World w = Bukkit.getWorld(clicked.getItemMeta().getDisplayName());
-			if (w == null)
+			if (w == null){
 				Bukkit.broadcastMessage("§cError while converting world");
+				return;
+			}
 			final Minopoly m = SetupCommand.MAIN.loadMap(w);
 			SetupCommand.setups.put((Player) e.getWhoClicked(), m);
 			e.getWhoClicked().openInventory(this.createGameManagmentInventory(m));

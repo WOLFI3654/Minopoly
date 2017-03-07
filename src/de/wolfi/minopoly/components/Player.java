@@ -29,10 +29,11 @@ public class Player {
 
 	private final FigureType type;
 
-	public Player(org.bukkit.entity.Player hook, FigureType t, Minopoly game) {
+	public Player(org.bukkit.entity.Player hook, FigureType t, Minopoly game, Bank bank) {
 		this.hook = hook;
 		this.type = t;
 		this.game = game;
+		this.money = bank;
 	}
 
 	public void addMoney(int amount) {
@@ -44,6 +45,13 @@ public class Player {
 		Messages.MONEY_GAIN.send(this.hook, String.valueOf(amount), reason);
 	}
 
+	
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return this.getFigure().hashCode();
+	}
+	
 	@Override
 	public boolean equals(Object compare) {
 		if (!(compare instanceof Player))

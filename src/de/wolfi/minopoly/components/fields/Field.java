@@ -85,6 +85,10 @@ public abstract class Field implements Serializable {
 		return this.name;
 	}
 
+	public void setOwner(Player owner) {
+		this.owner = owner;
+	}
+	
 	public Player getOwner() {
 		return this.owner;
 	}
@@ -111,7 +115,7 @@ public abstract class Field implements Serializable {
 	public abstract void spawn();
 
 	public boolean isOwnedBy(Player player) {
-		return this.isOwned() & this.getOwner().equals(player);
+		return this.isOwned() && this.getOwner().equals(player);
 	}
 
 }
