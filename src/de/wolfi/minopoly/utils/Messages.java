@@ -1,9 +1,7 @@
 package de.wolfi.minopoly.utils;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
-import gnu.trove.map.TMap;
+import org.bukkit.command.CommandSender;
 
 public enum Messages {
 
@@ -21,9 +19,12 @@ public enum Messages {
 
 	OTHER_FIELD_ENTERED("$0 ist auf ein Feld von $1 getreten! §l($2)"), POLICE_FIELD_ENTER(
 			"$0 betrat das Feld der Polizei und wurde dafür ins Gefängnis geschickt."), START_FIELD_BYPASS(
-					"$0 ist über Los gezogen."), TELEPORT(
-							"Du wurdest teleportiert."), MOVE_STARTED("$0 bewegt sich nun $1 Felder."),
-	MOVE_FINISHED("Der Zug von $0 wurde beendet.");
+					"$0 ist über Los gezogen."), TELEPORT("Du wurdest teleportiert."), MOVE_STARTED(
+							"$0 bewegt sich nun $1 Felder."), MOVE_FINISHED(
+									"Der Zug von $0 wurde beendet."), COMMAND_WRONG_WORLD(
+											"§cDu befindest dich nicht in einer Minopoly Welt!"), COMMAND_NO_ARGUMENTS(
+													"§cEs werden Mindestens(!) $0 Argumente benötigt!"), COMMAND_NO_PLAYER(
+															"§c$0 ist kein valider Spieler!");
 
 	private static String Prefix = "§0[§1Minopoly§0] §a";
 	private String txt;
@@ -35,16 +36,16 @@ public enum Messages {
 	public void broadcast(String... target) {
 		final String end = Messages.Prefix + this.txt;
 		StringBuilder tmp = new StringBuilder();
-		
+
 		for (int i = 0; i < target.length; i++)
 			tmp.append(end.replaceAll("$" + i, target[i]));
 		Bukkit.broadcastMessage(tmp.toString());
 	}
 
-	public void send(Player player, String... target) {
+	public void send(CommandSender player, String... target) {
 		final String end = Messages.Prefix + this.txt;
 		StringBuilder tmp = new StringBuilder();
-		
+
 		for (int i = 0; i < target.length; i++)
 			tmp.append(end.replaceAll("$" + i, target[i]));
 		player.sendMessage(tmp.toString());
