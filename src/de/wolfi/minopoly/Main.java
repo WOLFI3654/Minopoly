@@ -58,8 +58,8 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 		this.getCommand("setupminopoly").setExecutor(new SetupCommand());
 		this.getCommand("bank").setExecutor(new BankCommand());
-		this.getCommand("move").setExecutor(new MoveCommand());
-		this.getCommand("dice").setExecutor(new DiceCommand());
+		this.getCommand("move").setExecutor(new MoveCommand(this));
+		this.getCommand("dice").setExecutor(new DiceCommand(this));
 
 	}
 

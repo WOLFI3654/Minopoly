@@ -80,6 +80,12 @@ public class Minopoly implements Serializable, CommandSender {
 				return p;
 		return null;
 	}
+	public @Nullable Player getByPlayerName(String player) {
+		for (final Player p : this.playingPlayers)
+			if (p.getName().equalsIgnoreCase(player))
+				return p;
+		return null;
+	}
 
 	@Override
 	public Set<PermissionAttachmentInfo> getEffectivePermissions() {

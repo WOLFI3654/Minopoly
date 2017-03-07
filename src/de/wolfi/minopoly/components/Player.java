@@ -10,6 +10,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import de.wolfi.minopoly.Main;
 import de.wolfi.minopoly.components.fields.Field;
+import de.wolfi.minopoly.utils.Dangerous;
 import de.wolfi.minopoly.utils.DisguiseManager;
 import de.wolfi.minopoly.utils.FigureType;
 import de.wolfi.minopoly.utils.MapFactory;
@@ -48,7 +49,6 @@ public class Player {
 	
 	@Override
 	public int hashCode() {
-		// TODO Auto-generated method stub
 		return this.getFigure().hashCode();
 	}
 	
@@ -67,7 +67,9 @@ public class Player {
 		return this.type;
 	}
 
-	protected org.bukkit.entity.Player getHook() {
+	
+	@Dangerous(y="Internal use ONLY!")
+	public org.bukkit.entity.Player getHook() {
 		return this.hook;
 	}
 
