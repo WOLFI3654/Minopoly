@@ -7,7 +7,7 @@
    +Minigames
 !*Würfel Befehl
 -!Move Befehl
--*Player Selector
+>-*Player Selector
 
 
 # = DONE
@@ -15,6 +15,7 @@
 + = MISSING
 - = INCOMPLETE
 ! = TO BE TESTED
+> = Working on
 
 ------------------------------------------
 Main Settings >
