@@ -2,10 +2,13 @@ package de.wolfi.minopoly;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -52,6 +55,34 @@ public class Main extends JavaPlugin {
 
 		}
 		return this.getMinopoly(w);
+	}
+
+	@Override
+	public void onDisable() {
+		for(String s : games.keySet()){
+			Minopoly m = games.get(s);
+			m.unload();
+			this.saveMap(s,m);
+			
+		}
+	}
+	
+	private void saveMap(String s, Minopoly m) {
+		final File cfg = new File(Bukkit.getWorld(s).getWorldFolder(), "minopoly.bin");
+		try {
+			cfg.createNewFile();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+			try {
+				ObjectOutputStream st = new ObjectOutputStream(new FileOutputStream(cfg));
+				st.writeObject(m);
+				st.flush();
+				st.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		
 	}
 
 	@Override

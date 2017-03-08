@@ -1,6 +1,5 @@
 package de.wolfi.minopoly.components.fields;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -9,11 +8,13 @@ import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.material.MaterialData;
 
+import de.wolfi.minopoly.components.GameObject;
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
+import de.wolfi.minopoly.utils.Dangerous;
 import de.wolfi.minopoly.utils.Messages;
 
-public abstract class Field implements Serializable {
+public abstract class Field extends GameObject {
 
 	private static final HashMap<FieldColor, ArrayList<Field>> members = new HashMap<>();
 
@@ -52,6 +53,8 @@ public abstract class Field implements Serializable {
 		this.location = l;
 		this.game = game;
 		Field.add(color, this);
+		
+		this.load();
 	}
 
 	public abstract void byPass(Player player);
@@ -101,6 +104,8 @@ public abstract class Field implements Serializable {
 		return this.isOwned;
 	}
 
+	@Dangerous(y="Internal use ONLY!")
+	@Override
 	public void load() {
 		this.location = Location.deserialize(this.storedLocation);
 	}
@@ -117,5 +122,9 @@ public abstract class Field implements Serializable {
 	public boolean isOwnedBy(Player player) {
 		return this.isOwned() && this.getOwner().equals(player);
 	}
+
+	@Dangerous(y="Internal use ONLY!")
+	@Override
+	public void unload() {}
 
 }

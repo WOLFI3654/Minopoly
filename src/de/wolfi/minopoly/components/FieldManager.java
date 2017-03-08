@@ -1,13 +1,12 @@
 package de.wolfi.minopoly.components;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.wolfi.minopoly.components.fields.Field;
 import de.wolfi.minopoly.components.fields.FieldColor;
 
-public class FieldManager implements Serializable{
+public class FieldManager extends GameObject{
 
 	/**
 	 * 
@@ -47,6 +46,7 @@ public class FieldManager implements Serializable{
 		return this.fields.get(0);
 	}
 	
+	@Override
 	protected void load(){
 		for (final Field f : this.fields)
 			f.load();
@@ -58,5 +58,12 @@ public class FieldManager implements Serializable{
 			if(f.isOwnedBy(player)) count++;
 		}
 		return count;
+	}
+
+	@Override
+	protected void unload() {
+		for (final Field f : this.fields)
+			f.unload();
+		
 	}
 }

@@ -1,7 +1,7 @@
 package de.wolfi.minopoly.components;
 
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -18,7 +18,7 @@ import org.bukkit.plugin.Plugin;
 
 import de.wolfi.minopoly.utils.FigureType;
 
-public class Minopoly implements Serializable, CommandSender {
+public class Minopoly extends GameObject implements CommandSender {
 
 	/**
 	 * 
@@ -33,11 +33,11 @@ public class Minopoly implements Serializable, CommandSender {
 
 	private transient ArrayList<Player> playingPlayers = new ArrayList<>();
 
-	private final ArrayList<SerializeablePlayer> savedPlayers = new ArrayList<>();
-
+	private final HashMap<FigureType, SerializeablePlayer> savedPlayers = new HashMap<>();
 	private final String world;
 
 	private final int size;
+
 	public Minopoly(String world) {
 		this.world = world;
 		this.size = FigureType.values().length;
@@ -45,11 +45,12 @@ public class Minopoly implements Serializable, CommandSender {
 	}
 
 	private void createPlayers() {
-		for(int i = 0; i < size; i++){
+		this.savedPlayers.clear();
+		for (int i = 0; i < size; i++) {
 			SerializeablePlayer p = new SerializeablePlayer(null, FigureType.values()[i], bank.checkIn());
-			this.savedPlayers.add(p);
+			this.savedPlayers.put(FigureType.values()[i], p);
 		}
-		
+
 	}
 
 	@Override
@@ -72,14 +73,13 @@ public class Minopoly implements Serializable, CommandSender {
 		return null;
 	}
 
-	
-
 	public @Nullable Player getByBukkitPlayer(org.bukkit.entity.Player player) {
 		for (final Player p : this.playingPlayers)
 			if (p.getHook().equals(player))
 				return p;
 		return null;
 	}
+
 	public @Nullable Player getByPlayerName(String player) {
 		for (final Player p : this.playingPlayers)
 			if (p.getName().equalsIgnoreCase(player))
@@ -96,8 +96,6 @@ public class Minopoly implements Serializable, CommandSender {
 	public String getName() {
 		return this.toString();
 	}
-
-	
 
 	@Override
 	public Server getServer() {
@@ -138,6 +136,7 @@ public class Minopoly implements Serializable, CommandSender {
 		return true;
 	}
 
+	@Override
 	public void load() {
 		this.bank.load();
 		this.fdManager.load();
@@ -149,6 +148,7 @@ public class Minopoly implements Serializable, CommandSender {
 	public FieldManager getFieldManager() {
 		return fdManager;
 	}
+
 	@Override
 	public void recalculatePermissions() {
 	}
@@ -173,6 +173,7 @@ public class Minopoly implements Serializable, CommandSender {
 	public void setOp(boolean arg0) {
 	}
 
+	@Override
 	public void unload() {
 		HandlerList.unregisterAll(this.listener);
 	}

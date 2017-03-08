@@ -1,11 +1,10 @@
 package de.wolfi.minopoly.components;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class Bank implements Serializable {
-	private static final transient UUID masterCard = UUID.fromString("0000-0000-0000-0000-0000");
+public class Bank extends GameObject {
+	private static final UUID masterCard = UUID.fromString("0000-0000-0000-0000-0000");
 
 	/**
 	 * 
@@ -50,7 +49,7 @@ public class Bank implements Serializable {
 		return consumerID;
 	}
 
-	private UUID getConsumerID(Player consumer) {
+	protected UUID getConsumerID(Player consumer) {
 		if (!this.consumers.containsKey(consumer))
 			return Bank.masterCard;
 		return this.consumers.get(consumer);
@@ -84,7 +83,8 @@ public class Bank implements Serializable {
 	public boolean isConsumer(Player consumer) {
 		return !this.hasMasterCard(this.getConsumerID(consumer));
 	}
-
+	
+	@Override
 	protected void load() {
 		this.consumers = new HashMap<>();
 	}
@@ -112,6 +112,12 @@ public class Bank implements Serializable {
 		if (this.hasMasterCard(consumerID))
 			return;
 		this.store.put(consumerID, value);
+	}
+
+	@Override
+	protected void unload() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

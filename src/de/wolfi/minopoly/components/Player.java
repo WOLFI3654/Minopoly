@@ -17,7 +17,7 @@ import de.wolfi.minopoly.utils.MapFactory;
 import de.wolfi.minopoly.utils.Messages;
 import de.wolfi.minopoly.utils.TeleportCause;
 
-public class Player {
+public class Player{
 
 	private final Minopoly game;
 	private final org.bukkit.entity.Player hook;
@@ -149,5 +149,9 @@ public class Player {
 		this.money.removeMoney(this, amount);
 		Messages.MONEY_TRANSFER_SENT.send(this.hook, String.valueOf(amount), player.getDisplay(), reason);
 		player.transferMoneyFrom(this, amount, reason);
+	}
+	
+	protected SerializeablePlayer serialize(){
+		return new SerializeablePlayer(this.location,this.type, this.money.getConsumerID(this));
 	}
 }

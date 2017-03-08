@@ -1,11 +1,10 @@
 package de.wolfi.minopoly.components;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import de.wolfi.minopoly.components.minigames.Minigame;
 
-public class MinigameManager implements Serializable {
+public class MinigameManager extends GameObject {
 
 	/**
 	 * 
@@ -14,9 +13,17 @@ public class MinigameManager implements Serializable {
 
 	private final ArrayList<Minigame> minigames = new ArrayList<>();
 
-	public void load() {
+	@Override
+	protected void load() {
 		for (final Minigame minigame : this.minigames)
 			minigame.load();
+
+	}
+
+	@Override
+	protected void unload() {
+		for (final Minigame minigame : this.minigames)
+			minigame.unload();
 
 	}
 

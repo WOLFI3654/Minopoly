@@ -1,11 +1,13 @@
 package de.wolfi.minopoly.components.minigames;
 
-import java.io.Serializable;
 import java.util.HashMap;
 
 import org.bukkit.Location;
 
-public class Minigame implements Serializable {
+import de.wolfi.minopoly.components.GameObject;
+import de.wolfi.minopoly.utils.Dangerous;
+
+public class Minigame extends GameObject {
 
 	/**
 	 * 
@@ -47,6 +49,7 @@ public class Minigame implements Serializable {
 		return this.supportHook;
 	}
 
+	@Dangerous(y="Internal use ONLY!")
 	public void load() {
 		this.location = Location.deserialize(this.storedLocation);
 	}
@@ -61,6 +64,12 @@ public class Minigame implements Serializable {
 
 	public void setStart(String start) {
 		this.start = start;
+	}
+
+	@Dangerous(y="Internal use ONLY!")
+	@Override
+	public void unload() {
+		
 	}
 
 }
