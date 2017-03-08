@@ -19,7 +19,8 @@ import de.wolfi.minopoly.utils.TeleportCause;
 
 public class Player{
 
-	private final Minopoly game;
+	protected final @Dangerous Minopoly game;
+
 	private final org.bukkit.entity.Player hook;
 
 	private Field location;
@@ -60,7 +61,7 @@ public class Player{
 	}
 
 	public String getDisplay() {
-		return this.getName() + "(" + this.getFigure().getName() + ")";
+		return this.getName() + "(" + this.getFigure().getDisplay() + ")";
 	}
 
 	public FigureType getFigure() {
@@ -151,7 +152,12 @@ public class Player{
 		player.transferMoneyFrom(this, amount, reason);
 	}
 	
+	
+	public boolean isDummy() {
+		return this instanceof DummyPlayer;
+	}
+	
 	protected SerializeablePlayer serialize(){
-		return new SerializeablePlayer(this.location,this.type, this.money.getConsumerID(this));
+		return new SerializeablePlayer(this.game, this.location,this.type, this.money.getConsumerID(this));
 	}
 }

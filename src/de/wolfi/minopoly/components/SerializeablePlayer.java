@@ -15,11 +15,20 @@ public class SerializeablePlayer implements Serializable {
 	private final FigureType f;
 	private final Field loc;
 	private final UUID bankCard;
+	private final Minopoly board;
+	private boolean selected;
 
-	public SerializeablePlayer(Field loc, FigureType f, UUID bankCard) {
+	
+	public SerializeablePlayer(Minopoly board, Field loc, FigureType f, UUID bankCard) {
+		this(board,loc,f,bankCard,false);
+	}
+	
+	protected SerializeablePlayer(Minopoly board, Field loc, FigureType f, UUID bankCard, boolean selected) {
 		this.loc = loc;
 		this.f = f;
 		this.bankCard = bankCard;
+		this.board = board;
+		this.selected = selected;
 	}
 
 	
@@ -33,6 +42,24 @@ public class SerializeablePlayer implements Serializable {
 
 	public Field getLoc() {
 		return this.loc;
+	}
+	
+	public Minopoly getBoard() {
+		return board;
+	}
+	
+	public Player getPlayer(){
+		if(isSelected()){
+			return this.board.getByFigureType(this.f);
+		}
+		return null;
+	}
+	
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+	public boolean isSelected() {
+		return selected;
 	}
 
 }

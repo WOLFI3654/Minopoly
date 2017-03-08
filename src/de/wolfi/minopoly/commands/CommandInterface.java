@@ -1,6 +1,7 @@
 package de.wolfi.minopoly.commands;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -12,18 +13,27 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.event.Listener;
 
 import de.wolfi.minopoly.Main;
+import de.wolfi.minopoly.components.DummyPlayer;
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
+import de.wolfi.minopoly.utils.Dangerous;
 import de.wolfi.minopoly.utils.Messages;
 
 public abstract class CommandInterface implements Listener, TabExecutor {
 
 	private final Main main;
 	private final int minArgs;
+	private boolean supportsDummy;
+	private final HashMap<String, DummyPlayer> dummyPlayers = new HashMap<>();
 
 	public CommandInterface(Main plugin, int minArgs, boolean listener) {
+		this(plugin, minArgs, listener, false);
+	}
+
+	public CommandInterface(Main plugin, int minArgs, boolean listener, boolean supportsDummy) {
 		this.main = plugin;
 		this.minArgs = minArgs;
+		this.supportsDummy = supportsDummy;
 		if (listener)
 			Bukkit.getServer().getPluginManager().registerEvents(this, this.main);
 	}
@@ -49,9 +59,26 @@ public abstract class CommandInterface implements Listener, TabExecutor {
 		return this.minArgs;
 	}
 
+	public boolean isSupportingDummy() {
+		return supportsDummy;
+	}
+
 	@Nullable
 	protected Player getPlayer(Minopoly game, String string) {
-		return game.getByPlayerName(string);
+		Player player = game.getByPlayerName(string);
+		if (supportsDummy && player == null) {
+			player = new DummyPlayer(Bukkit.getPlayer(string), game);
+			dummyPlayers.put(string, (DummyPlayer) player);
+		}
+		return player;
+	}
+
+	@Dangerous(y="Not safe")
+	protected DummyPlayer getDummyPlayer(String name) {
+		if (supportsDummy)
+			return dummyPlayers.get(name);
+		else
+			return null;
 	}
 
 	@Override

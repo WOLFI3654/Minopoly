@@ -1,6 +1,7 @@
 package de.wolfi.minopoly.components;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -47,7 +48,7 @@ public class Minopoly extends GameObject implements CommandSender {
 	private void createPlayers() {
 		this.savedPlayers.clear();
 		for (int i = 0; i < size; i++) {
-			SerializeablePlayer p = new SerializeablePlayer(null, FigureType.values()[i], bank.checkIn());
+			SerializeablePlayer p = new SerializeablePlayer(this, null, FigureType.values()[i], bank.checkIn());
 			this.savedPlayers.put(FigureType.values()[i], p);
 		}
 
@@ -73,6 +74,21 @@ public class Minopoly extends GameObject implements CommandSender {
 		return null;
 	}
 
+	public Collection<SerializeablePlayer> getFigures() {
+		return savedPlayers.values();
+	}
+
+	public void selectPlayer(org.bukkit.entity.Player player, FigureType sPlayer){
+		
+	}
+	
+	public @Nullable Player getByFigureType(FigureType f) {
+		for (final Player p : this.playingPlayers)
+			if (p.getFigure() == f)
+				return p;
+		return null;
+	}
+	
 	public @Nullable Player getByBukkitPlayer(org.bukkit.entity.Player player) {
 		for (final Player p : this.playingPlayers)
 			if (p.getHook().equals(player))
@@ -100,6 +116,10 @@ public class Minopoly extends GameObject implements CommandSender {
 	@Override
 	public Server getServer() {
 		return Bukkit.getServer();
+	}
+
+	public Bank getBank() {
+		return bank;
 	}
 
 	public World getWorld() {
@@ -175,7 +195,17 @@ public class Minopoly extends GameObject implements CommandSender {
 
 	@Override
 	public void unload() {
+		for (Player player : this.playingPlayers) {
+			this.savedPlayers.put(player.getFigure(), player.serialize());
+
+		}
+		this.mgManager.unload();
+		this.fdManager.unload();
+		this.bank.unload();
+
 		HandlerList.unregisterAll(this.listener);
 	}
+
+	
 
 }
