@@ -79,20 +79,36 @@ public class Minopoly extends GameObject implements CommandSender {
 		return savedPlayers.values();
 	}
 
-	public void selectPlayer(org.bukkit.entity.Player player, FigureType sPlayer){
-		Messages.FIGURE_SELECTED.broadcast(player.getName(),sPlayer.getDisplay());
+	public void selectPlayer(org.bukkit.entity.Player player, FigureType sPlayer) {
+		Player toUpdate = null;
+		for (Player p : playingPlayers) {
+			if (p.getHook().getUniqueId().equals(player.getUniqueId()))
+				toUpdate = p;
+		}
+		SerializeablePlayer ply = this.getBySPFigureType(sPlayer);
+		if (toUpdate != null) {
+			this.getBySPFigureType(toUpdate.getFigure()).setSelected(false);
+			toUpdate.update(ply);
+			ply.setSelected(true);
+		} else {
+			Player newP = new Player(player, sPlayer, this, this.bank);
+			this.bank.checkIn(newP, ply.getBankCard());
+			this.playingPlayers.add(newP);
+		}
+		Messages.FIGURE_SELECTED.broadcast(player.getName(), sPlayer.getDisplay());
 	}
-	
+
 	public @Nullable Player getByFigureType(FigureType f) {
 		for (final Player p : this.playingPlayers)
 			if (p.getFigure() == f)
 				return p;
 		return null;
 	}
-	
+
 	public @Nullable SerializeablePlayer getBySPFigureType(FigureType f) {
 		return this.savedPlayers.get(f);
 	}
+
 	public @Nullable Player getByBukkitPlayer(org.bukkit.entity.Player player) {
 		for (final Player p : this.playingPlayers)
 			if (p.getHook().equals(player))
@@ -162,6 +178,7 @@ public class Minopoly extends GameObject implements CommandSender {
 
 	@Override
 	public void load() {
+		this.playingPlayers = new ArrayList<>();
 		this.bank.load();
 		this.fdManager.load();
 		this.mgManager.load();
@@ -209,7 +226,5 @@ public class Minopoly extends GameObject implements CommandSender {
 
 		HandlerList.unregisterAll(this.listener);
 	}
-
-	
 
 }

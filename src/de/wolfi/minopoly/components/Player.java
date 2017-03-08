@@ -17,7 +17,7 @@ import de.wolfi.minopoly.utils.MapFactory;
 import de.wolfi.minopoly.utils.Messages;
 import de.wolfi.minopoly.utils.TeleportCause;
 
-public class Player{
+public class Player {
 
 	protected final @Dangerous Minopoly game;
 
@@ -25,11 +25,11 @@ public class Player{
 
 	private Field location;
 
-	private Bank money;
+	private final Bank money;
 
 	private Entity tmp;
 
-	private final FigureType type;
+	private FigureType type;
 
 	public Player(org.bukkit.entity.Player hook, FigureType t, Minopoly game, Bank bank) {
 		this.hook = hook;
@@ -47,12 +47,11 @@ public class Player{
 		Messages.MONEY_GAIN.send(this.hook, String.valueOf(amount), reason);
 	}
 
-	
 	@Override
 	public int hashCode() {
 		return this.getFigure().hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object compare) {
 		if (!(compare instanceof Player))
@@ -68,8 +67,7 @@ public class Player{
 		return this.type;
 	}
 
-	
-	@Dangerous(y="Internal use ONLY!")
+	@Dangerous(y = "Internal use ONLY!")
 	public org.bukkit.entity.Player getHook() {
 		return this.hook;
 	}
@@ -79,13 +77,14 @@ public class Player{
 	}
 
 	public void move(int amount) {
-		Messages.MOVE_STARTED.broadcast(this.getDisplay(),Integer.toString(amount));
+		Messages.MOVE_STARTED.broadcast(this.getDisplay(), Integer.toString(amount));
 		Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
 			for (int i = 0; i < amount; i++) {
 				final int currentNumber = i;
 				Bukkit.getScheduler().runTask(Main.getMain(), () -> {
 					Player.this.location = Player.this.game.getFieldManager().getNextField(Player.this.location);
-					if(currentNumber < amount - 1) Player.this.location.byPass(Player.this);
+					if (currentNumber < amount - 1)
+						Player.this.location.byPass(Player.this);
 					Player.this.spawnFigure();
 				});
 				try {
@@ -151,13 +150,20 @@ public class Player{
 		Messages.MONEY_TRANSFER_SENT.send(this.hook, String.valueOf(amount), player.getDisplay(), reason);
 		player.transferMoneyFrom(this, amount, reason);
 	}
-	
-	
+
 	public boolean isDummy() {
 		return this instanceof DummyPlayer;
 	}
+
+	protected void update(SerializeablePlayer s){
+		this.type = s.getF();
+		this.location = s.getLoc();
+		this.money.checkOut(this);
+		this.money.checkIn(this, s.getBankCard());
+		
+	}
 	
-	protected SerializeablePlayer serialize(){
-		return new SerializeablePlayer(this.game, this.location,this.type, this.money.getConsumerID(this));
+	protected SerializeablePlayer serialize() {
+		return new SerializeablePlayer(this.game, this.location, this.type, this.money.getConsumerID(this));
 	}
 }
