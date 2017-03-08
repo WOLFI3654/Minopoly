@@ -48,6 +48,14 @@ public class Bank extends GameObject {
 		}
 		return consumerID;
 	}
+	
+	public boolean checkOut(Player consumer){
+		if(this.isConsumer(consumer)){
+			this.consumers.remove(consumer);
+			return true;
+		}
+		return false;
+	}
 
 	protected UUID getConsumerID(Player consumer) {
 		if (!this.consumers.containsKey(consumer))
