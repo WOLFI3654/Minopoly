@@ -18,6 +18,7 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 
 import de.wolfi.minopoly.utils.FigureType;
+import de.wolfi.minopoly.utils.Messages;
 
 public class Minopoly extends GameObject implements CommandSender {
 
@@ -79,7 +80,7 @@ public class Minopoly extends GameObject implements CommandSender {
 	}
 
 	public void selectPlayer(org.bukkit.entity.Player player, FigureType sPlayer){
-		
+		Messages.FIGURE_SELECTED.broadcast(player.getName(),sPlayer.getDisplay());
 	}
 	
 	public @Nullable Player getByFigureType(FigureType f) {
@@ -89,6 +90,9 @@ public class Minopoly extends GameObject implements CommandSender {
 		return null;
 	}
 	
+	public @Nullable SerializeablePlayer getBySPFigureType(FigureType f) {
+		return this.savedPlayers.get(f);
+	}
 	public @Nullable Player getByBukkitPlayer(org.bukkit.entity.Player player) {
 		for (final Player p : this.playingPlayers)
 			if (p.getHook().equals(player))
