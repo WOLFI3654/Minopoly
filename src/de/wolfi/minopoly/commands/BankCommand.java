@@ -6,13 +6,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.command.TabExecutor;
 
 import de.wolfi.minopoly.Main;
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
+import de.wolfi.minopoly.utils.Messages;
 
-public class BankCommand implements TabExecutor {
+public class BankCommand extends CommandInterface {
+
+	public BankCommand(Main plugin) {
+		super(plugin, 3, false);
+	}
 
 	// bank pay *USER* *AMOUNT* *REASON*
 	// bank get *USER* *AMOUNT* *REASON*
@@ -42,47 +46,51 @@ public class BankCommand implements TabExecutor {
 			sender.sendMessage("player.missing.game");
 			return true;
 		}
-		switch (args[0]) {
-		case "pay": {
-			final int amount = Integer.parseInt(args[2]);
-			p.addMoney(amount, args[3]);
-			sender.sendMessage("bank.paid");
-		}
-			break;
-		case "get": {
-			final int amount = Integer.parseInt(args[2]);
-			p.removeMoney(amount, args[3]);
-			sender.sendMessage("bank.got");
-		}
-			break;
-		case "move": {
-			final org.bukkit.entity.Player rescn = Bukkit.getPlayer(args[1]);
-			if (rescn == null) {
-				sender.sendMessage("player.missing");
-				return true;
-			}
-			final Player pr = game.getByBukkitPlayer(playername);
-			if (pr == null) {
-				sender.sendMessage("player.missing.game");
-				return true;
-			}
-			final int amount = Integer.parseInt(args[2]);
-			p.transferMoneyTo(pr, amount, args[3]);
-			p.transferMoneyFrom(p, amount, args[3]);
-			sender.sendMessage("bank.transfered");
-		}
-			break;
-		default:
-			break;
-		}
+
 		return true;
 	}
 
 	@Override
 	public List<String> onTabComplete(final CommandSender paramCommandSender, final Command paramCommand,
 			final String paramString, final String[] paramArrayOfString) {
-		//TODO
+		// TODO
 		return null;
+	}
+
+	@Override
+	protected void executeCommand(Minopoly board, Player player, String[] args) {
+		final int amount = Integer.parseInt(args[1]);
+		final String money = args[1];
+		final String reason = args[2];
+		switch (args[0]) {
+		case "pay": {
+
+			player.addMoney(amount, reason);
+			Messages.MONEY_GLOBAL_PAID.send(board, money, player.getDisplay());
+		}
+			break;
+		case "get": {
+			player.removeMoney(amount, reason);
+			Messages.MONEY_GLOBAL_GOT.send(board, money, player.getDisplay(), reason);
+		}
+			break;
+		case "move": {
+			if (args.length < this.getMinArgs() + 1) {
+				Messages.COMMAND_NO_ARGUMENTS.send(board);
+				return;
+			}
+			final Player pr = board.getByPlayerName(args[3]);
+			if (pr == null) {
+				Messages.COMMAND_NO_PLAYER.send(board, args[3]);
+				return;
+			}
+			player.transferMoneyTo(pr, amount, reason);
+			Messages.MONEY_GLOBAL_TRANSFER.send(board, money, player.getDisplay(), pr.getDisplay(), reason);
+		}
+			break;
+		default:
+			break;
+		}
 	}
 
 }

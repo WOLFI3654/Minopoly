@@ -57,7 +57,7 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		this.getCommand("setupminopoly").setExecutor(new SetupCommand());
-		this.getCommand("bank").setExecutor(new BankCommand());
+		this.getCommand("bank").setExecutor(new BankCommand(this));
 		this.getCommand("move").setExecutor(new MoveCommand(this));
 		this.getCommand("dice").setExecutor(new DiceCommand(this));
 

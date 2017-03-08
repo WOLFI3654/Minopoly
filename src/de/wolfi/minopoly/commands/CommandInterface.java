@@ -50,7 +50,7 @@ public abstract class CommandInterface implements Listener, TabExecutor {
 	}
 
 	@Nullable
-	private Player getPlayer(Minopoly game, String string) {
+	protected Player getPlayer(Minopoly game, String string) {
 		return game.getByPlayerName(string);
 	}
 

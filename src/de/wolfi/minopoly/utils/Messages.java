@@ -24,7 +24,9 @@ public enum Messages {
 									"Der Zug von $0 wurde beendet."), COMMAND_WRONG_WORLD(
 											"§cDu befindest dich nicht in einer Minopoly Welt!"), COMMAND_NO_ARGUMENTS(
 													"§cEs werden Mindestens(!) $0 Argumente benötigt!"), COMMAND_NO_PLAYER(
-															"§c$0 ist kein valider Spieler!");
+															"§c$0 ist kein valider Spieler!"), MONEY_GLOBAL_PAID(
+																	"$0 Geld wurden an $1 überwiesen. ($2)"), MONEY_GLOBAL_GOT(
+																			"$0 Geld wurden bei $1 abgebucht. ($2)"), MONEY_GLOBAL_TRANSFER("$0 Geld wurden von $1 auf das Konto von $2 überwiesen. ($3)");
 
 	private static String Prefix = "§0[§1Minopoly§0] §a";
 	private String txt;

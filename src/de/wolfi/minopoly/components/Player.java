@@ -140,7 +140,7 @@ public class Player {
 			Messages.TELEPORT.send(this.hook);
 	}
 
-	public void transferMoneyFrom(Player player, int amount, String reason) {
+	private void transferMoneyFrom(Player player, int amount, String reason) {
 		this.money.addMoney(this, amount);
 		Messages.MONEY_TRANSFER_GAIN.send(this.hook, String.valueOf(amount), player.getDisplay(), reason);
 	}
@@ -148,5 +148,6 @@ public class Player {
 	public void transferMoneyTo(Player player, int amount, String reason) {
 		this.money.removeMoney(this, amount);
 		Messages.MONEY_TRANSFER_SENT.send(this.hook, String.valueOf(amount), player.getDisplay(), reason);
+		player.transferMoneyFrom(this, amount, reason);
 	}
 }
