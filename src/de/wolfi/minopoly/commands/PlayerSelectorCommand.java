@@ -40,9 +40,12 @@ public class PlayerSelectorCommand extends CommandInterface implements Inventory
 			DummyPlayer player = this.getDummyPlayer(e.getWhoClicked().getName());
 			FigureType t = FigureType.valueOf(e.getCurrentItem().getItemMeta().getLore().get(4));
 			SerializeablePlayer sp = player.getBoard().getBySPFigureType(t);
-			if(sp.isSelected()) Messages.FIGURE_ALREADY_TAKEN.send(e.getWhoClicked(),t.getDisplay());
-				else 
-			player.getBoard().selectPlayer((org.bukkit.entity.Player) e.getWhoClicked(), t);
+			if(sp.isSelected())
+				Messages.FIGURE_ALREADY_TAKEN.send(e.getWhoClicked(),t.getDisplay());
+				else {
+					player.getBoard().selectPlayer((org.bukkit.entity.Player) e.getWhoClicked(), t);
+					e.getWhoClicked().closeInventory();
+				}
 		}
 	}
 	
