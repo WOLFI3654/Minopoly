@@ -87,6 +87,11 @@ public abstract class Field extends GameObject {
 	private String getName() {
 		return this.name;
 	}
+	
+	@Override
+	public String toString() {
+		return this.getColor().getColorChat() + this.getName();
+	}
 
 	public void setOwner(Player owner) {
 		this.owner = owner;
