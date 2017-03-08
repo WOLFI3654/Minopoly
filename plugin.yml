@@ -5,3 +5,6 @@ main: de.wolfi.minopoly.Main
 commands:
   bank:
   setupminopoly:
+  dice:
+  playerselector:
+  move:
