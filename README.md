@@ -6,4 +6,4 @@ TeamCreate Minigame
 [A TODO list](TODO)
 
 
-<progress value="22" max="100">Progress</progress> 
+<progress value="90" max="100">90%</progress> 
