@@ -63,7 +63,6 @@ public abstract class Field extends GameObject {
 	protected void getCircle(int amount, int yAdd, boolean falling, MaterialData m) {
 		final World w = this.location.getWorld();
 		final double increment = 2 * Math.PI / amount;
-
 		for (int i = 0; i < amount; i++) {
 			final double angle = i * increment;
 			final double x = this.location.getX() + Field.r * Math.cos(angle);

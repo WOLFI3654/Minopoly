@@ -25,6 +25,11 @@ public class StartField extends Field {
 		player.addMoney(200, "Los passiert");
 
 	}
+	@Override
+	public void playerStand(Player player) {
+		//XXX
+		super.playerStand(player);
+	}
 
 	@SuppressWarnings("deprecation")
 	@Override
