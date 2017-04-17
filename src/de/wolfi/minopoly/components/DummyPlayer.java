@@ -8,7 +8,7 @@ import de.wolfi.minopoly.utils.TeleportCause;
 /**
  * Does absolutely NOTHING
  * 
- * @author root
+ * @author WOLFI3654
  * 
  */
 public class DummyPlayer extends Player {
@@ -39,7 +39,7 @@ public class DummyPlayer extends Player {
 
 	@Override
 	public boolean equals(Object compare) {
-		return false;
+		return this == compare;
 	}
 
 	@Override
