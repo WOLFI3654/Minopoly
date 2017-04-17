@@ -123,9 +123,7 @@ public class Bank extends GameObject {
 	}
 
 	@Override
-	protected void unload() {
-		// TODO Auto-generated method stub
-		
+	protected void unload() {		
 	}
 
 }

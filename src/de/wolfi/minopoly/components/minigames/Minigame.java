@@ -69,7 +69,7 @@ public class Minigame extends GameObject {
 	@Dangerous(y="Internal use ONLY!")
 	@Override
 	public void unload() {
-		
+		//XXX
 	}
 
 }
