@@ -1,6 +1,9 @@
 package de.wolfi.minopoly;
 
 import java.util.ArrayList;
+import java.util.UUID;
+
+import org.bukkit.Location;
 
 import de.wolfi.minopoly.components.minigames.MinigameHook;
 
@@ -21,5 +24,16 @@ public final class MinigameRegistry {
 
 		public void getMaxPlayers();
 
+		public Location getLobbyLocation();
+
+		public UUID getUniqIdef();
+	}
+
+	public static MinigameStyleSheet loadStyleFromUUID(UUID uuid) {
+		MinigameStyleSheet sheet = null;
+		for (MinigameStyleSheet s : MinigameRegistry.MINIGAME_STYLE_SHEETS)
+			if (s.getUniqIdef().equals(uuid))
+				sheet = s;
+		return sheet;
 	}
 }
