@@ -36,4 +36,8 @@ public final class MinigameRegistry {
 				sheet = s;
 		return sheet;
 	}
+
+	public static Iterable<MinigameStyleSheet> minigames() {
+		return MinigameRegistry.MINIGAME_STYLE_SHEETS;
+	}
 }

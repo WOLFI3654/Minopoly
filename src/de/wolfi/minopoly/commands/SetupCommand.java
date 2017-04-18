@@ -22,6 +22,8 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import de.wolfi.minopoly.Main;
+import de.wolfi.minopoly.MinigameRegistry;
+import de.wolfi.minopoly.MinigameRegistry.MinigameStyleSheet;
 import de.wolfi.minopoly.components.FieldManager;
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.fields.CommunityField;
@@ -119,6 +121,19 @@ public class SetupCommand implements CommandExecutor, Listener {
 
 	}
 
+	private Inventory createMinigameMainSetup(Minopoly m){
+		final Inventory inv = Bukkit.createInventory(SetupCommand.HOLDER, 9*4, "§c" + m.getWorldName() + " - Minigames");
+		inv.setItem(0, SetupCommand.minigame_main);
+		for(MinigameStyleSheet sheet : MinigameRegistry.minigames()){
+			ItemBuilder builder = new ItemBuilder(Material.GOLD_INGOT);
+			builder.setName(sheet.getName());
+			builder.addLore(sheet.getUniqIdef().toString());
+			if(m.getMinigameManager().hasMinigame(sheet))
+				builder.enchant(new ItemBuilder.MyEnchantment("Stupidity"), 10);
+		}
+		return inv;
+	}
+	
 	private Inventory createFieldSetup(Minopoly m) {
 		final Inventory inv = Bukkit.createInventory(SetupCommand.HOLDER, 9, "§c" + m.getWorldName() + " - Field");
 		inv.setItem(0, SetupCommand.field_setup);
@@ -151,7 +166,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 			return;
 		if (e.getClickedInventory().getHolder() != SetupCommand.HOLDER)
 			return;
-
+		
 		if (e.getClickedInventory() == SetupCommand.minopolyChooser) {
 
 			final World w = Bukkit.getWorld(clicked.getItemMeta().getDisplayName());
@@ -163,10 +178,13 @@ public class SetupCommand implements CommandExecutor, Listener {
 			SetupCommand.setups.put((Player) e.getWhoClicked(), m);
 			e.getWhoClicked().openInventory(this.createGameManagmentInventory(m));
 		} else {
+			final Minopoly m = SetupCommand.setups.get(e.getWhoClicked());
 			final ItemStack checker = e.getClickedInventory().getItem(0);
 			if (checker.equals(SetupCommand.main_setup)) {
 				if (clicked.equals(SetupCommand.main_setup_fieldItem))
 					this.giveFieldSetupItems(e.getWhoClicked());
+				if(clicked.equals(SetupCommand.main_setup_minigameItem))
+					e.getWhoClicked().openInventory(this.createMinigameMainSetup(m));
 			} else if(checker.equals(SetupCommand.field_setup)){
 				if(clicked.equals(SetupCommand.field_setup_renamer)){
 					AnvilGUI gui = new AnvilGUI((Player) e.getWhoClicked(),(event)->{e.setCurrentItem(new ItemBuilder(Material.PAPER).setName(event.getName()).build());});
@@ -181,7 +199,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 					COLOR_SELECTOR.open((Player) e.getWhoClicked());
 				}
 			} else if (checker.equals(SetupCommand.minigame_main)) {
-
+				
 			} else if (checker.equals(SetupCommand.minigame_setup)) {
 
 			} else

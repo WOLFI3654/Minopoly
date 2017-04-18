@@ -189,6 +189,10 @@ public class Minopoly extends GameObject implements CommandSender {
 	public FieldManager getFieldManager() {
 		return fdManager;
 	}
+	
+	public MinigameManager getMinigameManager() {
+		return mgManager;
+	}
 
 	@Override
 	public void recalculatePermissions() {

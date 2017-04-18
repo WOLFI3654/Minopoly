@@ -17,6 +17,7 @@ public abstract class MinigameHook implements Listener {
 
 	public MinigameHook(Minigame mg) {
 		this.mg = mg;
+		this.init();
 	}
 
 	public void addPlayer(Player player) {
@@ -25,7 +26,7 @@ public abstract class MinigameHook implements Listener {
 	}
 
 	public String getName() {
-		return "Unknown Minigame";
+		return this.mg.getName();
 	}
 
 	public final List<Player> getPlayers() {
@@ -46,5 +47,7 @@ public abstract class MinigameHook implements Listener {
 		}
 		Messages.MINIGAME_WIN.broadcast(this.getName(), string.toString());
 	}
+	
+	protected abstract void init();
 
 }

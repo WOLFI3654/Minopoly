@@ -1,9 +1,11 @@
 package de.wolfi.minopoly.components.minigames;
 
-import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.Location;
 
+import de.wolfi.minopoly.MinigameRegistry;
+import de.wolfi.minopoly.MinigameRegistry.MinigameStyleSheet;
 import de.wolfi.minopoly.components.GameObject;
 import de.wolfi.minopoly.utils.Dangerous;
 
@@ -14,56 +16,36 @@ public class Minigame extends GameObject {
 	 */
 	private static final long serialVersionUID = -948671377374764648L;
 
+	private transient MinigameStyleSheet style;
 	
-	private final String hookClazz = "de.wolfi.minopoly.components.minigames.MinigameHook";
-	private transient Location location;
-	private String name = "Unknown Minigame";
-	private String addPlayer = "say adding $p to " + this.name;
-	private String start = "start " + this.name;
-	private final HashMap<String, Object> storedLocation;
-	private boolean supportHook = false;
+	private transient MinigameHook minigameClazz;
 
-	public Minigame(Location spawn, boolean supportHook) {
-		this.storedLocation = new HashMap<>(spawn.serialize());
-		this.location = spawn;
-		this.supportHook = supportHook;
-	}
+	private final UUID uuid;
 
-	public String getAddPlayer() {
-		return this.addPlayer;
+	public Minigame(UUID styleSheetUUID) {
+		this.uuid = styleSheetUUID;
 	}
 
 	public Location getLocation() {
-		return this.location;
+		return this.style.getLobbyLocation();
 	}
 
 	public String getName() {
-		return this.name;
+		return this.style.getName();
 	}
-
-	public String getStart() {
-		return this.start;
-	}
-
-	public boolean isHookSupported() {
-		return this.supportHook;
-	}
-
+	
 	@Dangerous(y="Internal use ONLY!")
 	public void load() {
-		this.location = Location.deserialize(this.storedLocation);
+		this.style = MinigameRegistry.loadStyleFromUUID(this.uuid);
+		try {
+			loadHook();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-
-	public void setAddPlayer(String addPlayer) {
-		this.addPlayer = addPlayer;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setStart(String start) {
-		this.start = start;
+	
+	private void loadHook() throws Exception{
+		minigameClazz = (MinigameHook) this.style.getClazz().getConstructor(Minigame.class).newInstance(this);
 	}
 
 	@Dangerous(y="Internal use ONLY!")
@@ -71,5 +53,22 @@ public class Minigame extends GameObject {
 	public void unload() {
 		//XXX
 	}
+	
+	public boolean isLoaded(){
+		return minigameClazz != null;
+	}
+	
+	public MinigameHook getMinigameHook() {
+		return minigameClazz;
+	}
 
+	@Override
+	public boolean equals(Object obj) {
+		MinigameStyleSheet sheet = null;
+		if(obj instanceof MinigameStyleSheet)
+			sheet = (MinigameStyleSheet) obj;
+		else sheet = ((Minigame)obj).style;
+		assert sheet != null;
+		return this.style.equals(sheet);
+	}
 }
