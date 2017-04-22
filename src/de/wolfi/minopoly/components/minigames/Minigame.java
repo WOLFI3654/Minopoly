@@ -66,13 +66,11 @@ public class Minigame extends GameObject {
 		return minigameClazz;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		MinigameStyleSheet sheet = null;
-		if(obj instanceof MinigameStyleSheet)
-			sheet = (MinigameStyleSheet) obj;
-		else sheet = ((Minigame)obj).style;
-		assert sheet != null;
-		return this.style.equals(sheet);
+	
+	public boolean isEquals(Minigame minigame){
+		return this.isEquals(minigame.style);
+	}
+	public boolean isEquals(MinigameStyleSheet style) {
+		return style.getUniqIdef().equals(this.style.getUniqIdef());
 	}
 }

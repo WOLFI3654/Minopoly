@@ -21,7 +21,7 @@ public class MinigameManager extends GameObject {
 	}
 	
 	public void removeMinigame(MinigameStyleSheet mg) {
-		this.minigames.remove(mg);
+		this.minigames.remove(this.getMinigameOrNull(mg));
 	}
 	
 	@Override
@@ -41,7 +41,7 @@ public class MinigameManager extends GameObject {
 	public boolean hasMinigame(MinigameStyleSheet sheet) {
 		boolean is = false;
 		for(Minigame mg : this.minigames)
-			if(mg.equals(sheet))
+			if(mg.isEquals(sheet))
 				is = true;
 		return is;
 	}
@@ -50,7 +50,7 @@ public class MinigameManager extends GameObject {
 	public Minigame getMinigameOrNull(MinigameStyleSheet sheet){
 		Minigame is = null;
 		for(Minigame mg : this.minigames)
-			if(mg.equals(sheet))
+			if(mg.isEquals(sheet))
 				is = mg;
 		return is;
 
