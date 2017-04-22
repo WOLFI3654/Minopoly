@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import de.wolfi.minopoly.MinigameRegistry;
 import de.wolfi.minopoly.MinigameRegistry.MinigameStyleSheet;
 import de.wolfi.minopoly.components.GameObject;
+import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.utils.Dangerous;
 
 public class Minigame extends GameObject {
@@ -22,12 +23,15 @@ public class Minigame extends GameObject {
 
 	private final UUID uuid;
 
-	public Minigame(MinigameStyleSheet styleSheet) {
-		this(styleSheet.getUniqIdef());
+	private final Minopoly game;
+
+	public Minigame(Minopoly game, MinigameStyleSheet styleSheet) {
+		this(game, styleSheet.getUniqIdef());
 	}
 	
-	public Minigame(UUID styleSheetUUID) {
+	public Minigame(Minopoly game, UUID styleSheetUUID) {
 		this.uuid = styleSheetUUID;
+		this.game = game;
 	}
 
 	public Location getLocation() {
@@ -72,5 +76,9 @@ public class Minigame extends GameObject {
 	}
 	public boolean isEquals(MinigameStyleSheet style) {
 		return style.getUniqIdef().equals(this.style.getUniqIdef());
+	}
+
+	public Minopoly getBoard() {
+		return this.game;
 	}
 }

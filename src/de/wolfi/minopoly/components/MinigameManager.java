@@ -16,8 +16,8 @@ public class MinigameManager extends GameObject {
 
 	private final ArrayList<Minigame> minigames = new ArrayList<>();
 
-	public void addMinigame(MinigameStyleSheet sheet){
-		this.minigames.add(new Minigame(sheet));
+	public void addMinigame(Minopoly game, MinigameStyleSheet sheet){
+		this.minigames.add(new Minigame(game, sheet));
 	}
 	
 	public void removeMinigame(MinigameStyleSheet mg) {

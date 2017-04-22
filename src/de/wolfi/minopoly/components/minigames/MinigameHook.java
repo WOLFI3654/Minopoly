@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import org.bukkit.event.Listener;
 
+import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
 import de.wolfi.minopoly.utils.Messages;
 import de.wolfi.minopoly.utils.TeleportCause;
@@ -19,7 +20,7 @@ public abstract class MinigameHook implements Listener {
 		this.mg = mg;
 		this.init();
 	}
-
+	
 	public void addPlayer(Player player) {
 		this.players.add(player);
 		player.teleport(this.mg.getLocation(), TeleportCause.MINIGAME_STARTED);
@@ -37,8 +38,14 @@ public abstract class MinigameHook implements Listener {
 		this.players.remove(player);
 	}
 
-	public abstract void start();;
+	public abstract void start();
 
+	public abstract void endGame();
+	
+	protected final Minopoly getBoard(){
+		return this.mg.getBoard();
+	}
+	
 	protected final void win(Player... players) {
 		final StringBuilder string = new StringBuilder(players[0].getName());
 		for (int i = 1; i < players.length; i++) {

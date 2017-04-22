@@ -217,7 +217,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 						clicked.removeEnchantment(SetupCommand.selected);
 						((Player) e.getWhoClicked()).playSound(e.getWhoClicked().getLocation(), Sound.LEVEL_UP, 1F, 1F);
 					} else {
-						m.getMinigameManager().addMinigame(sheet);
+						m.getMinigameManager().addMinigame(m,sheet);
 						clicked.addEnchantment(SetupCommand.selected, 10);
 						((Player) e.getWhoClicked()).playSound(e.getWhoClicked().getLocation(), Sound.LEVEL_UP, 1F, 1F);
 					}
