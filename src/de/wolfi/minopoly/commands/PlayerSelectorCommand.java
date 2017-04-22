@@ -85,6 +85,7 @@ public class PlayerSelectorCommand extends CommandInterface implements Inventory
 
 	@Override
 	public Inventory getInventory() {
+		Bukkit.broadcastMessage("Meet me");
 		return null;
 	}
 	

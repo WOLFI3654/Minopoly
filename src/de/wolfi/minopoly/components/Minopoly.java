@@ -49,7 +49,7 @@ public class Minopoly extends GameObject implements CommandSender {
 	private void createPlayers() {
 		this.savedPlayers.clear();
 		for (int i = 0; i < size; i++) {
-			SerializeablePlayer p = new SerializeablePlayer(this, null, FigureType.values()[i], bank.checkIn());
+			SerializeablePlayer p = new SerializeablePlayer(this, this.getFieldManager().getStartField(), FigureType.values()[i], bank.checkIn());
 			this.savedPlayers.put(FigureType.values()[i], p);
 		}
 

@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import de.wolfi.minopoly.components.fields.Field;
 import de.wolfi.minopoly.components.fields.FieldColor;
+import de.wolfi.minopoly.components.fields.StartField;
 
 public class FieldManager extends GameObject{
 
@@ -39,10 +40,9 @@ public class FieldManager extends GameObject{
 				continue;
 			}
 			if (next)
-				return from;
+				return f;
 		}
-		if (!next)
-			return null;
+
 		return this.fields.get(0);
 	}
 	
@@ -65,5 +65,16 @@ public class FieldManager extends GameObject{
 		for (final Field f : this.fields)
 			f.unload();
 		
+	}
+
+	public Field getStartField() {
+		Field next = null;
+		for (final Field f : this.fields) {
+			if (f instanceof StartField) {
+				next = f;
+				continue;
+			}
+		}
+		return next;
 	}
 }

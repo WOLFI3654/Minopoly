@@ -84,12 +84,12 @@ public abstract class CommandInterface implements Listener, TabExecutor {
 	@Override
 	public boolean onCommand(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
 		if (arg3.length < this.minArgs + 1) {
-			Messages.COMMAND_NO_ARGUMENTS.send(arg0);
+			Messages.COMMAND_NO_ARGUMENTS.send(arg0, String.valueOf(this.minArgs));
 			return true;
 		}
 		final Minopoly m = this.getGameBoard(arg0);
 		if (m == null) {
-			Messages.COMMAND_WRONG_WORLD.send(arg0, String.valueOf(this.minArgs));
+			Messages.COMMAND_WRONG_WORLD.send(arg0);
 			return true;
 		}
 		final Player player = this.getPlayer(m, arg3[0]);
@@ -98,7 +98,7 @@ public abstract class CommandInterface implements Listener, TabExecutor {
 			return true;
 		}
 		this.executeCommand(m, player, Arrays.copyOfRange(arg3, 1, arg3.length));
-		return false;
+		return true;
 	}
 
 	@Override

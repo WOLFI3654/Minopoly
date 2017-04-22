@@ -173,8 +173,8 @@ public class SetupCommand implements CommandExecutor, Listener {
 			return;
 		if (e.getClickedInventory().getHolder() != SetupCommand.HOLDER)
 			return;
-
-		if (e.getClickedInventory() == SetupCommand.minopolyChooser) {
+		e.setCancelled(true);
+		if (e.getClickedInventory().equals(SetupCommand.minopolyChooser)) {
 
 			final World w = Bukkit.getWorld(clicked.getItemMeta().getDisplayName());
 			if (w == null) {
@@ -188,6 +188,9 @@ public class SetupCommand implements CommandExecutor, Listener {
 			final Minopoly m = SetupCommand.setups.get(e.getWhoClicked());
 			final ItemStack checker = e.getClickedInventory().getItem(0);
 			if (checker.equals(SetupCommand.main_setup)) {
+				if(clicked.equals(SetupCommand.main_setup)){
+					e.getWhoClicked().openInventory(SetupCommand.minopolyChooser);
+				}
 				if (clicked.equals(SetupCommand.main_setup_fieldItem))
 					this.giveFieldSetupItems(e.getWhoClicked());
 				if (clicked.equals(SetupCommand.main_setup_minigameItem))
@@ -208,7 +211,9 @@ public class SetupCommand implements CommandExecutor, Listener {
 					COLOR_SELECTOR.open((Player) e.getWhoClicked());
 				}
 			} else if (checker.equals(SetupCommand.minigame_main)) {
-				if (clicked != checker) {
+				if (clicked.equals(checker)){
+					e.getWhoClicked().openInventory(this.createGameManagmentInventory(m));
+				}else{
 					MinigameStyleSheet sheet = MinigameRegistry
 							.loadStyleFromUUID(UUID.fromString(checker.getItemMeta().getLore().get(2)));
 					boolean enabled = checker.containsEnchantment(SetupCommand.selected);
@@ -261,6 +266,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 				m.addField(new PoliceField(e.getClickedBlock().getLocation(), mo));
 			else if (e.getItem().equals(SetupCommand.fieldtype_jailField))
 				m.addField(new JailField(e.getClickedBlock().getLocation(), mo));
+			e.getPlayer().sendMessage("ARG");
 		}
 	}
 

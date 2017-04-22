@@ -29,7 +29,7 @@ public class DiceCommand extends CommandInterface {
 		@Override
 		public void run() {
 			entity.getInventory().setHeldItemSlot(++selected_slot+DiceCommand.SLOT_OFFSET);
-			if(selected_slot > 6) selected_slot = 0;
+			if(selected_slot >= 6) selected_slot = 0;
 		}
 		public void remove() {
 			task.cancel();
