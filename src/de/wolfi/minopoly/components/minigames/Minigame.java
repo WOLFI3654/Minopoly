@@ -22,6 +22,10 @@ public class Minigame extends GameObject {
 
 	private final UUID uuid;
 
+	public Minigame(MinigameStyleSheet styleSheet) {
+		this(styleSheet.getUniqIdef());
+	}
+	
 	public Minigame(UUID styleSheetUUID) {
 		this.uuid = styleSheetUUID;
 	}

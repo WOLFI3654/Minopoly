@@ -2,6 +2,8 @@ package de.wolfi.minopoly.components;
 
 import java.util.ArrayList;
 
+import javax.annotation.Nullable;
+
 import de.wolfi.minopoly.MinigameRegistry.MinigameStyleSheet;
 import de.wolfi.minopoly.components.minigames.Minigame;
 
@@ -14,11 +16,11 @@ public class MinigameManager extends GameObject {
 
 	private final ArrayList<Minigame> minigames = new ArrayList<>();
 
-	public void addMinigame(){
-		
+	public void addMinigame(MinigameStyleSheet sheet){
+		this.minigames.add(new Minigame(sheet));
 	}
 	
-	public void removeMinigame(Minigame mg) {
+	public void removeMinigame(MinigameStyleSheet mg) {
 		this.minigames.remove(mg);
 	}
 	
@@ -42,6 +44,16 @@ public class MinigameManager extends GameObject {
 			if(mg.equals(sheet))
 				is = true;
 		return is;
+	}
+	
+	@Nullable
+	public Minigame getMinigameOrNull(MinigameStyleSheet sheet){
+		Minigame is = null;
+		for(Minigame mg : this.minigames)
+			if(mg.equals(sheet))
+				is = mg;
+		return is;
+
 	}
 
 }

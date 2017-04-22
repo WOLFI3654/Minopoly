@@ -18,11 +18,13 @@ public final class MinigameRegistry {
 	public static interface MinigameStyleSheet {
 		public String getName();
 
+		public String getShortDesc();
+
 		public Class<MinigameHook> getClazz();
 
-		public void getMinPlayer();
+		public int getMinPlayer();
 
-		public void getMaxPlayers();
+		public int getMaxPlayers();
 
 		public Location getLobbyLocation();
 
