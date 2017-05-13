@@ -13,6 +13,7 @@ import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
 import de.wolfi.minopoly.utils.Dangerous;
 import de.wolfi.minopoly.utils.Messages;
+import de.wolfi.utils.ParticleAPI;
 
 public abstract class Field extends GameObject {
 
@@ -53,7 +54,7 @@ public abstract class Field extends GameObject {
 		this.location = l;
 		this.game = game;
 		Field.add(color, this);
-		
+
 		this.load();
 	}
 
@@ -62,18 +63,23 @@ public abstract class Field extends GameObject {
 	@SuppressWarnings("deprecation")
 	protected void getCircle(int amount, int yAdd, boolean falling, MaterialData m) {
 		final World w = this.location.getWorld();
-		final double increment = 2 * Math.PI / amount;
-		for (int i = 0; i < amount; i++) {
-			final double angle = i * increment;
-			final double x = this.location.getX() + Field.r * Math.cos(angle);
-			final double z = this.location.getZ() + Field.r * Math.sin(angle);
-			final Location l = new Location(w, x, this.location.getY() + yAdd, z);
-			l.getBlock().setType(m.getItemType());
+		
+		final double increment = (2 * Math.PI) / amount;
+        
+        for(int i = 0;i < amount; i++)
+        {
+            double angle = i * increment;
+            double x = (1 * Math.cos(angle));
+            double z = (1 * Math.sin(angle));
+            final Location l = new Location(w, x, this.location.getY() + yAdd, z);
+            l.getBlock().setType(m.getItemType());
 			l.getBlock().setData(m.getData());
 			if (falling)
 				w.spawnEntity(l, EntityType.FALLING_BLOCK);
-		}
+        }
 	}
+
+	
 
 	public FieldColor getColor() {
 		return this.color;
@@ -86,7 +92,7 @@ public abstract class Field extends GameObject {
 	private String getName() {
 		return this.name;
 	}
-	
+
 	@Override
 	public String toString() {
 		return this.getColor().getColorChat() + this.getName();
@@ -95,7 +101,7 @@ public abstract class Field extends GameObject {
 	public void setOwner(Player owner) {
 		this.owner = owner;
 	}
-	
+
 	public Player getOwner() {
 		return this.owner;
 	}
@@ -108,7 +114,7 @@ public abstract class Field extends GameObject {
 		return this.isOwned;
 	}
 
-	@Dangerous(y="Internal use ONLY!")
+	@Dangerous(y = "Internal use ONLY!")
 	@Override
 	public void load() {
 		this.location = Location.deserialize(this.storedLocation);
@@ -127,8 +133,9 @@ public abstract class Field extends GameObject {
 		return this.isOwned() && this.getOwner().equals(player);
 	}
 
-	@Dangerous(y="Internal use ONLY!")
+	@Dangerous(y = "Internal use ONLY!")
 	@Override
-	public void unload() {}
+	public void unload() {
+	}
 
 }

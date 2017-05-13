@@ -38,21 +38,30 @@ public enum Messages {
 		this.txt = txt;
 	}
 
-	public void broadcast(String... target) {
-		final String end = Messages.Prefix + this.txt;
+	private String createMessage(String... target) {
 		StringBuilder tmp = new StringBuilder();
+		tmp.append(Messages.Prefix);
+		boolean rplc = false;
+		for (char c : this.txt.toCharArray()) {
+			if (c == '$') {
+				rplc = true;
+				continue;
+			}
+			if (rplc) {
+				tmp.append(target[c - '0']);
+				rplc = false;
+				continue;
+			}
+			tmp.append(c);
+		}
+		return tmp.toString();
+	}
 
-		for (int i = 0; i < target.length; i++)
-			tmp.append(end.replaceAll("$" + i, target[i]));
-		Bukkit.broadcastMessage(tmp.toString());
+	public void broadcast(String... target) {
+		Bukkit.broadcastMessage(createMessage(target));
 	}
 
 	public void send(CommandSender player, String... target) {
-		final String end = Messages.Prefix + this.txt;
-		StringBuilder tmp = new StringBuilder();
-
-		for (int i = 0; i < target.length; i++)
-			tmp.append(end.replaceAll("$" + i, target[i]));
-		player.sendMessage(tmp.toString());
+		player.sendMessage(createMessage(target));
 	}
 }

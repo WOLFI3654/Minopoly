@@ -10,6 +10,9 @@ import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.wolfi.minopoly.commands.BankCommand;
@@ -19,7 +22,7 @@ import de.wolfi.minopoly.commands.PlayerSelectorCommand;
 import de.wolfi.minopoly.commands.SetupCommand;
 import de.wolfi.minopoly.components.Minopoly;
 
-public class Main extends JavaPlugin {
+public class Main extends JavaPlugin implements Listener {
 
 	public static Main getMain() {
 		return JavaPlugin.getPlugin(Main.class);
@@ -93,8 +96,12 @@ public class Main extends JavaPlugin {
 		this.getCommand("move").setExecutor(new MoveCommand(this));
 		this.getCommand("dice").setExecutor(new DiceCommand(this));
 		this.getCommand("playerselector").setExecutor(new PlayerSelectorCommand(this));
-
-
+		Bukkit.getPluginManager().registerEvents(this, this);
+	}
+	
+	@EventHandler
+	public void onWorldLoad(WorldLoadEvent e){
+		if(this.isMinopolyWorld(e.getWorld())) this.loadMap(e.getWorld());
 	}
 
 }

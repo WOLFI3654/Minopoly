@@ -31,7 +31,9 @@ import de.wolfi.minopoly.components.FieldManager;
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.fields.CommunityField;
 import de.wolfi.minopoly.components.fields.EventField;
+import de.wolfi.minopoly.components.fields.FieldColor;
 import de.wolfi.minopoly.components.fields.JailField;
+import de.wolfi.minopoly.components.fields.NormalField;
 import de.wolfi.minopoly.components.fields.PoliceField;
 import de.wolfi.minopoly.components.fields.StartField;
 import de.wolfi.utils.InventorySelector;
@@ -46,7 +48,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 	 * Field Setup Items
 	 */
 	private static final ItemStack field_setup = new ItemBuilder(Material.WOOD_PLATE).setName("§eFields")
-			.addLore("< Zurück").build();
+			.addLore("< Speichern").build();
 	private static final ItemStack field_setup_colorer = new ItemBuilder(Material.INK_SACK).setName("§eColor")
 			.addLore("# Gib deiner Straße eine schöne Farbe").build();
 	private static final ItemStack field_setup_renamer = new ItemBuilder(Material.ANVIL).setName("§eName")
@@ -199,6 +201,8 @@ public class SetupCommand implements CommandExecutor, Listener {
 				if (clicked.equals(SetupCommand.field_setup_renamer)) {
 					AnvilGUI gui = new AnvilGUI((Player) e.getWhoClicked(), (event) -> {
 						e.setCurrentItem(new ItemBuilder(Material.PAPER).setName(event.getName()).build());
+						event.setWillClose(false);
+						e.getWhoClicked().openInventory(e.getInventory());
 					});
 					gui.setSlot(AnvilSlot.INPUT_LEFT, field_setup_renamer);
 					gui.open("RENAME YOUR STREET");
@@ -209,6 +213,10 @@ public class SetupCommand implements CommandExecutor, Listener {
 						return true;
 					});
 					COLOR_SELECTOR.open((Player) e.getWhoClicked());
+				} else if (clicked.equals(SetupCommand.field_setup)){
+					if(!(e.getClickedInventory().contains(Material.INK_SACK) && e.getClickedInventory().contains(Material.ANVIL))){
+						m.getFieldManager().addField(new NormalField(e.getClickedInventory().getItem(1).getItemMeta().getDisplayName(), FieldColor.getByColor(DyeColor.valueOf(e.getClickedInventory().getItem(2).getItemMeta().getDisplayName())), e.getWhoClicked().getLocation(), m));
+					}
 				}
 			} else if (checker.equals(SetupCommand.minigame_main)) {
 				if (clicked.equals(checker)){
@@ -257,15 +265,15 @@ public class SetupCommand implements CommandExecutor, Listener {
 			if (e.getItem().equals(SetupCommand.fieldtype_normalField))
 				e.getPlayer().openInventory(this.createFieldSetup(mo));
 			else if (e.getItem().equals(SetupCommand.fieldtype_eventField))
-				m.addField(new EventField(e.getClickedBlock().getLocation(), mo));
+				m.addField(new EventField(e.getClickedBlock().getLocation().add(0, 1, 0), mo));
 			else if (e.getItem().equals(SetupCommand.fieldtype_communityField))
-				m.addField(new CommunityField(e.getClickedBlock().getLocation(), mo));
+				m.addField(new CommunityField(e.getClickedBlock().getLocation().add(0,1,0), mo));
 			else if (e.getItem().equals(SetupCommand.fieldtype_startField))
-				m.addField(new StartField(e.getClickedBlock().getLocation(), mo));
+				m.addField(new StartField(e.getClickedBlock().getLocation().add(0,1,0), mo));
 			else if (e.getItem().equals(SetupCommand.fieldtype_policeField))
-				m.addField(new PoliceField(e.getClickedBlock().getLocation(), mo));
+				m.addField(new PoliceField(e.getClickedBlock().getLocation().add(0,1,0), mo));
 			else if (e.getItem().equals(SetupCommand.fieldtype_jailField))
-				m.addField(new JailField(e.getClickedBlock().getLocation(), mo));
+				m.addField(new JailField(e.getClickedBlock().getLocation().add(0,1,0), mo));
 			e.getPlayer().sendMessage("ARG");
 		}
 	}
