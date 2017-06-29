@@ -36,6 +36,7 @@ public class PoliceField extends Field {
 
 	@Override
 	public void spawn() {
+		System.out.println("Spawning police");
 		this.getCircle(1, 0, false, new MaterialData(Material.AIR));
 		this.getCircle(1, 0, true, new MaterialData(Material.COAL_BLOCK));
 	}

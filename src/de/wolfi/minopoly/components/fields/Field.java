@@ -13,7 +13,6 @@ import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
 import de.wolfi.minopoly.utils.Dangerous;
 import de.wolfi.minopoly.utils.Messages;
-import de.wolfi.utils.ParticleAPI;
 
 public abstract class Field extends GameObject {
 
@@ -22,7 +21,7 @@ public abstract class Field extends GameObject {
 	/**
 	 * 
 	 */
-	private static final int r = 2;
+	private final int r = 2;
 
 	private static final long serialVersionUID = 2119752416278230984L;
 
@@ -41,6 +40,7 @@ public abstract class Field extends GameObject {
 	private final boolean isOwned = false;
 
 	private transient Location location;
+	private transient Location tp;
 	private final String name;
 
 	private Player owner;
@@ -63,23 +63,26 @@ public abstract class Field extends GameObject {
 	@SuppressWarnings("deprecation")
 	protected void getCircle(int amount, int yAdd, boolean falling, MaterialData m) {
 		final World w = this.location.getWorld();
-		
-		final double increment = (2 * Math.PI) / amount;
-        
-        for(int i = 0;i < amount; i++)
-        {
-            double angle = i * increment;
-            double x = (1 * Math.cos(angle));
-            double z = (1 * Math.sin(angle));
-            final Location l = new Location(w, x, this.location.getY() + yAdd, z);
-            l.getBlock().setType(m.getItemType());
-			l.getBlock().setData(m.getData());
-			if (falling)
-				w.spawnEntity(l, EntityType.FALLING_BLOCK);
-        }
-	}
 
-	
+		// final double increment = (2 * Math.PI) / amount;
+
+		for (double x = -r; x <= r; x++) {
+
+			for (double z = -r; z <= r; z++) {
+
+				final Location l = new Location(w, this.location.getX() + x, this.location.getY() + yAdd,
+						this.location.getZ() + z);
+				if (this.location.distance(l) > this.r)
+					continue;
+				l.getBlock().setType(m.getItemType());
+				l.getBlock().setData(m.getData(), false);
+				//				l.getBlock().setType(m.getItemType());
+//				l.getBlock().setData(m.getData());
+				if (falling)
+					w.spawnEntity(l, EntityType.FALLING_BLOCK);
+			}
+		}
+	}
 
 	public FieldColor getColor() {
 		return this.color;
@@ -87,6 +90,10 @@ public abstract class Field extends GameObject {
 
 	public Location getLocation() {
 		return this.location;
+	}
+	
+	public Location getTeleportLocation(){
+		return this.tp;
 	}
 
 	private String getName() {
@@ -118,6 +125,8 @@ public abstract class Field extends GameObject {
 	@Override
 	public void load() {
 		this.location = Location.deserialize(this.storedLocation);
+		this.tp = this.location.clone().add(0,1,0);
+		this.spawn();
 	}
 
 	public void playerStand(Player player) {

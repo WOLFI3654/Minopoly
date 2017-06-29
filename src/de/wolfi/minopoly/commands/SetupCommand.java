@@ -216,6 +216,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 				} else if (clicked.equals(SetupCommand.field_setup)){
 					if(!(e.getClickedInventory().contains(Material.INK_SACK) && e.getClickedInventory().contains(Material.ANVIL))){
 						m.getFieldManager().addField(new NormalField(e.getClickedInventory().getItem(1).getItemMeta().getDisplayName(), FieldColor.getByColor(DyeColor.valueOf(e.getClickedInventory().getItem(2).getItemMeta().getDisplayName())), e.getWhoClicked().getLocation(), m));
+						e.getWhoClicked().closeInventory();
 					}
 				}
 			} else if (checker.equals(SetupCommand.minigame_main)) {
@@ -265,15 +266,15 @@ public class SetupCommand implements CommandExecutor, Listener {
 			if (e.getItem().equals(SetupCommand.fieldtype_normalField))
 				e.getPlayer().openInventory(this.createFieldSetup(mo));
 			else if (e.getItem().equals(SetupCommand.fieldtype_eventField))
-				m.addField(new EventField(e.getClickedBlock().getLocation().add(0, 1, 0), mo));
+				m.addField(new EventField(e.getClickedBlock().getLocation(), mo));
 			else if (e.getItem().equals(SetupCommand.fieldtype_communityField))
-				m.addField(new CommunityField(e.getClickedBlock().getLocation().add(0,1,0), mo));
+				m.addField(new CommunityField(e.getClickedBlock().getLocation(), mo));
 			else if (e.getItem().equals(SetupCommand.fieldtype_startField))
-				m.addField(new StartField(e.getClickedBlock().getLocation().add(0,1,0), mo));
+				m.addField(new StartField(e.getClickedBlock().getLocation(), mo));
 			else if (e.getItem().equals(SetupCommand.fieldtype_policeField))
-				m.addField(new PoliceField(e.getClickedBlock().getLocation().add(0,1,0), mo));
+				m.addField(new PoliceField(e.getClickedBlock().getLocation(), mo));
 			else if (e.getItem().equals(SetupCommand.fieldtype_jailField))
-				m.addField(new JailField(e.getClickedBlock().getLocation().add(0,1,0), mo));
+				m.addField(new JailField(e.getClickedBlock().getLocation(), mo));
 			e.getPlayer().sendMessage("ARG");
 		}
 	}

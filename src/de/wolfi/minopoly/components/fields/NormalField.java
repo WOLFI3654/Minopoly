@@ -1,5 +1,6 @@
 package de.wolfi.minopoly.components.fields;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
@@ -26,8 +27,9 @@ public class NormalField extends Field {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void spawn() {
-		this.getCircle(1, 0, false, new MaterialData(Material.AIR));
-		this.getCircle(1, 0, true, new MaterialData(Material.STAINED_CLAY, this.getColor().getColor().getData()));
+		Bukkit.broadcastMessage("Spawning Normal");
+		this.getCircle(5, 0, false, new MaterialData(Material.AIR));
+		this.getCircle(5, 0, true, new MaterialData(Material.STAINED_CLAY, this.getColor().getColor().getWoolData()));
 	}
 
 }

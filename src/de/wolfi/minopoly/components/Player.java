@@ -118,7 +118,7 @@ public class Player {
 	private void spawnFigure() {
 		if (this.tmp != null)
 			this.tmp.remove();
-		final Entity e = this.location.getWorld().spawnEntity(this.location.getLocation(), this.type.getEntityType());
+		final Entity e = this.location.getWorld().spawnEntity(this.location.getTeleportLocation(), this.type.getEntityType());
 		e.setCustomName(this.hook.getName());
 		e.setCustomNameVisible(true);
 		e.setMetadata("PlayerNPC", new FixedMetadataValue(Main.getMain(), this));
@@ -127,6 +127,11 @@ public class Player {
 		this.tmp = e;
 	}
 
+	public void teleport(Field to){
+		this.location = to;
+		this.spawnFigure();
+	}
+	
 	public void teleport(Location to, TeleportCause cause) {
 		this.hook.teleport(to);
 		if (cause == TeleportCause.MINIGAME_STARTED) {

@@ -31,11 +31,11 @@ public class StartField extends Field {
 		super.playerStand(player);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void spawn() {
+		System.out.println("Start fueld");
 		this.getCircle(1, 0, false, new MaterialData(Material.AIR));
-		this.getCircle(1, 10, true, new MaterialData(Material.WOOL, (byte) 12));
+		this.getCircle(1, 5, true, new MaterialData(Material.GOLD_BLOCK));
 
 	}
 

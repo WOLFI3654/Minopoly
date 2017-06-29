@@ -2,6 +2,7 @@ name: Mineopoly
 version: 1.0Alpha
 author: WOLFI3654
 main: de.wolfi.minopoly.Main
+depend: [WolfiUtilsCollection,iDisguise]
 commands:
   bank:
   setupminopoly:

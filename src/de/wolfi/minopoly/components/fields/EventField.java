@@ -37,6 +37,7 @@ public class EventField extends Field {
 
 	@Override
 	public void spawn() {
+		System.out.println("Spawning event");
 		this.getCircle(1, 0, false, new MaterialData(Material.AIR));
 		this.getCircle(1, 0, true, new MaterialData(Material.ICE));
 	}
