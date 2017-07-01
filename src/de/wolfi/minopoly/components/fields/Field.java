@@ -70,16 +70,17 @@ public abstract class Field extends GameObject {
 
 			for (double z = -r; z <= r; z++) {
 
-				final Location l = new Location(w, this.location.getX() + x, this.location.getY() + yAdd,
+				final Location l = new Location(w, this.location.getX() + x, this.location.getY(),
 						this.location.getZ() + z);
 				if (this.location.distance(l) > this.r)
 					continue;
+				l.add(0, yAdd, 0);
 				l.getBlock().setType(m.getItemType());
 				l.getBlock().setData(m.getData(), false);
 				//				l.getBlock().setType(m.getItemType());
 //				l.getBlock().setData(m.getData());
 				if (falling)
-					w.spawnEntity(l, EntityType.FALLING_BLOCK);
+						w.spawnEntity(l, EntityType.FALLING_BLOCK);			
 			}
 		}
 	}

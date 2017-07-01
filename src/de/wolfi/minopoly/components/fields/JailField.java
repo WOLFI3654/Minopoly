@@ -38,6 +38,6 @@ public class JailField extends Field {
 	public void spawn() {
 		System.out.println("Spawning jail");
 		this.getCircle(0, false, new MaterialData(Material.AIR));
-		this.getCircle(0, true, new MaterialData(Material.IRON_BARDING));
+		this.getCircle(0, true, new MaterialData(Material.IRON_FENCE));
 	}
 }
