@@ -34,8 +34,8 @@ public class StartField extends Field {
 	@Override
 	public void spawn() {
 		System.out.println("Start fueld");
-		this.getCircle(1, 0, false, new MaterialData(Material.AIR));
-		this.getCircle(1, 5, true, new MaterialData(Material.GOLD_BLOCK));
+		this.getCircle(0, false, new MaterialData(Material.AIR));
+		this.getCircle(5, true, new MaterialData(Material.GOLD_BLOCK));
 
 	}
 

@@ -61,7 +61,7 @@ public abstract class Field extends GameObject {
 	public abstract void byPass(Player player);
 
 	@SuppressWarnings("deprecation")
-	protected void getCircle(int amount, int yAdd, boolean falling, MaterialData m) {
+	protected void getCircle(int yAdd, boolean falling, MaterialData m) {
 		final World w = this.location.getWorld();
 
 		// final double increment = (2 * Math.PI) / amount;

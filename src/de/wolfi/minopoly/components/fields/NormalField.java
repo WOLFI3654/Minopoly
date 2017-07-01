@@ -28,8 +28,8 @@ public class NormalField extends Field {
 	@Override
 	public void spawn() {
 		Bukkit.broadcastMessage("Spawning Normal");
-		this.getCircle(5, 0, false, new MaterialData(Material.AIR));
-		this.getCircle(5, 0, true, new MaterialData(Material.STAINED_CLAY, this.getColor().getColor().getWoolData()));
+		this.getCircle(0, false, new MaterialData(Material.AIR));
+		this.getCircle(0, true, new MaterialData(Material.STAINED_CLAY, this.getColor().getColor().getWoolData()));
 	}
 
 }

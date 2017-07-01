@@ -38,7 +38,7 @@ public class CommunityField extends Field {
 	@Override
 	public void spawn() {
 		System.out.println("Spawn community");
-		this.getCircle(1, 0, false, new MaterialData(Material.AIR));
-		this.getCircle(1, 0, true, new MaterialData(Material.PACKED_ICE));
+		this.getCircle(0, false, new MaterialData(Material.AIR));
+		this.getCircle(0, true, new MaterialData(Material.PACKED_ICE));
 	}
 }
