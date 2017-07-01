@@ -264,10 +264,10 @@ public class SetupCommand implements CommandExecutor, Listener {
 			final Minopoly mo = SetupCommand.setups.get(e.getPlayer());
 			final FieldManager m = mo.getFieldManager();
 			if (e.getItem().equals(SetupCommand.fieldtype_normalField)){
+				e.getClickedBlock().setType(Material.AIR);
 				e.getPlayer().teleport(e.getClickedBlock().getLocation());
 				e.getPlayer().openInventory(this.createFieldSetup(mo));
 			}
-				
 			else if (e.getItem().equals(SetupCommand.fieldtype_eventField))
 				m.addField(new EventField(e.getClickedBlock().getLocation(), mo));
 			else if (e.getItem().equals(SetupCommand.fieldtype_communityField))

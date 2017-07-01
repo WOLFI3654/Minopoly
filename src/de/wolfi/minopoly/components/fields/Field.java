@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.material.MaterialData;
 
@@ -41,6 +42,8 @@ public abstract class Field extends GameObject {
 
 	private transient Location location;
 	private transient Location tp;
+	private transient ArmorStand nametag;
+	
 	private final String name;
 
 	private Player owner;
@@ -127,7 +130,16 @@ public abstract class Field extends GameObject {
 	public void load() {
 		this.location = Location.deserialize(this.storedLocation);
 		this.tp = this.location.clone().add(0,1,0);
+		this.createNametag();
 		this.spawn();
+	}
+
+	private void createNametag() {
+		this.nametag = this.game.getWorld().spawn(this.location.clone().add(.5, 2.5, .5), ArmorStand.class);
+		this.nametag.setGravity(false);
+		this.nametag.setCustomName(this.color.getColorChat() + this.name);
+		this.nametag.setCustomNameVisible(true);
+		this.nametag.setVisible(false);
 	}
 
 	public void playerStand(Player player) {
@@ -146,6 +158,7 @@ public abstract class Field extends GameObject {
 	@Dangerous(y = "Internal use ONLY!")
 	@Override
 	public void unload() {
+		this.nametag.remove();
 	}
 
 }

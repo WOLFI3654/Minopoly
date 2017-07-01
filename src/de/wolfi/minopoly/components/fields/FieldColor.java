@@ -7,7 +7,7 @@ public enum FieldColor {
 
 	BLUE(DyeColor.BLUE, ChatColor.BLUE,2), BROWN(DyeColor.BROWN, ChatColor.DARK_GREEN,2), GREEN(DyeColor.GREEN,
 			ChatColor.GREEN,3), ORANGE(DyeColor.ORANGE, ChatColor.GOLD,3), PURPLE(DyeColor.PURPLE,
-					ChatColor.LIGHT_PURPLE,3), RED(DyeColor.RED, ChatColor.RED,3), SPECIAL(DyeColor.SILVER,
+					ChatColor.DARK_PURPLE,3), RED(DyeColor.RED, ChatColor.RED,3), SPECIAL(DyeColor.SILVER,
 							ChatColor.GRAY,0), WHITE(DyeColor.WHITE,
 									ChatColor.WHITE,3), YELLOW(DyeColor.YELLOW, ChatColor.YELLOW,3);
 
