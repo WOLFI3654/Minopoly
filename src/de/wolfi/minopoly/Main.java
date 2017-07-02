@@ -101,7 +101,7 @@ public class Main extends JavaPlugin implements Listener {
 	
 	@EventHandler
 	public void onWorldLoad(WorldLoadEvent e){
-		if(this.isMinopolyWorld(e.getWorld())) this.loadMap(e.getWorld());
+		Bukkit.getScheduler().runTaskLater(this, () ->{if(this.isMinopolyWorld(e.getWorld())) this.loadMap(e.getWorld());}, 20);
 	}
 
 }

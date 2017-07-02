@@ -15,8 +15,8 @@ public class CommunityField extends Field {
 	 */
 	private static final long serialVersionUID = 2546033930136925490L;
 
-	public CommunityField(Location l, Minopoly game) {
-		super("Gemeinschaffts Feld", FieldColor.SPECIAL, l, game);
+	public CommunityField(Location l, Minopoly game, int size) {
+		super("Gemeinschaffts Feld", FieldColor.SPECIAL, l, game, size);
 
 	}
 

@@ -22,7 +22,7 @@ public abstract class Field extends GameObject {
 	/**
 	 * 
 	 */
-	private final int r = 2;
+	private final float r;
 
 	private static final long serialVersionUID = 2119752416278230984L;
 
@@ -50,12 +50,13 @@ public abstract class Field extends GameObject {
 
 	private final HashMap<String, Object> storedLocation;
 
-	public Field(String name, FieldColor color, Location l, Minopoly game) {
+	public Field(String name, FieldColor color, Location l, Minopoly game, int size) {
 		this.color = color;
 		this.name = name;
 		this.storedLocation = new HashMap<>(l.serialize());
 		this.location = l;
 		this.game = game;
+		this.r = size + 0.5F;
 		Field.add(color, this);
 
 		this.load();
@@ -66,12 +67,13 @@ public abstract class Field extends GameObject {
 	@SuppressWarnings("deprecation")
 	protected void getCircle(int yAdd, boolean falling, MaterialData m) {
 		final World w = this.location.getWorld();
+		
 
 		// final double increment = (2 * Math.PI) / amount;
+		int radiusCeil = (int) Math.ceil(r);
+		for (double x = -radiusCeil; x <= radiusCeil; x++) {
 
-		for (double x = -r; x <= r; x++) {
-
-			for (double z = -r; z <= r; z++) {
+			for (double z = -radiusCeil; z <= radiusCeil; z++) {
 
 				final Location l = new Location(w, this.location.getX() + x, this.location.getY(),
 						this.location.getZ() + z);

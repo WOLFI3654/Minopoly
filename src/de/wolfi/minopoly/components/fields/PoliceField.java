@@ -15,8 +15,8 @@ public class PoliceField extends Field {
 	 */
 	private static final long serialVersionUID = -7221854907860638801L;
 
-	public PoliceField(Location loc, Minopoly game) {
-		super("Polizei", FieldColor.SPECIAL, loc, game);
+	public PoliceField(Location loc, Minopoly game, int size) {
+		super("Polizei", FieldColor.SPECIAL, loc, game, size);
 	}
 
 	@Override

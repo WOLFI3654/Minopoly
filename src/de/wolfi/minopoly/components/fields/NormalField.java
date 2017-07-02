@@ -15,8 +15,8 @@ public class NormalField extends Field {
 	 */
 	private static final long serialVersionUID = -7988254265088447089L;
 
-	public NormalField(String name, FieldColor color, Location l, Minopoly game) {
-		super(name, color, l, game);
+	public NormalField(String name, FieldColor color, Location l, Minopoly game, int size) {
+		super(name, color, l, game, size);
 	}
 
 	@Override

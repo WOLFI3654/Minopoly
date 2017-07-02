@@ -36,8 +36,9 @@ import de.wolfi.minopoly.components.fields.JailField;
 import de.wolfi.minopoly.components.fields.NormalField;
 import de.wolfi.minopoly.components.fields.PoliceField;
 import de.wolfi.minopoly.components.fields.StartField;
-import de.wolfi.utils.InventorySelector;
 import de.wolfi.utils.ItemBuilder;
+import de.wolfi.utils.inventory.InventoryCounter;
+import de.wolfi.utils.inventory.InventorySelector;
 import de.wolfi.utils.nms.AnvilGUI;
 import de.wolfi.utils.nms.AnvilGUI.AnvilSlot;
 
@@ -51,6 +52,8 @@ public class SetupCommand implements CommandExecutor, Listener {
 			.addLore("< Speichern").build();
 	private static final ItemStack field_setup_colorer = new ItemBuilder(Material.INK_SACK).setName("§eColor")
 			.addLore("# Gib deiner Straße eine schöne Farbe").build();
+	private static final ItemStack field_setup_size = new ItemBuilder(Material.INK_SACK).setName("§eSize")
+			.addLore("# Gib deiner Straße eine prachtvolle Größe").build();
 	private static final ItemStack field_setup_renamer = new ItemBuilder(Material.ANVIL).setName("§eName")
 			.addLore("> Benenne deine Straße").build();
 
@@ -75,6 +78,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 	private static final InventoryHolder HOLDER = () -> SetupCommand.minopolyChooser;
 	private static final Main MAIN = Main.getMain();
 	private static final InventorySelector COLOR_SELECTOR = new InventorySelector("ColorPicker");
+	private static final InventoryCounter RANGE_SELECTOR = new InventoryCounter("Range Picker");
 	// -------------------------------------------
 	/**
 	 * Main Setup Menu
@@ -148,6 +152,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 		inv.setItem(0, SetupCommand.field_setup);
 		inv.setItem(1, SetupCommand.field_setup_renamer);
 		inv.setItem(2, SetupCommand.field_setup_colorer);
+		inv.setItem(4, SetupCommand.field_setup_size);
 		return inv;
 
 	}
@@ -213,9 +218,16 @@ public class SetupCommand implements CommandExecutor, Listener {
 						return true;
 					});
 					COLOR_SELECTOR.open((Player) e.getWhoClicked());
+				} else if (clicked.equals(SetupCommand.field_setup_size)) {
+					RANGE_SELECTOR.setCallback((i) -> {
+						e.setCurrentItem(i);
+						e.getWhoClicked().openInventory(e.getInventory());
+						return true;
+					});
+					RANGE_SELECTOR.open((Player) e.getWhoClicked());
 				} else if (clicked.equals(SetupCommand.field_setup)){
 					if(!(e.getClickedInventory().contains(Material.INK_SACK) && e.getClickedInventory().contains(Material.ANVIL))){
-						m.getFieldManager().addField(new NormalField(e.getClickedInventory().getItem(1).getItemMeta().getDisplayName(), FieldColor.getByColor(DyeColor.valueOf(e.getClickedInventory().getItem(2).getItemMeta().getDisplayName())), e.getWhoClicked().getLocation(), m));
+						m.getFieldManager().addField(new NormalField(e.getClickedInventory().getItem(1).getItemMeta().getDisplayName(), FieldColor.getByColor(DyeColor.valueOf(e.getClickedInventory().getItem(2).getItemMeta().getDisplayName())), e.getWhoClicked().getLocation(), m, e.getClickedInventory().getItem(4).getAmount()));
 						e.getWhoClicked().closeInventory();
 					}
 				}
@@ -262,24 +274,51 @@ public class SetupCommand implements CommandExecutor, Listener {
 	public void onInteract(PlayerInteractEvent e) {
 		if (e.getItem() != null && e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			final Minopoly mo = SetupCommand.setups.get(e.getPlayer());
+			if(mo == null) return;
 			final FieldManager m = mo.getFieldManager();
 			if (e.getItem().equals(SetupCommand.fieldtype_normalField)){
 				e.getClickedBlock().setType(Material.AIR);
 				e.getPlayer().teleport(e.getClickedBlock().getLocation());
 				e.getPlayer().openInventory(this.createFieldSetup(mo));
 			}
-			else if (e.getItem().equals(SetupCommand.fieldtype_eventField))
-				m.addField(new EventField(e.getClickedBlock().getLocation(), mo));
-			else if (e.getItem().equals(SetupCommand.fieldtype_communityField))
-				m.addField(new CommunityField(e.getClickedBlock().getLocation(), mo));
-			else if (e.getItem().equals(SetupCommand.fieldtype_startField))
-				m.addField(new StartField(e.getClickedBlock().getLocation(), mo));
-			else if (e.getItem().equals(SetupCommand.fieldtype_policeField))
-				m.addField(new PoliceField(e.getClickedBlock().getLocation(), mo));
-			else if (e.getItem().equals(SetupCommand.fieldtype_jailField))
-				m.addField(new JailField(e.getClickedBlock().getLocation(), mo));
+			else if (e.getItem().equals(SetupCommand.fieldtype_eventField)){
+				RANGE_SELECTOR.setCallback((i) -> {
+					m.addField(new EventField(e.getClickedBlock().getLocation(), mo, i.getAmount()));
+					return true;
+				});
+				RANGE_SELECTOR.open(e.getPlayer());
+			}
+			else if (e.getItem().equals(SetupCommand.fieldtype_communityField)){
+				RANGE_SELECTOR.setCallback((i) -> {
+					m.addField(new CommunityField(e.getClickedBlock().getLocation(), mo, i.getAmount()));
+					return true;
+				});
+				RANGE_SELECTOR.open(e.getPlayer());
+			}
+			else if (e.getItem().equals(SetupCommand.fieldtype_startField)){
+				RANGE_SELECTOR.setCallback((i) -> {
+					m.addField(new StartField(e.getClickedBlock().getLocation(), mo, i.getAmount()));
+					return true;
+				});
+				RANGE_SELECTOR.open(e.getPlayer());
+			}
+			else if (e.getItem().equals(SetupCommand.fieldtype_policeField)){
+				RANGE_SELECTOR.setCallback((i) -> {
+					m.addField(new PoliceField(e.getClickedBlock().getLocation(), mo, i.getAmount()));
+					return true;
+				});
+				RANGE_SELECTOR.open(e.getPlayer());
+			}
+			else if (e.getItem().equals(SetupCommand.fieldtype_jailField)){
+				RANGE_SELECTOR.setCallback((i) -> {
+					m.addField(new JailField(e.getClickedBlock().getLocation(), mo, i.getAmount()));
+					return true;
+				});
+				RANGE_SELECTOR.open(e.getPlayer());
+			}
 			e.getPlayer().sendMessage("ARG");
 		}
 	}
+	
 
 }

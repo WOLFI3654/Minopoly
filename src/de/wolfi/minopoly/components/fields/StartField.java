@@ -15,8 +15,8 @@ public class StartField extends Field {
 	 */
 	private static final long serialVersionUID = -819511061769975984L;
 
-	public StartField(Location l, Minopoly game) {
-		super("Los", FieldColor.SPECIAL, l, game);
+	public StartField(Location l, Minopoly game, int size) {
+		super("Los", FieldColor.SPECIAL, l, game, size);
 	}
 
 	@Override
