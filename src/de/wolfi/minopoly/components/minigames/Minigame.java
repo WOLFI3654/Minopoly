@@ -81,4 +81,8 @@ public class Minigame extends GameObject {
 	public Minopoly getBoard() {
 		return this.game;
 	}
+	
+	public MinigameStyleSheet getStyle() {
+		return style;
+	}
 }

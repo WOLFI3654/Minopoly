@@ -17,6 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import de.wolfi.minopoly.commands.BankCommand;
 import de.wolfi.minopoly.commands.DiceCommand;
+import de.wolfi.minopoly.commands.MinigameCommand;
 import de.wolfi.minopoly.commands.MoveCommand;
 import de.wolfi.minopoly.commands.PlayerSelectorCommand;
 import de.wolfi.minopoly.commands.SetupCommand;
@@ -96,6 +97,7 @@ public class Main extends JavaPlugin implements Listener {
 		this.getCommand("move").setExecutor(new MoveCommand(this));
 		this.getCommand("dice").setExecutor(new DiceCommand(this));
 		this.getCommand("playerselector").setExecutor(new PlayerSelectorCommand(this));
+		this.getCommand("minigame").setExecutor(new MinigameCommand(this));
 		Bukkit.getPluginManager().registerEvents(this, this);
 	}
 	

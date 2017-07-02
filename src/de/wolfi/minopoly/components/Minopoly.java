@@ -124,6 +124,10 @@ public class Minopoly extends GameObject implements CommandSender {
 				return p;
 		return null;
 	}
+	
+	public ArrayList<Player> getPlayingPlayers() {
+		return playingPlayers;
+	}
 
 	@Override
 	public Set<PermissionAttachmentInfo> getEffectivePermissions() {

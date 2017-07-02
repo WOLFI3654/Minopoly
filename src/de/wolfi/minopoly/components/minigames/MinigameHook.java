@@ -33,6 +33,14 @@ public abstract class MinigameHook implements Listener {
 	public final List<Player> getPlayers() {
 		return new ArrayList<>(this.players);
 	}
+	
+	public final boolean isPlaying(org.bukkit.entity.Player player){
+		return this.players.contains(this.getBoard().getByBukkitPlayer(player));
+	}
+	
+	public final boolean isPlaying(Player player){
+		return this.players.contains(player);
+	}
 
 	public void removePlayer(Player player) {
 		this.players.remove(player);
