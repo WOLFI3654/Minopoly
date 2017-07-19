@@ -1,10 +1,10 @@
-#-------------------TODO-----------------------
+# -------------------TODO-----------------------
 1. [x] !*Felder Managment System
 2. [x] !Bank Befehl
 3. [x] !*Setup Befehl
     1. [ ] +*Main Settings
    	2. [x] !*Fields
-        - [ ] #Haus
+        - [x] Haus
     3. [ ] >*!Minigames
 4. [ ] *Würfel Befehl imolement dam usage 
 5. [x] Move Befehl
