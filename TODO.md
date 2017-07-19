@@ -1,23 +1,23 @@
 -------------------TODO-----------------------
-1. [x] #!*Felder Managment System
-2. [x] #!Bank Befehl
-3. [x] #!*Setup Befehl
+1. [x] !*Felder Managment System
+2. [x] !Bank Befehl
+3. [x] !*Setup Befehl
     1. [ ] +*Main Settings
    	2. [x] !*Fields
-        1. [ ] #Haus
+        - [ ] #Haus
     3. [ ] >*!Minigames
-4. [ ] *Würfel Befehl imolement dam usage 
-5. [x] #Move Befehl
-6. [x] #Player Selector
+4. [ ] *WÃ¼rfel Befehl imolement dam usage 
+5. [x] Move Befehl
+6. [x] Player Selector
 7. [ ] +Scoreboard
 8. [ ] +Event Handler
 
 # = DONE
-* = IMPORTANT
-+ = MISSING
-- = INCOMPLETE
-! = TO BE TESTED
-> = Working on
+\* = IMPORTANT
+\+ = MISSING
+\- = INCOMPLETE
+\! = TO BE TESTED
+\> = Working on
 
 ------------------------------------------
 Main Settings >
