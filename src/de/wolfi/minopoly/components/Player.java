@@ -46,6 +46,10 @@ public class Player {
 		this.money.addMoney(this, amount);
 		Messages.MONEY_GAIN.send(this.hook, String.valueOf(amount), reason);
 	}
+	
+	public int getMoney(){
+		return this.money.getMoney(this);
+	}
 
 	@Override
 	public int hashCode() {
@@ -126,6 +130,10 @@ public class Player {
 			((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 60 * 60, 20));
 		this.tmp = e;
 	}
+	
+	public Field getLocation() {
+		return location;
+	}
 
 	public void teleport(Field to){
 		this.location = to;
@@ -139,6 +147,7 @@ public class Player {
 			if (this.tmp != null)
 				this.tmp.remove();
 		} else if (cause == TeleportCause.MINIGAME_END) {
+			this.setInventory();
 			DisguiseManager.vanish(this.hook);
 			this.spawnFigure();
 		} else if (cause == TeleportCause.MINIGAME_ACTION)

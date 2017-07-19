@@ -94,7 +94,8 @@ public class Minopoly extends GameObject implements CommandSender {
 			Player newP = new Player(player, sPlayer, this, this.bank);
 			this.bank.checkIn(newP, ply.getBankCard());
 			this.playingPlayers.add(newP);
-			newP.teleport(this.fdManager.getStartField());
+			if(ply.getLoc() == null) newP.teleport(this.fdManager.getStartField());
+			else newP.teleport(ply.getLoc());
 		}
 		ply.setSelected(true);
 		Messages.FIGURE_SELECTED.broadcast(player.getName(), sPlayer.getDisplay());

@@ -31,6 +31,7 @@ import de.wolfi.minopoly.components.FieldManager;
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.fields.CommunityField;
 import de.wolfi.minopoly.components.fields.EventField;
+import de.wolfi.minopoly.components.fields.Field;
 import de.wolfi.minopoly.components.fields.FieldColor;
 import de.wolfi.minopoly.components.fields.JailField;
 import de.wolfi.minopoly.components.fields.NormalField;
@@ -52,6 +53,8 @@ public class SetupCommand implements CommandExecutor, Listener {
 			.addLore("< Speichern").build();
 	private static final ItemStack field_setup_colorer = new ItemBuilder(Material.INK_SACK).setName("§eColor")
 			.addLore("# Gib deiner Straße eine schöne Farbe").build();
+	private static final ItemStack field_setup_price = new ItemBuilder(Material.INK_SACK).setName("§ePrice")
+			.addLore("# Gib deiner Luxus Villa einen angemessenen Preis").build();
 	private static final ItemStack field_setup_size = new ItemBuilder(Material.INK_SACK).setName("§eSize")
 			.addLore("# Gib deiner Straße eine prachtvolle Größe").build();
 	private static final ItemStack field_setup_renamer = new ItemBuilder(Material.ANVIL).setName("§eName")
@@ -79,6 +82,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 	private static final Main MAIN = Main.getMain();
 	private static final InventorySelector COLOR_SELECTOR = new InventorySelector("ColorPicker");
 	private static final InventoryCounter RANGE_SELECTOR = new InventoryCounter("Range Picker");
+	private static final InventoryCounter PRICE_SELECTOR = new InventoryCounter("Price Picker");
 	// -------------------------------------------
 	/**
 	 * Main Setup Menu
@@ -143,6 +147,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 			builder.addLore(sheet.getUniqIdef().toString());
 			if (m.getMinigameManager().hasMinigame(sheet))
 				builder.enchant(SetupCommand.selected, 10);
+			inv.addItem(builder.build());
 		}
 		return inv;
 	}
@@ -152,6 +157,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 		inv.setItem(0, SetupCommand.field_setup);
 		inv.setItem(1, SetupCommand.field_setup_renamer);
 		inv.setItem(2, SetupCommand.field_setup_colorer);
+		inv.setItem(3, SetupCommand.field_setup_price);
 		inv.setItem(4, SetupCommand.field_setup_size);
 		return inv;
 
@@ -225,10 +231,26 @@ public class SetupCommand implements CommandExecutor, Listener {
 						return true;
 					});
 					RANGE_SELECTOR.open((Player) e.getWhoClicked());
-				} else if (clicked.equals(SetupCommand.field_setup)){
+				} else if (clicked.equals(SetupCommand.field_setup_price)) {
+					PRICE_SELECTOR.setCallback((i) -> {
+						e.setCurrentItem(i);
+						e.getWhoClicked().openInventory(e.getInventory());
+						return true;
+					});
+					PRICE_SELECTOR.open((Player) e.getWhoClicked());
+				}else if (clicked.equals(SetupCommand.field_setup)){
 					if(!(e.getClickedInventory().contains(Material.INK_SACK) && e.getClickedInventory().contains(Material.ANVIL))){
-						m.getFieldManager().addField(new NormalField(e.getClickedInventory().getItem(1).getItemMeta().getDisplayName(), FieldColor.getByColor(DyeColor.valueOf(e.getClickedInventory().getItem(2).getItemMeta().getDisplayName())), e.getWhoClicked().getLocation(), m, e.getClickedInventory().getItem(4).getAmount()));
+						Field f = m.getFieldManager().addField(
+								new NormalField(
+										e.getClickedInventory().getItem(1).getItemMeta().getDisplayName(),
+										FieldColor.getByColor(DyeColor.valueOf(e.getClickedInventory().getItem(2).getItemMeta().getDisplayName())),
+										e.getWhoClicked().getLocation(),
+										m,
+										e.getClickedInventory().getItem(4).getAmount(),
+										e.getClickedInventory().getItem(3).getAmount()));
 						e.getWhoClicked().closeInventory();
+						e.getWhoClicked().sendMessage("5 Sekudnen!!!");
+						Bukkit.getScheduler().runTaskLater(MAIN, ()->f.setHome(e.getWhoClicked().getLocation()), 20*5);
 					}
 				}
 			} else if (checker.equals(SetupCommand.minigame_main)) {
@@ -236,7 +258,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 					e.getWhoClicked().openInventory(this.createGameManagmentInventory(m));
 				}else{
 					MinigameStyleSheet sheet = MinigameRegistry
-							.loadStyleFromUUID(UUID.fromString(checker.getItemMeta().getLore().get(2)));
+							.loadStyleFromUUID(UUID.fromString(clicked.getItemMeta().getLore().get(2)));
 					boolean enabled = checker.containsEnchantment(SetupCommand.selected);
 					if (enabled) {
 						m.getMinigameManager().removeMinigame(sheet);
@@ -244,7 +266,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 						((Player) e.getWhoClicked()).playSound(e.getWhoClicked().getLocation(), Sound.LEVEL_UP, 1F, 1F);
 					} else {
 						m.getMinigameManager().addMinigame(m,sheet);
-						clicked.addEnchantment(SetupCommand.selected, 10);
+						clicked.addUnsafeEnchantment(SetupCommand.selected, 10);
 						((Player) e.getWhoClicked()).playSound(e.getWhoClicked().getLocation(), Sound.LEVEL_UP, 1F, 1F);
 					}
 

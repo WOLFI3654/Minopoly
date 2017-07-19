@@ -20,10 +20,11 @@ public class FieldManager extends GameObject{
 	
 	protected FieldManager() {}
 	
-	public void addField(Field f) {
+	public Field addField(Field f) {
 		f.spawn();
 		this.fields.add(f);
 		this.addMapped(f.getColor(),f);
+		return f;
 	}
 	
 	private void addMapped(FieldColor color, Field f) {

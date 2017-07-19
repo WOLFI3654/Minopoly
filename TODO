@@ -1,14 +1,16 @@
 -------------------TODO-----------------------
 #!*Felder Managment System
 #!Bank Befehl
-!*-Setup Befehl
+#!*Setup Befehl
    +*Main Settings
    #!*Fields
-   >*Minigames
-!*Würfel Befehl imolement dam usage 
-#!Move Befehl
-#!*Player Selector
+     #Haus
+   >*!Minigames
+#*Würfel Befehl imolement dam usage 
+#Move Befehl
+#Player Selector
 +Scoreboard
++Event Handler
 
 # = DONE
 * = IMPORTANT

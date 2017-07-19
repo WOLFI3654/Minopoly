@@ -16,13 +16,19 @@ public class EventField extends Field {
 	private static final long serialVersionUID = 2546033930136925490L;
 
 	public EventField(Location l, Minopoly game, int size) {
-		super("Ereigniss Feld", FieldColor.SPECIAL, l, game, size);
+		super("Ereigniss Feld", FieldColor.SPECIAL, l, game, size,0);
 
 	}
 
 	@Override
 	public void byPass(Player player) {
 
+	}
+	
+	@Override
+	public boolean buy(Player player) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override

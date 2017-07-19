@@ -17,7 +17,7 @@ public enum Messages {
 																			"Du hast $0 Geld von $1 bekommen. ($2)"), MONEY_TRANSFER_SENT(
 																					"Du hast $0 Geld an $1 bezahlt. ($2)"),
 
-	OTHER_FIELD_ENTERED("$0 ist auf ein Feld von $1 getreten! §l($2)"), POLICE_FIELD_ENTER(
+	OTHER_FIELD_ENTERED("$0 ist auf ein Feld von $1 getreten! §l($2)"), FIELD_BOUGHT("$0 hat das Feld $1 gekauft!"),POLICE_FIELD_ENTER(
 			"$0 betrat das Feld der Polizei und wurde dafür ins Gefängnis geschickt."), START_FIELD_BYPASS(
 					"$0 ist über Los gezogen."), TELEPORT("Du wurdest teleportiert."), MOVE_STARTED(
 							"$0 bewegt sich nun $1 Felder."), MOVE_FINISHED(

@@ -5,13 +5,14 @@ import java.util.HashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import de.robingrether.idisguise.iDisguise;
 import de.robingrether.idisguise.api.DisguiseAPI;
 import de.robingrether.idisguise.disguise.Disguise;
 
 public final class DisguiseManager {
 
-	private static DisguiseAPI disguise;
-
+	private static DisguiseAPI disguise = iDisguise.getInstance().getAPI();
+			
 	private static final HashMap<Player, Disguise> disguises = new HashMap<>();
 
 	public static final Disguise disguise(Player bukkitPlayer, FigureType type) {

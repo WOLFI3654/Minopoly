@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -17,6 +18,7 @@ import de.wolfi.minopoly.MinigameRegistry.MinigameStyleSheet;
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
 import de.wolfi.minopoly.components.minigames.Minigame;
+import de.wolfi.minopoly.utils.TeleportCause;
 import de.wolfi.utils.ItemBuilder;
 
 public class MinigameCommand extends CommandInterface {
@@ -50,6 +52,10 @@ public class MinigameCommand extends CommandInterface {
 			board.getMinigameManager().getCurrentGame().getMinigameHook().start();
 			break;
 		case "stop":
+			HandlerList.unregisterAll(board.getMinigameManager().getCurrentGame().getMinigameHook());
+			for(Player p : board.getPlayingPlayers()){
+				p.teleport(p.getLocation().getTeleportLocation(), TeleportCause.MINIGAME_END);
+			}
 			break;
 		default:
 			break;
@@ -58,7 +64,7 @@ public class MinigameCommand extends CommandInterface {
 	}
 
 	private void calculateMinigames(Minopoly board) {
-		for (int i = 9 * 1 + 2; i < 9 * 2; i += 2) {
+		for (int i = 9 * 1 + 2; i < 9 * 2-1; i += 2) {
 			MinigameStyleSheet style = board.getMinigameManager().randomMinigame().getStyle();
 			minigameSelector.setItem(i,
 					new ItemBuilder(Material.ITEM_FRAME).setName(style.getName()).addLore(style.getShortDesc())
@@ -77,6 +83,7 @@ public class MinigameCommand extends CommandInterface {
 			Minigame minigame = boards.get(e.getWhoClicked()).getMinigameManager().getMinigameOrNull(
 					MinigameRegistry.loadStyleFromUUID(UUID.fromString(e.getCurrentItem().getItemMeta().getLore().get(2))));
 			this.boards.get(e.getWhoClicked()).getMinigameManager().playMinigame(this.boards.get(e.getWhoClicked()), minigame);
+			Bukkit.getPluginManager().registerEvents(minigame.getMinigameHook(), Main.getMain());
 			
 		}
 	}

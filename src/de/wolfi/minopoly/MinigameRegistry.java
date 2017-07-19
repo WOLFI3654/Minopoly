@@ -20,7 +20,7 @@ public final class MinigameRegistry {
 
 		public String getShortDesc();
 
-		public Class<MinigameHook> getClazz();
+		public Class<? extends MinigameHook> getClazz();
 
 		public int getMinPlayer();
 
