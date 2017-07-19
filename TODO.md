@@ -6,7 +6,7 @@
    #!*Fields
      #Haus
    >*!Minigames
-#*Würfel Befehl imolement dam usage 
+#*WÃ¼rfel Befehl imolement dam usage 
 #Move Befehl
 #Player Selector
 +Scoreboard
