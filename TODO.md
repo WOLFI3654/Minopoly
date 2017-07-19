@@ -1,4 +1,4 @@
--------------------TODO-----------------------
+#-------------------TODO-----------------------
 1. [x] !*Felder Managment System
 2. [x] !Bank Befehl
 3. [x] !*Setup Befehl
@@ -12,14 +12,17 @@
 7. [ ] +Scoreboard
 8. [ ] +Event Handler
 
-# = DONE
-\* = IMPORTANT
-\+ = MISSING
-\- = INCOMPLETE
-\! = TO BE TESTED
-\> = Working on
+---
 
-------------------------------------------
+# Notes
+- `*` = IMPORTANT
+- `+` = MISSING
+- `-` = INCOMPLETE
+- `!` = TO BE TESTED
+- `>` = Working on
+
+---
+
 Main Settings >
   - Self running
   - Miete per Farbe
