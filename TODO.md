@@ -25,7 +25,6 @@
 
 Main Settings >
   - Self running
-  - Miete per Farbe
-  -Anzahl Spieler
-  -(Gespielte Male)
+  - Anzahl Spieler
+  - (Gespielte Male)
   - End Of Thinking
