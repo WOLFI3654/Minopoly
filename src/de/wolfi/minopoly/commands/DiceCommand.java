@@ -11,6 +11,7 @@ import org.bukkit.scheduler.BukkitTask;
 import de.wolfi.minopoly.Main;
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
+import de.wolfi.minopoly.events.DiceEvent;
 import de.wolfi.minopoly.utils.Messages;
 
 public class DiceCommand extends CommandInterface {
@@ -49,6 +50,8 @@ public class DiceCommand extends CommandInterface {
 		if(e.getAction() != Action.PHYSICAL & dice != null){
 			Messages.PLAYER_ROLLED_THE_DICE.broadcast(dice.player.getName(),String.valueOf(dice.getValue()));
 			dice.remove();
+			
+			Bukkit.getPluginManager().callEvent(new DiceEvent(dice.player, dice.getValue(), 0));
 		}
 	}
 
