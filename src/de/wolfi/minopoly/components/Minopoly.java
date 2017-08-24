@@ -29,6 +29,8 @@ public class Minopoly extends GameObject implements CommandSender {
 
 	private final Bank bank = new Bank();
 	private transient GameListener listener;
+	
+	private final ScoreboardManager scoreboardManager = new ScoreboardManager();
 
 	private final FieldManager fdManager = new FieldManager();
 	private final MinigameManager mgManager = new MinigameManager();
@@ -190,7 +192,9 @@ public class Minopoly extends GameObject implements CommandSender {
 		this.fdManager.load();
 		this.mgManager.load();
 
-		this.listener = new GameListener();
+		this.scoreboardManager.load();
+		
+		this.listener = new GameListener(this);
 	}
 
 	public FieldManager getFieldManager() {
@@ -201,6 +205,9 @@ public class Minopoly extends GameObject implements CommandSender {
 		return mgManager;
 	}
 
+	public ScoreboardManager getScoreboardManager() {
+		return scoreboardManager;
+	}
 	@Override
 	public void recalculatePermissions() {
 	}
@@ -231,6 +238,8 @@ public class Minopoly extends GameObject implements CommandSender {
 			this.savedPlayers.put(player.getFigure(), player.serialize());
 
 		}
+		this.scoreboardManager.unload();
+		
 		this.mgManager.unload();
 		this.fdManager.unload();
 		this.bank.unload();
