@@ -286,7 +286,7 @@ public abstract class Field extends GameObject {
 
 	public void playerStand(Player player) {
 		if (this.isOwned())
-			if (!this.owner.equals(player))
+			if (!this.owner.equals(player.getFigure()))
 				Messages.OTHER_FIELD_ENTERED.broadcast(player.getName(), this.owner.getName(),
 						this.color.getColorChat() + this.getName());
 	}
