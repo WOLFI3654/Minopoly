@@ -53,6 +53,7 @@ public class MinigameCommand extends CommandInterface {
 			break;
 		case "stop":
 			HandlerList.unregisterAll(board.getMinigameManager().getCurrentGame().getMinigameHook());
+			board.getMinigameManager().getCurrentGame().getMinigameHook().endGame();
 			for(Player p : board.getPlayingPlayers()){
 				p.teleport(p.getLocation().getTeleportLocation(), TeleportCause.MINIGAME_END);
 			}
