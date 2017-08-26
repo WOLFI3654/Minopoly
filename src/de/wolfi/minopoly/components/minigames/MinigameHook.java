@@ -54,6 +54,10 @@ public abstract class MinigameHook implements Listener {
 		return this.mg.getBoard();
 	}
 	
+	protected final Minigame getMinigame(){
+		return mg;
+	}
+	
 	protected final void win(Player... players) {
 		final StringBuilder string = new StringBuilder(players[0].getName());
 		for (int i = 1; i < players.length; i++) {
