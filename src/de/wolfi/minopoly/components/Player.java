@@ -10,6 +10,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import de.wolfi.minopoly.Main;
 import de.wolfi.minopoly.components.fields.Field;
+import de.wolfi.minopoly.events.MoneyEvent;
 import de.wolfi.minopoly.utils.Dangerous;
 import de.wolfi.minopoly.utils.DisguiseManager;
 import de.wolfi.minopoly.utils.FigureType;
@@ -44,6 +45,7 @@ public class Player {
 
 	public void addMoney(int amount, String reason) {
 		this.money.addMoney(this, amount);
+		Bukkit.getPluginManager().callEvent(new MoneyEvent(this, this.getMoney(), reason));
 		Messages.MONEY_GAIN.send(this.hook, String.valueOf(amount), reason);
 	}
 	
@@ -110,6 +112,7 @@ public class Player {
 
 	public void removeMoney(int amount, String reason) {
 		this.money.removeMoney(this, amount);
+		Bukkit.getPluginManager().callEvent(new MoneyEvent(this, this.getMoney(), reason));
 		Messages.MONEY_PAYD.send(this.hook, String.valueOf(amount), reason);
 	}
 
@@ -155,12 +158,12 @@ public class Player {
 	}
 
 	private void transferMoneyFrom(Player player, int amount, String reason) {
-		this.money.addMoney(this, amount);
+		player.addMoney( amount,reason);
 		Messages.MONEY_TRANSFER_GAIN.send(this.hook, String.valueOf(amount), player.getDisplay(), reason);
 	}
 
 	public void transferMoneyTo(Player player, int amount, String reason) {
-		this.money.removeMoney(this, amount);
+		this.removeMoney(amount,reason);
 		Messages.MONEY_TRANSFER_SENT.send(this.hook, String.valueOf(amount), player.getDisplay(), reason);
 		player.transferMoneyFrom(this, amount, reason);
 	}
