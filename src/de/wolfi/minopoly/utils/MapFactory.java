@@ -27,7 +27,7 @@ public final class MapFactory {
 		public void render(MapView paramMapView, MapCanvas paramMapCanvas, Player paramPlayer) {
 			final de.wolfi.minopoly.components.Player p = this.game.getByBukkitPlayer(paramPlayer);
 			try {
-				paramMapCanvas.drawImage(0, 0, ImageIO.read(ClassLoader.getSystemResource("res/monopoly.png")));
+				paramMapCanvas.drawImage(0, 0, ImageIO.read(getClass().getClassLoader().getResourceAsStream("res/monopoly.png")));
 				paramMapCanvas.drawText(0, 0, new MinecraftFont(), p.getFigure().getName());
 			} catch (final IOException e) {
 				e.printStackTrace();
