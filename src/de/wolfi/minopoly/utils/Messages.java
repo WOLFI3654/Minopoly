@@ -22,7 +22,7 @@ public enum Messages {
 					"$0 ist über Los gezogen."), TELEPORT("Du wurdest teleportiert."), MOVE_STARTED(
 							"$0 bewegt sich nun $1 Felder."), MOVE_FINISHED(
 									"Der Zug von $0 wurde beendet."), PLAYER_ROLLED_THE_DICE(
-											"$0 hat eine $1 gewürfelt!"), COMMAND_WRONG_WORLD(
+											"$0 hat eine $1 und eine $2 gewürfelt!"), COMMAND_WRONG_WORLD(
 													"§cDu befindest dich nicht in einer Minopoly Welt!"), COMMAND_NO_ARGUMENTS(
 															"§cEs werden Mindestens(!) $0 Argumente benötigt!"), COMMAND_NO_PLAYER(
 																	"§c$0 ist kein valider Spieler!"), MONEY_GLOBAL_PAID(

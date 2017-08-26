@@ -27,6 +27,8 @@ public class DiceCommand extends CommandInterface {
 		private BukkitTask task;
 		private Player player;
 		private int selected_slot = 0;
+		private int first = 0;
+		
 		private DiceRunnable(){}
 		@Override
 		public void run() {
@@ -38,8 +40,13 @@ public class DiceCommand extends CommandInterface {
 			DiceCommand.scheds.remove(this);
 			
 		}
+		
+		public int getFirst(){
+			return first;
+		}
+		
 		public int getValue(){
-			return selected_slot;
+			return selected_slot+1;
 		}
 	}
 	
@@ -48,10 +55,19 @@ public class DiceCommand extends CommandInterface {
 	public void onInteract(PlayerInteractEvent e){
 		DiceRunnable dice = this.getSched(e.getPlayer());
 		if(e.getAction() != Action.PHYSICAL & dice != null){
-			Messages.PLAYER_ROLLED_THE_DICE.broadcast(dice.player.getName(),String.valueOf(dice.getValue()));
-			dice.remove();
 			
-			Bukkit.getPluginManager().callEvent(new DiceEvent(dice.player, dice.getValue(), 0));
+			if(dice.getFirst() == 0){
+				dice.first = dice.getValue();
+			}else{
+				dice.remove();
+
+				int first = dice.getFirst();
+				int second = dice.getValue();
+				DiceEvent event = new DiceEvent(dice.player, first, second);
+				Bukkit.getPluginManager().callEvent(event);
+				Messages.PLAYER_ROLLED_THE_DICE.broadcast(dice.player.getName(),String.valueOf(event.getOne()),String.valueOf(event.getTwo()));
+			
+			}
 		}
 	}
 
@@ -65,7 +81,7 @@ public class DiceCommand extends CommandInterface {
 	protected void executeCommand(Minopoly board, Player player, String[] args) {
 		DiceRunnable dice = new DiceRunnable();
 		dice.player = player;
-		dice.task = Bukkit.getScheduler().runTaskTimer(DiceCommand.MAIN, dice, 3, 3);
+		dice.task = Bukkit.getScheduler().runTaskTimer(DiceCommand.MAIN, dice, 3, 1);
 		scheds.add(dice);
 		
 	}

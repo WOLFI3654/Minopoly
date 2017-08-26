@@ -18,4 +18,11 @@ public class DiceEvent extends MinopolyEvent{
 	public int getTwo() {
 		return two;
 	}
+	
+	public void setOne(int one) {
+		this.one = one;
+	}
+	public void setTwo(int two) {
+		this.two = two;
+	}
 }
