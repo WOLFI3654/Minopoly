@@ -33,7 +33,7 @@ public enum Messages {
 																											"$0 hat sich Figur $1 ausgesucht. o/"), FIGURE_ALREADY_TAKEN(
 																													"§cDie Figur $0 ist bereits von jemandem Ausgewählt!");
 
-	private static String Prefix = "§0[§1Minopoly§0] §a";
+	public static String Prefix = "§0[§1Minopoly§0] §a";
 	private String txt;
 
 	private Messages(String txt) {

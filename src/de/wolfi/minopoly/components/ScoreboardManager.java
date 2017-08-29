@@ -3,7 +3,7 @@ package de.wolfi.minopoly.components;
 import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.DisplaySlot;
 
-import de.wolfi.utils.Messages;
+import de.wolfi.minopoly.utils.Messages;
 import de.wolfi.utils.Scoreboard;
 
 public class ScoreboardManager extends GameObject {
