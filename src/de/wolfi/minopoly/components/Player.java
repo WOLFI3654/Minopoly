@@ -2,11 +2,7 @@ package de.wolfi.minopoly.components;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import de.wolfi.minopoly.Main;
 import de.wolfi.minopoly.components.fields.Field;
@@ -17,6 +13,7 @@ import de.wolfi.minopoly.utils.FigureType;
 import de.wolfi.minopoly.utils.MapFactory;
 import de.wolfi.minopoly.utils.Messages;
 import de.wolfi.minopoly.utils.TeleportCause;
+import de.wolfi.utils.TimedEntity;
 
 public class Player {
 
@@ -28,7 +25,7 @@ public class Player {
 
 	private final Bank money;
 
-	private Entity tmp;
+	private TimedEntity tmp;
 
 	private FigureType type;
 
@@ -125,13 +122,18 @@ public class Player {
 	private void spawnFigure() {
 		if (this.tmp != null)
 			this.tmp.remove();
-		final Entity e = this.location.getWorld().spawnEntity(this.location.getTeleportLocation(), this.type.getEntityType());
-		e.setCustomName(this.hook.getName());
-		e.setCustomNameVisible(true);
-		e.setMetadata("PlayerNPC", new FixedMetadataValue(Main.getMain(), this));
-		if (e instanceof LivingEntity)
-			((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 60 * 60, 20));
-		this.tmp = e;
+//		final Entity e = this.location.getWorld().spawnEntity(this.location.getTeleportLocation(), this.type.getEntityType());
+//		e.setCustomName(this.hook.getName());
+//		e.setCustomNameVisible(true);
+//		e.setMetadata("PlayerNPC", new FixedMetadataValue(Main.getMain(), this));
+		TimedEntity t = new TimedEntity(this.type.getEntityType(), this.location.getTeleportLocation(), 0)
+		.name(this.hook.getName())
+		.nbt("NoAI", 1)
+		.metadata("PlayerNPC", new FixedMetadataValue(Main.getMain(), this));
+		
+//		if (e instanceof LivingEntity)
+//			((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 60 * 60, 20));
+		this.tmp = t;
 	}
 	
 	public Field getLocation() {
