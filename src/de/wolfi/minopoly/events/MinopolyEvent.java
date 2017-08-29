@@ -21,6 +21,11 @@ public class MinopolyEvent extends Event implements Cancellable{
 		return list;
 	}
 	
+	public static HandlerList getHandlerList() {
+		return list;
+	}
+	
+	
 	public Player getPlayer() {
 		return player;
 	}
