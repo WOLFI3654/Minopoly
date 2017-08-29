@@ -18,6 +18,7 @@ import de.wolfi.minopoly.MinigameRegistry.MinigameStyleSheet;
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
 import de.wolfi.minopoly.components.minigames.Minigame;
+import de.wolfi.minopoly.utils.Messages;
 import de.wolfi.minopoly.utils.TeleportCause;
 import de.wolfi.utils.ItemBuilder;
 
@@ -83,6 +84,7 @@ public class MinigameCommand extends CommandInterface {
 		if (e.getCurrentItem().getType() == Material.ITEM_FRAME) {
 			Minigame minigame = boards.get(e.getWhoClicked()).getMinigameManager().getMinigameOrNull(
 					MinigameRegistry.loadStyleFromUUID(UUID.fromString(e.getCurrentItem().getItemMeta().getLore().get(2))));
+			Messages.MINIGAME_SELECTED.broadcast(e.getWhoClicked().getName(),minigame.getName());
 			this.boards.get(e.getWhoClicked()).getMinigameManager().playMinigame(this.boards.get(e.getWhoClicked()), minigame);
 			Bukkit.getPluginManager().registerEvents(minigame.getMinigameHook(), Main.getMain());
 			
