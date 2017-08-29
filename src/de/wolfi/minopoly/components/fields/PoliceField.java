@@ -1,11 +1,13 @@
 package de.wolfi.minopoly.components.fields;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
+import de.wolfi.minopoly.events.PlayerJailedEvent;
 import de.wolfi.minopoly.utils.Messages;
 
 public class PoliceField extends Field {
@@ -31,6 +33,7 @@ public class PoliceField extends Field {
 
 	@Override
 	public void playerStand(Player p) {
+		Bukkit.getPluginManager().callEvent(new PlayerJailedEvent(p));
 		Messages.POLICE_FIELD_ENTER.broadcast(p.getName());
 	}
 
