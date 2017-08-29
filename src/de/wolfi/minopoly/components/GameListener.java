@@ -3,12 +3,15 @@ package de.wolfi.minopoly.components;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 import de.wolfi.minopoly.Main;
 import de.wolfi.minopoly.events.DiceEvent;
 import de.wolfi.minopoly.events.MinigameFoundEvent;
 import de.wolfi.minopoly.events.MoneyEvent;
 import de.wolfi.minopoly.events.PlayerJailedEvent;
+import de.wolfi.minopoly.utils.CancelConstants;
 
 public class GameListener implements Listener {
 
@@ -49,5 +52,20 @@ public class GameListener implements Listener {
 	
 	private boolean isAuto(){
 		return this.game.getSettings().isAuto();
+	}
+	
+	
+	@EventHandler
+	public void onDamageNPC(EntityDamageEvent e){
+		if(e.getEntity().hasMetadata("PlayerNPC") || e.getEntity().hasMetadata(CancelConstants.CANCEL_DAMAGE)){
+			e.setCancelled(true);
+		}
+	}
+	
+	@EventHandler
+	public void onChangeWorld(EntityChangeBlockEvent e){
+		if(e.getEntity().hasMetadata(CancelConstants.CANCEL_BLOCK_CHANGE)){
+			e.setCancelled(true);
+		}
 	}
 }
