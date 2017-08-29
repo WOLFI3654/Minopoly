@@ -40,6 +40,8 @@ public class Minopoly extends GameObject implements CommandSender {
 	private transient ArrayList<Player> playingPlayers = new ArrayList<>();
 
 	private final HashMap<FigureType, SerializeablePlayer> savedPlayers = new HashMap<>();
+	private final HashMap<FigureType, Integer> jail = new HashMap<>();
+	
 	private final String world;
 
 	private final int size;
@@ -215,6 +217,11 @@ public class Minopoly extends GameObject implements CommandSender {
 	public ScoreboardManager getScoreboardManager() {
 		return scoreboardManager;
 	}
+	
+	public MainSettings getSettings() {
+		return settings;
+	}
+	
 	@Override
 	public void recalculatePermissions() {
 	}
@@ -238,6 +245,26 @@ public class Minopoly extends GameObject implements CommandSender {
 	@Override
 	public void setOp(boolean arg0) {
 	}
+	
+	
+	
+	public boolean isJailed(FigureType type){
+		return this.jail.containsKey(type);
+	}
+	public void jailPlayer(FigureType type){
+		this.jail.put(type, 3);
+	}
+	
+	public void unjailPlayer(FigureType type){
+		this.jail.remove(type);
+	}
+	
+	public void jailRound(FigureType type){
+		this.jail.put(type, this.jail.get(type)-1);
+		if(this.jail.get(type) <= 0 ) this.unjailPlayer(type);
+	}
+	
+	
 
 	@Override
 	public void unload() {
