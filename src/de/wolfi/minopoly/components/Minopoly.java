@@ -28,7 +28,9 @@ public class Minopoly extends GameObject implements CommandSender {
 	private static final long serialVersionUID = -7587244395086533643L;
 
 	private final Bank bank = new Bank();
+	
 	private transient GameListener listener;
+	private transient MainSettings settings;
 	
 	private final ScoreboardManager scoreboardManager = new ScoreboardManager();
 
@@ -189,6 +191,9 @@ public class Minopoly extends GameObject implements CommandSender {
 
 	@Override
 	public void load() {
+		this.settings = new MainSettings(getWorld());
+		this.settings.load();
+		
 		this.playingPlayers = new ArrayList<>();
 		this.bank.load();
 		this.fdManager.load();
@@ -245,6 +250,8 @@ public class Minopoly extends GameObject implements CommandSender {
 		this.mgManager.unload();
 		this.fdManager.unload();
 		this.bank.unload();
+		
+		this.settings.unload();
 
 		HandlerList.unregisterAll(this.listener);
 	}
