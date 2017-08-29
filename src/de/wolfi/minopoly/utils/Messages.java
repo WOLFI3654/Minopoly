@@ -5,7 +5,7 @@ import org.bukkit.command.CommandSender;
 
 public enum Messages {
 
-	COMMUNITY_FIELD_ENTER("$0 hat ein Gemeinschaffts Feld betreten!"), EVENT_FIELD_ENTER(
+	COMMUNITY_FIELD_ENTER("$0 hat ein Gemeinschaffts Feld betreten!\n\n\nOh was ist denn das? Es sieht aus als würde sich hier ein Minispiel verstecken!"), EVENT_FIELD_ENTER(
 			"$0 hat ein Ereigniss Feld betreten!"), JAIL_FIELD_ENTER(
 					"$0 stattet dem Gefängnis einen Besuch ab."), MINIGAME_SELECTED("$0 hat das Minispiel $1 gefunden."), MINIGAME_DEATH(
 							"$0 ist in $1 gestorben."), MINIGAME_GOT_KILLED(
