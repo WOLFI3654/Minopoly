@@ -1,5 +1,6 @@
 package de.wolfi.minopoly.utils;
 
+import java.awt.Image;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -18,20 +19,23 @@ public final class MapFactory {
 	private static class InternMapRenderer extends MapRenderer {
 
 		private final Minopoly game;
-
+		private Image image;
 		protected InternMapRenderer(Minopoly game) {
 			this.game = game;
+			try {
+				this.image = ImageIO.read(getClass().getResourceAsStream("monopoly.png"));
+			} catch (IOException e) {
+
+
+				e.printStackTrace();
+			}
 		}
 
 		@Override
 		public void render(MapView paramMapView, MapCanvas paramMapCanvas, Player paramPlayer) {
 			final de.wolfi.minopoly.components.Player p = this.game.getByBukkitPlayer(paramPlayer);
-			try {
-				paramMapCanvas.drawImage(0, 0, ImageIO.read(getClass().getClassLoader().getResourceAsStream("/res/monopoly.png")));
-				paramMapCanvas.drawText(0, 0, new MinecraftFont(), p.getFigure().getName());
-			} catch (final IOException e) {
-				e.printStackTrace();
-			}
+			paramMapCanvas.drawImage(0, 0, image);
+			paramMapCanvas.drawText(0, 0, new MinecraftFont(), p.getFigure().getName());
 		}
 
 	}
@@ -45,6 +49,7 @@ public final class MapFactory {
 		final MapView map = Bukkit.createMap(player.getWorld());
 		MapFactory.clearMap(map);
 		map.addRenderer(new InternMapRenderer(game));
+		
 		return map;
 	}
 }
