@@ -2,6 +2,9 @@ package de.wolfi.minopoly.components;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.map.MapView;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import de.wolfi.minopoly.Main;
@@ -115,8 +118,14 @@ public class Player {
 
 	public void setInventory() {
 		this.hook.getInventory().clear();
-		this.hook.sendMap(MapFactory.getMap(this.game, this.hook));
-
+		try{
+			MapView mapView = MapFactory.getMap(this.game, this.hook);
+			@SuppressWarnings("deprecation")
+			ItemStack mapItem = new ItemStack(Material.MAP, 1, mapView.getId());
+		this.hook.getInventory().addItem(mapItem);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	private void spawnFigure() {
