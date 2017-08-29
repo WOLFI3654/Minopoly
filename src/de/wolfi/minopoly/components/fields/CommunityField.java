@@ -1,11 +1,13 @@
 package de.wolfi.minopoly.components.fields;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
+import de.wolfi.minopoly.events.MinigameFoundEvent;
 import de.wolfi.minopoly.utils.Messages;
 
 public class CommunityField extends Field {
@@ -27,7 +29,6 @@ public class CommunityField extends Field {
 	
 	@Override
 	public boolean buy(Player player) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -39,6 +40,7 @@ public class CommunityField extends Field {
 	@Override
 	public void playerStand(Player player) {
 		Messages.COMMUNITY_FIELD_ENTER.broadcast(player.getName());
+		Bukkit.getPluginManager().callEvent(new MinigameFoundEvent(player));
 	}
 
 	@Override
