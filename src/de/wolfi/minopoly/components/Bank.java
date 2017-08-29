@@ -20,7 +20,7 @@ public class Bank extends GameObject {
 	}
 
 	public void addMoney(Player consumer, int amount) {
-		this.setMoney(this.getConsumerID(consumer), amount);
+		this.addMoney(this.getConsumerID(consumer), amount);
 	}
 
 	public void addMoney(UUID consumerID, int amount) {

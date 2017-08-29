@@ -9,6 +9,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import de.wolfi.minopoly.Main;
 import de.wolfi.minopoly.events.DiceEvent;
 import de.wolfi.minopoly.events.MinigameFoundEvent;
+import de.wolfi.minopoly.events.MinigameWinEvent;
 import de.wolfi.minopoly.events.MoneyEvent;
 import de.wolfi.minopoly.events.PlayerJailedEvent;
 import de.wolfi.minopoly.utils.CancelConstants;
@@ -24,12 +25,22 @@ public class GameListener implements Listener {
 	
 	@EventHandler
 	public void onDice(DiceEvent e){
-		
+		if(this.isAuto()){
+			e.getPlayer().move(e.getOne()+e.getTwo());
+			if(e.getOne() == e.getTwo()) Bukkit.broadcastMessage("Pasch");
+		}
 	}
 	
 	@EventHandler
 	public void onMoney(MoneyEvent e){
 		game.getScoreboardManager().updatePlayer(e.getPlayer());
+	}
+	
+	@EventHandler
+	public void onMinigameWin(MinigameWinEvent e){
+		if(this.isAuto()){
+			Bukkit.dispatchCommand(this.game, "minigame "+e.getPlayer().getName()+ " stop");
+		}
 	}
 	
 	@EventHandler

@@ -50,6 +50,7 @@ public class Minopoly extends GameObject implements CommandSender {
 		this.world = world;
 		this.size = FigureType.values().length;
 		this.createPlayers();
+		this.load();
 	}
 
 	private void createPlayers() {
