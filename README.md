@@ -1,9 +1,10 @@
 # Minopoly
 TeamCreate Minigame
 
-![alt text](src/de/wolfi/minopoly/utils/monopoly.png "Blub")
+![game board of Monopoly](src/de/wolfi/minopoly/utils/monopoly.png)
 
+## TODO
 [A TODO list](TODO.md)
 
-
-<progress value="94" max="100">95%</progress> 
+## Current Progress
+<progress value="94" max="100">95%</progress>
