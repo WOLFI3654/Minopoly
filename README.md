@@ -1,7 +1,7 @@
 # Minopoly
 TeamCreate Minigame
 
-![alt text](src/res/monopoly.png "Blub")
+![alt text](src/de/wolfi/minopoly/utils/monopoly.png "Blub")
 
 [A TODO list](TODO.md)
 
