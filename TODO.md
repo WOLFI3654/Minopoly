@@ -6,11 +6,11 @@
    	2. [x] !*Fields
         - [x] Haus
     3. [ ] >*!Minigames
-4. [ ] *Würfel Befehl imolement dam usage 
+4. [x] Würfel Befehl imolement dam usage 
 5. [x] Move Befehl
 6. [x] Player Selector
-7. [ ] +Scoreboard
-8. [ ] +Event Handler
+7. [x] Scoreboard
+8. [ ] -Event Handler
 
 ---
 

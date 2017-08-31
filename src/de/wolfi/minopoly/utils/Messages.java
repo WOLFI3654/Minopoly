@@ -31,7 +31,7 @@ public enum Messages {
 																							"$0 Geld wurden bei $1 abgebucht. ($2)"), MONEY_GLOBAL_TRANSFER(
 																									"$0 Geld wurden von $1 auf das Konto von $2 überwiesen. ($3)"), FIGURE_SELECTED(
 																											"$0 hat sich Figur $1 ausgesucht. o/"), FIGURE_ALREADY_TAKEN(
-																													"§cDie Figur $0 ist bereits von jemandem Ausgewählt!");
+																													"§cDie Figur $0 ist bereits von jemandem Ausgewählt!"), TRIPPLE_JAILED("$0 hat 3 mal nacheinander einen Pasch gewürfelt. \nDas riecht verdächtig nach cheaten. Ab in den Knast!");
 
 	public static String Prefix = "§0[§1Minopoly§0] §a";
 	private String txt;

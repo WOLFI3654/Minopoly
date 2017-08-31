@@ -36,6 +36,7 @@ import com.sk89q.worldedit.world.registry.WorldData;
 import de.wolfi.minopoly.components.GameObject;
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
+import de.wolfi.minopoly.events.FieldEvent;
 import de.wolfi.minopoly.utils.Dangerous;
 import de.wolfi.minopoly.utils.FigureType;
 import de.wolfi.minopoly.utils.Messages;
@@ -285,6 +286,7 @@ public abstract class Field extends GameObject {
 	}
 
 	public void playerStand(Player player) {
+		Bukkit.getPluginManager().callEvent(new FieldEvent(player, this));
 		if (this.isOwned())
 			if (!this.owner.equals(player.getFigure()))
 				Messages.OTHER_FIELD_ENTERED.broadcast(player.getName(), this.owner.getName(),
