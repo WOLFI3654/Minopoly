@@ -31,7 +31,7 @@ public enum Messages {
 																							"$0 Geld wurden bei $1 abgebucht. ($2)"), MONEY_GLOBAL_TRANSFER(
 																									"$0 Geld wurden von $1 auf das Konto von $2 überwiesen. ($3)"), FIGURE_SELECTED(
 																											"$0 hat sich Figur $1 ausgesucht. o/"), FIGURE_ALREADY_TAKEN(
-																													"§cDie Figur $0 ist bereits von jemandem Ausgewählt!"), TRIPPLE_JAILED("$0 hat 3 mal nacheinander einen Pasch gewürfelt. \nDas riecht verdächtig nach cheaten. Ab in den Knast!");
+																													"§cDie Figur $0 ist bereits von jemandem Ausgewählt!"), TRIPPLE_JAILED("$0 hat 3 mal nacheinander einen Pasch gewürfelt. \nDas riecht verdächtig nach cheaten. Ab in den Knast!"), JAIL_EXIT("$0 hat es geschafft durch einen Pasch das Gefängniss zu verlassen."), JAIL_EXIT_FAILED("Du hast noch $0 Versuche einen Pasch zu Würfeln");
 
 	public static String Prefix = "§0[§1Minopoly§0] §a";
 	private String txt;
@@ -40,7 +40,7 @@ public enum Messages {
 		this.txt = txt;
 	}
 
-	private String createMessage(String... target) {
+	private String createMessage(Object... target) {
 		StringBuilder tmp = new StringBuilder();
 		tmp.append(Messages.Prefix);
 		boolean rplc = false;
@@ -59,11 +59,11 @@ public enum Messages {
 		return tmp.toString();
 	}
 
-	public void broadcast(String... target) {
+	public void broadcast(Object... target) {
 		Bukkit.broadcastMessage(createMessage(target));
 	}
 
-	public void send(CommandSender player, String... target) {
+	public void send(CommandSender player, Object... target) {
 		player.sendMessage(createMessage(target));
 	}
 }

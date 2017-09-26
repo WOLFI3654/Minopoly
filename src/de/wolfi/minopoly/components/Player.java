@@ -194,4 +194,8 @@ public class Player {
 	protected SerializeablePlayer serialize() {
 		return new SerializeablePlayer(this.game, this.location, this.type, this.money.getConsumerID(this));
 	}
+
+	public boolean isJailed() {
+		return game.isJailed(this.getFigure());
+	}
 }

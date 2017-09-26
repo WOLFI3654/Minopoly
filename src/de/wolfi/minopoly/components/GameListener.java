@@ -23,6 +23,7 @@ public class GameListener implements Listener {
 	
 	private byte internalCounter = 0;
 	private Minopoly game;
+	private Player currentPlayer;
 	public GameListener(Minopoly game) {
 		this.game = game;
 		Bukkit.getPluginManager().registerEvents(this, Main.getMain());
@@ -31,16 +32,35 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void onDice(DiceEvent e){
 		if(this.isAuto()){
+			if(currentPlayer.isJailed()){
+				if(internalCounter >= 3){
+					Bukkit.getPluginManager().callEvent(new NextPlayerEvent());
+				}else
+				if(e.isPasch()){
+					this.game.unjailPlayer(e.getPlayer().getFigure());
+					Bukkit.dispatchCommand(this.game,"dice "+e.getPlayer().getName());
+					Messages.JAIL_EXIT.broadcast(e.getPlayer().getDisplay());
+				}else {
+					Bukkit.dispatchCommand(this.game,"dice "+e.getPlayer().getName());
+					internalCounter++;
+					Messages.JAIL_EXIT_FAILED.send(e.getPlayer().getHook(), 3-internalCounter);
+					Bukkit.getPluginManager().callEvent(new NextPlayerEvent());
+
+				}
+				
+			return;
+			}
 			e.getPlayer().move(e.getOne()+e.getTwo());
-			if(e.getOne() == e.getTwo()){
+			if(e.isPasch()){
 				Bukkit.broadcastMessage("Pasch");
 				internalCounter++;
 				if(internalCounter >=3){
 					Bukkit.getPluginManager().callEvent(new PlayerJailedEvent(e.getPlayer()));
 					Messages.TRIPPLE_JAILED.broadcast(e.getPlayer().getDisplay());
 					
-				}
+				}else return;
 			}
+			Bukkit.getPluginManager().callEvent(new NextPlayerEvent());
 		}
 	}
 	
@@ -84,10 +104,28 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void onNext(NextPlayerEvent e){
 		if(this.isAuto()){
-			internalCounter=0;
+			internalCounter = 0;
+			currentPlayer = getNext();
+			Bukkit.dispatchCommand(game, "dice "+currentPlayer.getName());
+
 		}
 	}
 	
+	private Player getNext() {
+		if(currentPlayer == null) return game.getPlayingPlayers().get(0);
+		boolean next = false;
+		for (final Player p : game.getPlayingPlayers()) {
+			if (p.equals(currentPlayer)) {
+				next = true;
+				continue;
+			}
+			if (next)
+				return p;
+		}
+
+		return game.getPlayingPlayers().get(0);
+	}
+
 	private boolean isAuto(){
 		return this.game.getSettings().isAuto();
 	}

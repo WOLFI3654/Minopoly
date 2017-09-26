@@ -19,6 +19,10 @@ public class DiceEvent extends MinopolyEvent{
 		return two;
 	}
 	
+	public boolean isPasch(){
+		return one == two;
+	}
+	
 	public void setOne(int one) {
 		this.one = one;
 	}
