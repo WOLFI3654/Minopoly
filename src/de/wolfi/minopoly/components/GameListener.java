@@ -1,10 +1,14 @@
 package de.wolfi.minopoly.components;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 import de.wolfi.minopoly.Main;
 import de.wolfi.minopoly.events.DiceEvent;
@@ -12,14 +16,17 @@ import de.wolfi.minopoly.events.FieldEvent;
 import de.wolfi.minopoly.events.MinigameFoundEvent;
 import de.wolfi.minopoly.events.MinigameWinEvent;
 import de.wolfi.minopoly.events.MoneyEvent;
+import de.wolfi.minopoly.events.MoveFinishedEvent;
 import de.wolfi.minopoly.events.NextPlayerEvent;
 import de.wolfi.minopoly.events.PlayerJailedEvent;
 import de.wolfi.minopoly.utils.CancelConstants;
 import de.wolfi.minopoly.utils.Messages;
+import de.wolfi.utils.ItemBuilder;
 
 public class GameListener implements Listener {
 
 
+	public static final ItemStack finishMove = new ItemBuilder(Material.SKULL_ITEM).setSkullOwner("MHF_ARROW_LEFT").setName("§aZug beenden").build();
 	
 	private byte internalCounter = 0;
 	private Minopoly game;
@@ -29,6 +36,15 @@ public class GameListener implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, Main.getMain());
 	}
 	
+	
+	@EventHandler
+	public void onItemUse(PlayerInteractEvent e){
+		if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getItem() != null){
+			if(e.getItem().equals(finishMove) && e.getPlayer().equals(currentPlayer.getHook())){
+				Bukkit.getPluginManager().callEvent(new MoveFinishedEvent(currentPlayer));
+			}
+		}
+	}
 	@EventHandler
 	public void onDice(DiceEvent e){
 		if(this.isAuto()){
@@ -60,7 +76,6 @@ public class GameListener implements Listener {
 					
 				}else return;
 			}
-			Bukkit.getPluginManager().callEvent(new NextPlayerEvent());
 		}
 	}
 	
@@ -91,6 +106,13 @@ public class GameListener implements Listener {
 		}
 	}
 	
+	@EventHandler
+	public void onMoveFinished(MoveFinishedEvent e){
+		Bukkit.getPluginManager().callEvent(new NextPlayerEvent());
+		Messages.MOVE_FINISHED.broadcast(e.getPlayer().getDisplay());
+
+
+	}
 	
 	@EventHandler
 	public void onFieldEvent(FieldEvent e){

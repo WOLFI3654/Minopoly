@@ -99,7 +99,6 @@ public class Player {
 					e.printStackTrace();
 				}
 			}
-			Messages.MOVE_FINISHED.broadcast(Player.this.getDisplay());
 			try {
 				Thread.sleep(700);
 			} catch (InterruptedException e) {
@@ -118,14 +117,17 @@ public class Player {
 
 	public void setInventory() {
 		this.hook.getInventory().clear();
-		try{
+		
+		this.hook.getInventory().addItem(getMap());
+		this.hook.getInventory().addItem(GameListener.finishMove);
+	}
+
+	private ItemStack getMap() {
+		
 			MapView mapView = MapFactory.getMap(this.game, this.hook);
 			@SuppressWarnings("deprecation")
 			ItemStack mapItem = new ItemStack(Material.MAP, 1, mapView.getId());
-		this.hook.getInventory().addItem(mapItem);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+			return mapItem;
 	}
 
 	private void spawnFigure() {
