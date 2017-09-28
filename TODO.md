@@ -4,13 +4,13 @@
 3. [x] !*Setup Befehl
     1. [ ] +*Main Settings
    	2. [x] !*Fields
-        - [x] Haus
+        [x] Haus
     3. [ ] >*!Minigames
 4. [x] Würfel Befehl imolement dam usage 
 5. [x] Move Befehl
 6. [x] Player Selector
 7. [x] Scoreboard
-8. [ ] -Event Handler
+8. [ ] > Event Handler
 
 ---
 
