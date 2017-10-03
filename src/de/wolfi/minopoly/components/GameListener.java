@@ -26,7 +26,9 @@ import de.wolfi.utils.ItemBuilder;
 public class GameListener implements Listener {
 
 
-	public static final ItemStack finishMove = new ItemBuilder(Material.SKULL_ITEM).setSkullOwner("MHF_ARROW_LEFT").setName("§aZug beenden").build();
+	public static final ItemStack finishMove = new ItemBuilder(Material.SKULL_ITEM).setMeta((short)3).setSkullOwner("MHF_ARROW_"
+			+ ""
+			+ "LEFT").setName("§aZug beenden").build();
 	
 	private byte internalCounter = 0;
 	private Minopoly game;
