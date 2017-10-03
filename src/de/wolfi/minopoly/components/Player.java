@@ -104,7 +104,7 @@ public class Player {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			Player.this.location.playerStand(Player.this);
+			Bukkit.getScheduler().runTask(Main.getMain(), ()->Player.this.location.playerStand(Player.this));
 		});
 
 	}
