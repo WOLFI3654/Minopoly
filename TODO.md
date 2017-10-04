@@ -35,3 +35,7 @@ Main Settings >
 # Important things
 Add the Pott
 Make payments user controlled
+Add empty streets.
+Add railway
+Add 2 things
+Add billing into pott things
