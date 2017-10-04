@@ -29,3 +29,9 @@ Main Settings >
   - Anzahl Spieler
   - (Gespielte Male)
   - End Of Thinking
+
+  
+---
+# Important things
+Add the Pott
+Make payments user controlled
