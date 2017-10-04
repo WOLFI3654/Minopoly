@@ -110,6 +110,10 @@ public class GameListener implements Listener {
 	
 	@EventHandler
 	public void onMoveFinished(MoveFinishedEvent e){
+		if(internalCounter > 0){
+			Bukkit.dispatchCommand(this.game,"dice "+e.getPlayer().getName());
+			return;
+		}
 		Bukkit.getPluginManager().callEvent(new NextPlayerEvent());
 		Messages.MOVE_FINISHED.broadcast(e.getPlayer().getDisplay());
 
