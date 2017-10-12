@@ -32,6 +32,8 @@ public class Minopoly extends GameObject implements CommandSender {
 	private transient GameListener listener;
 	private transient MainSettings settings;
 	
+	
+	private final ThePott THE_POTT_OF_DOOM___andmore = new ThePott(this);
 	private final ScoreboardManager scoreboardManager = new ScoreboardManager();
 
 	private final FieldManager fdManager = new FieldManager();
@@ -53,6 +55,10 @@ public class Minopoly extends GameObject implements CommandSender {
 		this.load();
 	}
 
+	public ThePott getTHE_POTT_OF_DOOM___andmore_cute_puppies() {
+		return this.THE_POTT_OF_DOOM___andmore;
+	}
+	
 	private void createPlayers() {
 		this.savedPlayers.clear();
 		System.out.println("Create Players");
@@ -204,6 +210,7 @@ public class Minopoly extends GameObject implements CommandSender {
 
 		this.scoreboardManager.load();
 		
+		this.THE_POTT_OF_DOOM___andmore.load();
 		this.listener = new GameListener(this);
 	}
 
@@ -281,6 +288,7 @@ public class Minopoly extends GameObject implements CommandSender {
 		
 		this.settings.unload();
 
+		HandlerList.unregisterAll(this.THE_POTT_OF_DOOM___andmore);
 		HandlerList.unregisterAll(this.listener);
 	}
 

@@ -29,6 +29,10 @@ public class ScoreboardManager extends GameObject {
 		this.scoreboard.setScore(ChatColor.GREEN + player.getFigure().getName(), player.getMoney());
 	}
 
+	protected void setValue(String key, int value){
+		this.scoreboard.setScore(ChatColor.RED+key, value);
+	}
+	
 	@Override
 	protected void unload() {
 	}
