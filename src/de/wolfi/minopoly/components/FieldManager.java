@@ -99,4 +99,8 @@ public class FieldManager extends GameObject {
 	public Field getJailField(){
 		return this.getFieldByType(null, JailField.class);
 	}
+
+	public boolean hasAll(Player player, FieldColor color) {
+		return this.countProperties(player, color) >= this.mappedList.get(color).size();
+	}
 }

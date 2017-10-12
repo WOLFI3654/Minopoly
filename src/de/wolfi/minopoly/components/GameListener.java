@@ -26,9 +26,7 @@ import de.wolfi.utils.ItemBuilder;
 public class GameListener implements Listener {
 
 
-	public static final ItemStack finishMove = new ItemBuilder(Material.SKULL_ITEM).setMeta((short)3).setSkullOwner("MHF_ARROW_"
-			+ ""
-			+ "LEFT").setName("§aZug beenden").build();
+	public static final ItemStack finishMove = new ItemBuilder(Material.SKULL_ITEM).setMeta((short)3).setSkullOwner("MHF_ARROW_LEFT").setName("§aZug beenden").build();
 	
 	private byte internalCounter = 0;
 	private Minopoly game;
@@ -124,7 +122,11 @@ public class GameListener implements Listener {
 	public void onFieldEvent(FieldEvent e){
 		if(this.isAuto()){
 			if(e.getField().isOwned() && !e.getField().isOwnedBy(e.getPlayer())){
-				e.getPlayer().transferMoneyTo(e.getField().getOwner(), e.getField().getBilling(), "Schulden :3");
+				int billing = e.getField().getBilling();
+				if(this.game.getFieldManager().hasAll(e.getPlayer(),e.getField().getColor())){
+					billing *= 2;
+				}
+				e.getPlayer().transferMoneyTo(e.getField().getOwner(), billing, "Schulden :3");
 			}
 		}
 	}
