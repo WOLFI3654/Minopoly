@@ -22,6 +22,7 @@ public class FreeParkingField extends Field{
 		
 	}
 
+
 	@Override
 	public boolean isOwned() {
 		return false;
