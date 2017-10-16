@@ -2,6 +2,7 @@ package de.wolfi.minopoly.components;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
 import de.wolfi.minopoly.Main;
@@ -31,7 +32,9 @@ public class ThePott extends GameObject implements Listener{
 	}
 
 	@Override
-	protected void unload() {}
+	protected void unload() {
+		HandlerList.unregisterAll(this);
+	}
 
 	@EventHandler
 	public void onPottEntered(FieldEvent e){
