@@ -17,7 +17,7 @@ public class FreeParkingField extends Field{
 	 */
 	
 
-	public FreeParkingField(Location l, Minopoly game, int size, int price) {
+	public FreeParkingField(Location l, Minopoly game, int size) {
 		super("Freies Parken", FieldColor.SPECIAL, l, game, size, 0);
 		
 	}
