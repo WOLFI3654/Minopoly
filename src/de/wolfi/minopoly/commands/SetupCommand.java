@@ -29,10 +29,13 @@ import de.wolfi.minopoly.MinigameRegistry;
 import de.wolfi.minopoly.MinigameRegistry.MinigameStyleSheet;
 import de.wolfi.minopoly.components.FieldManager;
 import de.wolfi.minopoly.components.Minopoly;
+import de.wolfi.minopoly.components.fields.AirportField;
 import de.wolfi.minopoly.components.fields.CommunityField;
 import de.wolfi.minopoly.components.fields.EventField;
 import de.wolfi.minopoly.components.fields.Field;
 import de.wolfi.minopoly.components.fields.FieldColor;
+import de.wolfi.minopoly.components.fields.FreeParkingField;
+import de.wolfi.minopoly.components.fields.FundsField;
 import de.wolfi.minopoly.components.fields.JailField;
 import de.wolfi.minopoly.components.fields.NormalField;
 import de.wolfi.minopoly.components.fields.PoliceField;
@@ -60,10 +63,16 @@ public class SetupCommand implements CommandExecutor, Listener {
 	private static final ItemStack field_setup_renamer = new ItemBuilder(Material.ANVIL).setName("§eName")
 			.addLore("> Benenne deine Straße").build();
 
+	private static final ItemStack fieldtype_airportField = new ItemBuilder(Material.MINECART)
+			.setName("§7Flughafen Feld").build();
 	private static final ItemStack fieldtype_communityField = new ItemBuilder(Material.GOLD_PLATE)
 			.setName("§7Community Feld").build();
 	private static final ItemStack fieldtype_eventField = new ItemBuilder(Material.IRON_PLATE).setName("§Event Feld")
 			.build();
+	private static final ItemStack fieldtype_fundsField = new ItemBuilder(Material.GOLD_INGOT)
+			.setName("§Fundation Feld").build();
+	private static final ItemStack fieldtype_freeParkingField = new ItemBuilder(Material.FLOWER_POT_ITEM)
+			.setName("§Freies Parken Feld").build();
 	private static final ItemStack fieldtype_jailField = new ItemBuilder(Material.IRON_BARDING).setName("§7Jelly Feld")
 			.build();
 	private static final ItemStack fieldtype_normalField = new ItemBuilder(Material.WOOD_PLATE)
@@ -176,7 +185,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 	private void giveFieldSetupItems(HumanEntity whoClicked) {
 		whoClicked.getInventory().addItem(SetupCommand.fieldtype_normalField, SetupCommand.fieldtype_eventField,
 				SetupCommand.fieldtype_communityField, SetupCommand.fieldtype_policeField,
-				SetupCommand.fieldtype_jailField, SetupCommand.fieldtype_startField);
+				SetupCommand.fieldtype_jailField, SetupCommand.fieldtype_startField,SetupCommand.fieldtype_freeParkingField,SetupCommand.fieldtype_airportField,SetupCommand.fieldtype_fundsField);
 	}
 
 	@EventHandler
@@ -201,7 +210,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 			final Minopoly m = SetupCommand.setups.get(e.getWhoClicked());
 			final ItemStack checker = e.getClickedInventory().getItem(0);
 			if (checker.equals(SetupCommand.main_setup)) {
-				if(clicked.equals(SetupCommand.main_setup)){
+				if (clicked.equals(SetupCommand.main_setup)) {
 					e.getWhoClicked().openInventory(SetupCommand.minopolyChooser);
 				}
 				if (clicked.equals(SetupCommand.main_setup_fieldItem))
@@ -238,25 +247,25 @@ public class SetupCommand implements CommandExecutor, Listener {
 						return true;
 					});
 					PRICE_SELECTOR.open((Player) e.getWhoClicked());
-				}else if (clicked.equals(SetupCommand.field_setup)){
-					if(!(e.getClickedInventory().contains(Material.INK_SACK) && e.getClickedInventory().contains(Material.ANVIL))){
-						Field f = m.getFieldManager().addField(
-								new NormalField(
-										e.getClickedInventory().getItem(1).getItemMeta().getDisplayName(),
-										FieldColor.getByColor(DyeColor.valueOf(e.getClickedInventory().getItem(2).getItemMeta().getDisplayName())),
-										e.getWhoClicked().getLocation(),
-										m,
-										e.getClickedInventory().getItem(4).getAmount(),
-										e.getClickedInventory().getItem(3).getAmount()));
+				} else if (clicked.equals(SetupCommand.field_setup)) {
+					if (!(e.getClickedInventory().contains(Material.INK_SACK)
+							&& e.getClickedInventory().contains(Material.ANVIL))) {
+						Field f = m.getFieldManager().addField(new NormalField(
+								e.getClickedInventory().getItem(1).getItemMeta().getDisplayName(),
+								FieldColor.getByColor(DyeColor
+										.valueOf(e.getClickedInventory().getItem(2).getItemMeta().getDisplayName())),
+								e.getWhoClicked().getLocation(), m, e.getClickedInventory().getItem(4).getAmount(),
+								e.getClickedInventory().getItem(3).getAmount()));
 						e.getWhoClicked().closeInventory();
 						e.getWhoClicked().sendMessage("5 Sekudnen!!!");
-						Bukkit.getScheduler().runTaskLater(MAIN, ()->f.setHome(e.getWhoClicked().getLocation()), 20*5);
+						Bukkit.getScheduler().runTaskLater(MAIN, () -> f.setHome(e.getWhoClicked().getLocation()),
+								20 * 5);
 					}
 				}
 			} else if (checker.equals(SetupCommand.minigame_main)) {
-				if (clicked.equals(checker)){
+				if (clicked.equals(checker)) {
 					e.getWhoClicked().openInventory(this.createGameManagmentInventory(m));
-				}else{
+				} else {
 					MinigameStyleSheet sheet = MinigameRegistry
 							.loadStyleFromUUID(UUID.fromString(clicked.getItemMeta().getLore().get(2)));
 					boolean enabled = checker.containsEnchantment(SetupCommand.selected);
@@ -265,7 +274,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 						clicked.removeEnchantment(SetupCommand.selected);
 						((Player) e.getWhoClicked()).playSound(e.getWhoClicked().getLocation(), Sound.LEVEL_UP, 1F, 1F);
 					} else {
-						m.getMinigameManager().addMinigame(m,sheet);
+						m.getMinigameManager().addMinigame(m, sheet);
 						clicked.addUnsafeEnchantment(SetupCommand.selected, 10);
 						((Player) e.getWhoClicked()).playSound(e.getWhoClicked().getLocation(), Sound.LEVEL_UP, 1F, 1F);
 					}
@@ -296,51 +305,85 @@ public class SetupCommand implements CommandExecutor, Listener {
 	public void onInteract(PlayerInteractEvent e) {
 		if (e.getItem() != null && e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			final Minopoly mo = SetupCommand.setups.get(e.getPlayer());
-			if(mo == null) return;
+			if (mo == null)
+				return;
 			final FieldManager m = mo.getFieldManager();
-			if (e.getItem().equals(SetupCommand.fieldtype_normalField)){
+			if (e.getItem().equals(SetupCommand.fieldtype_normalField)) {
 				e.getClickedBlock().setType(Material.AIR);
 				e.getPlayer().teleport(e.getClickedBlock().getLocation());
 				e.getPlayer().openInventory(this.createFieldSetup(mo));
-			}
-			else if (e.getItem().equals(SetupCommand.fieldtype_eventField)){
+			} else if (e.getItem().equals(SetupCommand.fieldtype_eventField)) {
 				RANGE_SELECTOR.setCallback((i) -> {
 					m.addField(new EventField(e.getClickedBlock().getLocation(), mo, i.getAmount()));
 					return true;
 				});
 				RANGE_SELECTOR.open(e.getPlayer());
-			}
-			else if (e.getItem().equals(SetupCommand.fieldtype_communityField)){
+			} else if (e.getItem().equals(SetupCommand.fieldtype_communityField)) {
 				RANGE_SELECTOR.setCallback((i) -> {
 					m.addField(new CommunityField(e.getClickedBlock().getLocation(), mo, i.getAmount()));
 					return true;
 				});
 				RANGE_SELECTOR.open(e.getPlayer());
-			}
-			else if (e.getItem().equals(SetupCommand.fieldtype_startField)){
+			} else if (e.getItem().equals(SetupCommand.fieldtype_startField)) {
 				RANGE_SELECTOR.setCallback((i) -> {
 					m.addField(new StartField(e.getClickedBlock().getLocation(), mo, i.getAmount()));
 					return true;
 				});
 				RANGE_SELECTOR.open(e.getPlayer());
-			}
-			else if (e.getItem().equals(SetupCommand.fieldtype_policeField)){
+			} else if (e.getItem().equals(SetupCommand.fieldtype_policeField)) {
 				RANGE_SELECTOR.setCallback((i) -> {
 					m.addField(new PoliceField(e.getClickedBlock().getLocation(), mo, i.getAmount()));
 					return true;
 				});
 				RANGE_SELECTOR.open(e.getPlayer());
-			}
-			else if (e.getItem().equals(SetupCommand.fieldtype_jailField)){
+			} else if (e.getItem().equals(SetupCommand.fieldtype_jailField)) {
 				RANGE_SELECTOR.setCallback((i) -> {
 					m.addField(new JailField(e.getClickedBlock().getLocation(), mo, i.getAmount()));
 					return true;
 				});
 				RANGE_SELECTOR.open(e.getPlayer());
+			} else if (e.getItem().equals(SetupCommand.fieldtype_freeParkingField)) {
+				RANGE_SELECTOR.setCallback((i) -> {
+					m.addField(new FreeParkingField(e.getClickedBlock().getLocation(), mo, i.getAmount()));
+					return true;
+				});
+				RANGE_SELECTOR.open(e.getPlayer());
+			} else if (e.getItem().equals(SetupCommand.fieldtype_airportField)) {
+				AnvilGUI gui = new AnvilGUI(e.getPlayer(), (event) -> {
+					event.setWillClose(false);
+					PRICE_SELECTOR.setCallback((ip) -> {
+						RANGE_SELECTOR.setCallback((ir) -> {
+
+							m.addField(new AirportField(event.getName(), e.getClickedBlock().getLocation(), mo,
+									ir.getAmount(), ip.getAmount()));
+							return true;
+						});
+						RANGE_SELECTOR.open(e.getPlayer());
+
+						return true;
+					});
+				});
+				gui.setSlot(AnvilSlot.INPUT_LEFT, field_setup_renamer);
+				gui.open("RENAME YOUR STREET");
+			} else if (e.getItem().equals(SetupCommand.fieldtype_fundsField)) {
+				AnvilGUI gui = new AnvilGUI(e.getPlayer(), (event) -> {
+					event.setWillClose(false);
+					PRICE_SELECTOR.setCallback((ip) -> {
+						RANGE_SELECTOR.setCallback((ir) -> {
+
+							m.addField(new FundsField(event.getName(), e.getClickedBlock().getLocation(), mo,
+									ir.getAmount(), ip.getAmount()));
+							return true;
+						});
+						RANGE_SELECTOR.open(e.getPlayer());
+
+						return true;
+					});
+				});
+				gui.setSlot(AnvilSlot.INPUT_LEFT, field_setup_renamer);
+				gui.open("RENAME YOUR STREET");
 			}
-			e.getPlayer().sendMessage("ARG");
 		}
 	}
-	
 
 }

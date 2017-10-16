@@ -23,6 +23,7 @@ public class MainSettings {
 		}
 
 		configuration.addDefault("Auto", false);
+		configuration.addDefault("ForcedPay", false);
 		configuration.addDefault("PlayedTimes", 0);
 		configuration.addDefault("MaxPlayers", 5);
 		configuration.addDefault("Pott", true);
@@ -33,6 +34,10 @@ public class MainSettings {
 	
 	public boolean isAuto(){
 		return configuration.getBoolean("Auto");
+	}
+	
+	public boolean isPayForced(){
+		return configuration.getBoolean("ForcedPay");
 	}
 	
 	public boolean hasPott(){
