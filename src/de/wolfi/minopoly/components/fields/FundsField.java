@@ -12,8 +12,8 @@ public class FundsField extends Field{
 	 */
 	private static final long serialVersionUID = 586199880230047625L;
 
-	public FundsField(String name, Location l, Minopoly game, int size, int price) {
-		super(name, FieldColor.FUNDS, l, game, size, price);
+	public FundsField(String name, Location l, Minopoly game, int size) {
+		super(name, FieldColor.FUNDS, l, game, size, -1);
 	}
 
 	@Override

@@ -185,7 +185,9 @@ public class SetupCommand implements CommandExecutor, Listener {
 	private void giveFieldSetupItems(HumanEntity whoClicked) {
 		whoClicked.getInventory().addItem(SetupCommand.fieldtype_normalField, SetupCommand.fieldtype_eventField,
 				SetupCommand.fieldtype_communityField, SetupCommand.fieldtype_policeField,
-				SetupCommand.fieldtype_jailField, SetupCommand.fieldtype_startField,SetupCommand.fieldtype_freeParkingField,SetupCommand.fieldtype_airportField,SetupCommand.fieldtype_fundsField);
+				SetupCommand.fieldtype_jailField, SetupCommand.fieldtype_startField,
+				SetupCommand.fieldtype_freeParkingField, SetupCommand.fieldtype_airportField,
+				SetupCommand.fieldtype_fundsField);
 	}
 
 	@EventHandler
@@ -368,18 +370,16 @@ public class SetupCommand implements CommandExecutor, Listener {
 			} else if (e.getItem().equals(SetupCommand.fieldtype_fundsField)) {
 				AnvilGUI gui = new AnvilGUI(e.getPlayer(), (event) -> {
 					event.setWillClose(false);
-					PRICE_SELECTOR.setCallback((ip) -> {
+					
 						RANGE_SELECTOR.setCallback((ir) -> {
 
 							m.addField(new FundsField(event.getName(), e.getClickedBlock().getLocation(), mo,
-									ir.getAmount(), ip.getAmount()));
+									ir.getAmount());
 							return true;
 						});
 						RANGE_SELECTOR.open(e.getPlayer());
 
-						return true;
 					});
-				});
 				gui.setSlot(AnvilSlot.INPUT_LEFT, field_setup_renamer);
 				gui.open("RENAME YOUR STREET");
 			}
