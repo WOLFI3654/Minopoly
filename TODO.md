@@ -2,10 +2,10 @@
 1. [x] !*Felder Managment System
 2. [x] !Bank Befehl
 3. [x] !*Setup Befehl
-    1. [ ] +*Main Settings
+    1. [x] !Main Settings
    	2. [x] !*Fields
-        [ ] -*Railway
-        [x] Haus
+        [ ] !Railway
+        [x] !Haus
     3. [ ] >*!Minigames
 4. [x] Würfel Befehl imolement dam usage 
 5. [x] Move Befehl
@@ -33,9 +33,9 @@ Main Settings >
   
 ---
 # Important things
-Add the Pott
+
 Make payments user controlled
-Add empty streets.
-Add railway
-Add 2 things
+
+(Add empty streets.)
+
 Add billing into pott things

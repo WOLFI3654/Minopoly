@@ -7,4 +7,4 @@ TeamCreate Minigame
 [A TODO list](TODO.md)
 
 ## Current Progress
-<progress value="96.75" max="100">96.75%</progress>
+<progress value="98.0" max="100">98.0%</progress>
