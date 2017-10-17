@@ -30,6 +30,7 @@ public class GameListener implements Listener {
 			.setSkullOwner("MHF_ARROW_LEFT").setName("§aZug beenden").build();
 
 	private byte internalCounter = 0;
+	private byte lastDice = 0;
 	private Minopoly game;
 	private Player currentPlayer;
 
@@ -50,6 +51,7 @@ public class GameListener implements Listener {
 
 	@EventHandler
 	public void onDice(DiceEvent e) {
+		this.lastDice =  (byte) ((byte)e.getOne()+ e.getTwo());
 		if (this.isAuto()) {
 			if (currentPlayer.isJailed()) {
 				if (internalCounter >= 3) {
@@ -127,6 +129,8 @@ public class GameListener implements Listener {
 				int billing = e.getField().getBilling();
 				if (e.getField().getColor() == FieldColor.AIRPORT)
 					billing *= this.game.getFieldManager().countProperties(e.getPlayer(), FieldColor.AIRPORT);
+				else if(e.getField().getColor() == FieldColor.FUNDS)
+					billing = lastDice * this.game.getFieldManager().countProperties(e.getPlayer(), FieldColor.FUNDS) == 2?10:4;
 				else if (this.game.getFieldManager().hasAll(e.getPlayer(), e.getField().getColor())) {
 					billing *= 2;
 				}
