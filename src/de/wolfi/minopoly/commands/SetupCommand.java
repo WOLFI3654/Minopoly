@@ -374,7 +374,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 						RANGE_SELECTOR.setCallback((ir) -> {
 
 							m.addField(new FundsField(event.getName(), e.getClickedBlock().getLocation(), mo,
-									ir.getAmount());
+									ir.getAmount()));
 							return true;
 						});
 						RANGE_SELECTOR.open(e.getPlayer());
