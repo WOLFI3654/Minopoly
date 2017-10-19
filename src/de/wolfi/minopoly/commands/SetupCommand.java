@@ -38,6 +38,7 @@ import de.wolfi.minopoly.components.fields.FreeParkingField;
 import de.wolfi.minopoly.components.fields.FundsField;
 import de.wolfi.minopoly.components.fields.JailField;
 import de.wolfi.minopoly.components.fields.NormalField;
+import de.wolfi.minopoly.components.fields.PayingField;
 import de.wolfi.minopoly.components.fields.PoliceField;
 import de.wolfi.minopoly.components.fields.StartField;
 import de.wolfi.utils.ItemBuilder;
@@ -73,6 +74,8 @@ public class SetupCommand implements CommandExecutor, Listener {
 			.setName("§Fundation Feld").build();
 	private static final ItemStack fieldtype_freeParkingField = new ItemBuilder(Material.FLOWER_POT_ITEM)
 			.setName("§Freies Parken Feld").build();
+	private static final ItemStack fieldtype_payingField = new ItemBuilder(Material.PAPER).setName("§Zahl Feld")
+			.build();
 	private static final ItemStack fieldtype_jailField = new ItemBuilder(Material.IRON_BARDING).setName("§7Jelly Feld")
 			.build();
 	private static final ItemStack fieldtype_normalField = new ItemBuilder(Material.WOOD_PLATE)
@@ -187,7 +190,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 				SetupCommand.fieldtype_communityField, SetupCommand.fieldtype_policeField,
 				SetupCommand.fieldtype_jailField, SetupCommand.fieldtype_startField,
 				SetupCommand.fieldtype_freeParkingField, SetupCommand.fieldtype_airportField,
-				SetupCommand.fieldtype_fundsField);
+				SetupCommand.fieldtype_fundsField, SetupCommand.fieldtype_payingField);
 	}
 
 	@EventHandler
@@ -370,16 +373,31 @@ public class SetupCommand implements CommandExecutor, Listener {
 			} else if (e.getItem().equals(SetupCommand.fieldtype_fundsField)) {
 				AnvilGUI gui = new AnvilGUI(e.getPlayer(), (event) -> {
 					event.setWillClose(false);
-					
-						RANGE_SELECTOR.setCallback((ir) -> {
 
-							m.addField(new FundsField(event.getName(), e.getClickedBlock().getLocation(), mo,
-									ir.getAmount()));
-							return true;
-						});
-						RANGE_SELECTOR.open(e.getPlayer());
+					RANGE_SELECTOR.setCallback((ir) -> {
 
+						m.addField(
+								new FundsField(event.getName(), e.getClickedBlock().getLocation(), mo, ir.getAmount()));
+						return true;
 					});
+					RANGE_SELECTOR.open(e.getPlayer());
+
+				});
+				gui.setSlot(AnvilSlot.INPUT_LEFT, field_setup_renamer);
+				gui.open("RENAME YOUR STREET");
+			} else if (e.getItem().equals(SetupCommand.fieldtype_payingField)) {
+				AnvilGUI gui = new AnvilGUI(e.getPlayer(), (event) -> {
+					event.setWillClose(false);
+
+					RANGE_SELECTOR.setCallback((ir) -> {
+
+						m.addField(new PayingField(event.getName(), e.getClickedBlock().getLocation(), mo,
+								ir.getAmount()));
+						return true;
+					});
+					RANGE_SELECTOR.open(e.getPlayer());
+
+				});
 				gui.setSlot(AnvilSlot.INPUT_LEFT, field_setup_renamer);
 				gui.open("RENAME YOUR STREET");
 			}
