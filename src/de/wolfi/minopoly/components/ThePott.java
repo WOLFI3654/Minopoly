@@ -38,7 +38,8 @@ public class ThePott extends GameObject implements Listener{
 
 	@EventHandler
 	public void onPottEntered(FieldEvent e){
-		if(this.game.getSettings().hasPott() && e.getField() instanceof FreeParkingField){
+		if(!this.game.getSettings().hasPott()) return;
+		if(e.getField() instanceof FreeParkingField){
 			if(this.currentCash>0){
 				payMoney(e.getPlayer());
 			}
