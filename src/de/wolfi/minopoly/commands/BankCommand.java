@@ -19,7 +19,6 @@ import org.bukkit.inventory.meta.SkullMeta;
 import de.wolfi.minopoly.Main;
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
-import de.wolfi.minopoly.events.MoveFinishedEvent;
 import de.wolfi.minopoly.utils.Messages;
 import de.wolfi.utils.ItemBuilder;
 import de.wolfi.utils.inventory.InventoryCounter;
