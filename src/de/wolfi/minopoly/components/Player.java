@@ -8,6 +8,7 @@ import org.bukkit.map.MapView;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import de.wolfi.minopoly.Main;
+import de.wolfi.minopoly.commands.BankCommand;
 import de.wolfi.minopoly.components.fields.Field;
 import de.wolfi.minopoly.events.MoneyEvent;
 import de.wolfi.minopoly.utils.Dangerous;
@@ -120,6 +121,8 @@ public class Player {
 		
 		this.hook.getInventory().addItem(getMap());
 		this.hook.getInventory().addItem(GameListener.finishMove);
+		this.hook.getInventory().addItem(BankCommand.payGUI);
+
 	}
 
 	private ItemStack getMap() {

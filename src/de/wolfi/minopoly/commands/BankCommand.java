@@ -3,19 +3,37 @@ package de.wolfi.minopoly.commands;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import de.wolfi.minopoly.Main;
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
+import de.wolfi.minopoly.events.MoveFinishedEvent;
 import de.wolfi.minopoly.utils.Messages;
+import de.wolfi.utils.ItemBuilder;
+import de.wolfi.utils.inventory.InventoryCounter;
 
-public class BankCommand extends CommandInterface {
+public class BankCommand extends CommandInterface implements InventoryHolder {
+
+	public static final ItemStack payGUI = new ItemBuilder(Material.PAPER).setName("§aTransaktionen tätigen").build();
+	
+	private final String title = "Transaktionen tätigen";
+
+	private final ItemStack pottStack = new ItemBuilder(Material.FLOWER_POT_ITEM).setName("§bPOTT").build();
 
 	public BankCommand(Main plugin) {
-		super(plugin, 3, false);
+		super(plugin, 3, true);
 	}
 
 	// bank pay *USER* *AMOUNT* *REASON*
@@ -88,9 +106,63 @@ public class BankCommand extends CommandInterface {
 			Messages.MONEY_GLOBAL_TRANSFER.send(board, money, player.getDisplay(), pr.getDisplay(), reason);
 		}
 			break;
+		case "gui": {
+			Inventory inv = Bukkit.createInventory(this, 9 * 2, title);
+			for (Player p : board.getPlayingPlayers()) {
+				if (p != player)
+					inv.addItem(new ItemBuilder(Material.SKULL_ITEM).setMeta((short) 3).setSkullOwner(p.getName())
+							.setName(p.getDisplay()).build());
+			}
+			inv.setItem(9 * 2 - 1, pottStack);
+			player.getHook().openInventory(inv);
+		}
+
 		default:
 			break;
 		}
+	}
+	
+
+	@EventHandler
+	public void onItemUse(PlayerInteractEvent e) {
+		if (e.getAction() == Action.RIGHT_CLICK_AIR
+				|| e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getItem() != null) {
+			if (e.getItem().equals(payGUI)) {
+				e.setCancelled(true);
+				Bukkit.dispatchCommand(Main.getMain().getMinopoly(e.getPlayer().getWorld()),"bank gui "+e.getPlayer().getName());
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onClick(InventoryClickEvent e){
+		if(e.getInventory().getHolder() == this){
+			e.setCancelled(true);
+			if(e.getCurrentItem() != null){
+				if(e.getCurrentItem().getType() == Material.FLOWER_POT_ITEM || e.getCurrentItem().getType() == Material.SKULL_ITEM){
+					Minopoly game = Main.getMain().getMinopoly(e.getWhoClicked().getWorld());
+					InventoryCounter counter = new InventoryCounter("Wie viel soll "+e.getCurrentItem().getItemMeta().getDisplayName()+" bekommen?");
+					counter.setCallback((c)->{
+						int amount = c.getAmount();
+						
+						if(e.getCurrentItem().getType() == Material.SKULL_ITEM)
+							game.getByBukkitPlayer((org.bukkit.entity.Player) e.getWhoClicked()).transferMoneyTo(game.getByPlayerName(((SkullMeta) e.getCurrentItem().getItemMeta()).getOwner()),amount, "DirektPay");
+						else if(e.getCurrentItem().getType() == Material.FLOWER_POT_ITEM){
+							game.getByBukkitPlayer((org.bukkit.entity.Player) e.getWhoClicked()).removeMoney(amount,"DirektPay: POTT");
+							game.getTHE_POTT_OF_DOOM___andmore_cute_puppies().addMoney(amount);
+						}
+						counter.destroy();
+						return true;
+					});
+					counter.open((org.bukkit.entity.Player) e.getWhoClicked());
+				}
+			}
+		}
+	}
+
+	@Override
+	public Inventory getInventory() {
+		return Bukkit.createInventory(this, 9, title);
 	}
 
 }
