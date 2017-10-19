@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 import de.wolfi.minopoly.Main;
 import de.wolfi.minopoly.components.fields.FieldColor;
+import de.wolfi.minopoly.components.fields.PayingField;
 import de.wolfi.minopoly.events.DiceEvent;
 import de.wolfi.minopoly.events.FieldEvent;
 import de.wolfi.minopoly.events.MinigameFoundEvent;
@@ -86,6 +87,7 @@ public class GameListener implements Listener {
 
 	@EventHandler
 	public void onMoney(MoneyEvent e) {
+		
 		game.getScoreboardManager().updatePlayer(e.getPlayer());
 	}
 
@@ -136,6 +138,9 @@ public class GameListener implements Listener {
 				}
 				if (game.getSettings().isPayForced())
 					e.getPlayer().transferMoneyTo(e.getField().getOwner(), billing, "Schulden :3");
+			}else if(e.getField() instanceof PayingField){
+				e.getPlayer().removeMoney(e.getField().getPrice(), e.getField().toString());
+				if(this.game.getSettings().hasPott()) this.game.getTHE_POTT_OF_DOOM___andmore_cute_puppies().addMoney(e.getField().getPrice());
 			}
 		}
 	}
