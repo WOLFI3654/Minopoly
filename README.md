@@ -1,7 +1,7 @@
 # Minopoly
 A Spigot-Minigame by TeamCreate.
 
-![game board of Monopoly](src/de/wolfi/minopoly/utils/monopoly.png)
+![game board of Minopoly](https://github.com/WOLFI3654/Minopoly-RessourcePack/raw/master/assets/minecraft/textures/map/map_background.png)
 
 ## TODO
 [A TODO list](TODO.md)
