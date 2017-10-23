@@ -367,6 +367,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 
 						return true;
 					});
+					PRICE_SELECTOR.open(e.getPlayer());
 				});
 				gui.setSlot(AnvilSlot.INPUT_LEFT, field_setup_renamer);
 				gui.open("RENAME YOUR STREET");
