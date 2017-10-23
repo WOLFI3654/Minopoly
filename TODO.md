@@ -39,3 +39,8 @@ Make payments user controlled
 (Add empty streets.)
 
 Add billing into pott things
+
+
+# Things must be fixed
+
+- [ ] Add price and blocks to Fundsfield & the ability to create the funds with a price in _SetupCommand_
