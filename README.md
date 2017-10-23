@@ -1,5 +1,5 @@
 # Minopoly
-TeamCreate Minigame
+A Spigot-Minigame by TeamCreate.
 
 ![game board of Monopoly](src/de/wolfi/minopoly/utils/monopoly.png)
 
