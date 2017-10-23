@@ -47,6 +47,6 @@ public class CommunityField extends Field {
 	public void spawn() {
 		System.out.println("Spawn community");
 		this.getCircle(0, false, new MaterialData(Material.AIR));
-		this.getCircle(0, true, new MaterialData(Material.PACKED_ICE));
+		this.getCircle(0, true, new MaterialData(Material.MELON_BLOCK));
 	}
 }
