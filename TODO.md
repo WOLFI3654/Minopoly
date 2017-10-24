@@ -43,4 +43,10 @@ Add billing into pott things
 
 # Things must be fixed
 
+- [ ] Jail
+
+- [ ] Minigame
+
+- [ ] Dice
+
 - [ ] Add price and blocks to Fundsfield & the ability to create the funds with a price in _SetupCommand_
