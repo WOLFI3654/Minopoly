@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
+import de.wolfi.minopoly.events.MinigameWinEvent;
 import de.wolfi.minopoly.utils.Messages;
 import de.wolfi.minopoly.utils.TeleportCause;
 
@@ -64,6 +66,7 @@ public abstract class MinigameHook implements Listener {
 			string.append(i == players.length - 1 ? " und " : ", ");
 			string.append(players[i].getName());
 		}
+		Bukkit.getPluginManager().callEvent(new MinigameWinEvent(players[0]));
 		Messages.MINIGAME_WIN.broadcast(this.getName(), string.toString());
 	}
 	
