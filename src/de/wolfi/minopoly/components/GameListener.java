@@ -28,7 +28,7 @@ import de.wolfi.utils.ItemBuilder;
 public class GameListener implements Listener {
 
 	public static final ItemStack finishMove = new ItemBuilder(Material.SKULL_ITEM).setMeta((short) 3)
-			.setSkullOwner("MHF_ARROW_LEFT").setName("§aZug beenden").build();
+			.setSkullOwner("MHF_LEFT").setName("§aZug beenden").build();
 
 	private byte internalCounter = 0;
 	private byte lastDice = 0;
@@ -44,15 +44,16 @@ public class GameListener implements Listener {
 	public void onItemUse(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_AIR
 				|| e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getItem() != null) {
-			if (e.getItem().equals(finishMove) && e.getPlayer().equals(currentPlayer.getHook())) {
-				Bukkit.getPluginManager().callEvent(new MoveFinishedEvent(currentPlayer));
-			}
+			if (e.getItem().equals(finishMove))
+				if (e.getPlayer().getUniqueId().equals(currentPlayer.getHook().getUniqueId())) {
+					Bukkit.getPluginManager().callEvent(new MoveFinishedEvent(currentPlayer));
+				}else e.getPlayer().sendMessage("Du nix dran...");
 		}
 	}
 
 	@EventHandler
 	public void onDice(DiceEvent e) {
-		this.lastDice =  (byte) ((byte)e.getOne()+ e.getTwo());
+		this.lastDice = (byte) ((byte) e.getOne() + e.getTwo());
 		if (this.isAuto()) {
 			if (currentPlayer.isJailed()) {
 				if (internalCounter >= 3) {
@@ -87,7 +88,7 @@ public class GameListener implements Listener {
 
 	@EventHandler
 	public void onMoney(MoneyEvent e) {
-		
+
 		game.getScoreboardManager().updatePlayer(e.getPlayer());
 	}
 
@@ -131,16 +132,19 @@ public class GameListener implements Listener {
 				int billing = e.getField().getBilling();
 				if (e.getField().getColor() == FieldColor.AIRPORT)
 					billing *= this.game.getFieldManager().countProperties(e.getPlayer(), FieldColor.AIRPORT);
-				else if(e.getField().getColor() == FieldColor.FUNDS)
-					billing = lastDice * this.game.getFieldManager().countProperties(e.getPlayer(), FieldColor.FUNDS) == 2?10:4;
+				else if (e.getField().getColor() == FieldColor.FUNDS)
+					billing = lastDice
+							* this.game.getFieldManager().countProperties(e.getPlayer(), FieldColor.FUNDS) == 2 ? 10
+									: 4;
 				else if (this.game.getFieldManager().hasAll(e.getPlayer(), e.getField().getColor())) {
 					billing *= 2;
 				}
 				if (game.getSettings().isPayForced())
 					e.getPlayer().transferMoneyTo(e.getField().getOwner(), billing, "Schulden :3");
-			}else if(e.getField() instanceof PayingField){
+			} else if (e.getField() instanceof PayingField) {
 				e.getPlayer().removeMoney(e.getField().getPrice(), e.getField().toString());
-				if(this.game.getSettings().hasPott()) this.game.getTHE_POTT_OF_DOOM___andmore_cute_puppies().addMoney(e.getField().getPrice());
+				if (this.game.getSettings().hasPott())
+					this.game.getTHE_POTT_OF_DOOM___andmore_cute_puppies().addMoney(e.getField().getPrice());
 			}
 		}
 	}
