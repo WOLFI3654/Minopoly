@@ -374,16 +374,20 @@ public class SetupCommand implements CommandExecutor, Listener {
 			} else if (e.getItem().equals(SetupCommand.fieldtype_fundsField)) {
 				AnvilGUI gui = new AnvilGUI(e.getPlayer(), (event) -> {
 					event.setWillClose(false);
+					PRICE_SELECTOR.setCallback((ip) -> {
 
-					RANGE_SELECTOR.setCallback((ir) -> {
+						RANGE_SELECTOR.setCallback((ir) -> {
 
-						m.addField(
-								new FundsField(event.getName(), e.getClickedBlock().getLocation(), mo, ir.getAmount()));
+							m.addField(new FundsField(event.getName(), e.getClickedBlock().getLocation(), mo,
+									ir.getAmount(), ip.getAmount()));
+							return true;
+						});
+						RANGE_SELECTOR.open(e.getPlayer());
 						return true;
-					});
-					RANGE_SELECTOR.open(e.getPlayer());
 
+					});
 				});
+				PRICE_SELECTOR.open(e.getPlayer());
 				gui.setSlot(AnvilSlot.INPUT_LEFT, field_setup_renamer);
 				gui.open("RENAME YOUR STREET");
 			} else if (e.getItem().equals(SetupCommand.fieldtype_payingField)) {

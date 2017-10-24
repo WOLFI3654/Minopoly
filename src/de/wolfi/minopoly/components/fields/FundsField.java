@@ -12,13 +12,13 @@ public class FundsField extends Field{
 	 */
 	private static final long serialVersionUID = 586199880230047625L;
 
-	public FundsField(String name, Location l, Minopoly game, int size) {
-		super(name, FieldColor.FUNDS, l, game, size, -1);
+	public FundsField(String name, Location l, Minopoly game, int size, int prize) {
+		super(name, FieldColor.FUNDS, l, game, size,  prize);
 	}
 
 	@Override
 	public void byPass(Player player) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
