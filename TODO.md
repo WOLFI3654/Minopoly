@@ -49,4 +49,6 @@ Add billing into pott things
 
 - [ ] Dice
 
+- [ ] Shitty Items in inventory
+
 - [ ] Add price and blocks to Fundsfield & the ability to create the funds with a price in _SetupCommand_
