@@ -16,7 +16,11 @@ public class ThePott extends GameObject implements Listener{
 	 */
 	private static final long serialVersionUID = -5058788402062982273L;
 
+	private static final String Pott_Name = "ThePott:";
+	
 	private int currentCash = 0;
+	
+	
 
 	private Minopoly game;
 	
@@ -29,6 +33,7 @@ public class ThePott extends GameObject implements Listener{
 	@Override
 	protected void load() {
 		Bukkit.getPluginManager().registerEvents(this, Main.getMain());
+		this.game.getScoreboardManager().setValue(ThePott.Pott_Name, this.currentCash);
 	}
 
 	@Override
@@ -57,7 +62,7 @@ public class ThePott extends GameObject implements Listener{
 	}
 	
 	private void updateCounter(){
-		this.game.getScoreboardManager().setValue("ThePott:", currentCash);
+		this.game.getScoreboardManager().setValue(ThePott.Pott_Name, currentCash);
 	}
 	
 	public int getCurrentCash() {
