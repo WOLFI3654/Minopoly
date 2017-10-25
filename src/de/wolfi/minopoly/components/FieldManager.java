@@ -34,6 +34,7 @@ public class FieldManager extends GameObject {
 			list = new ArrayList<>();
 		if (!list.contains(f))
 			list.add(f);
+		this.mappedList.put(color, list);
 	}
 
 	public Field getNextField(Field from) {
