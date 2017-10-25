@@ -45,6 +45,7 @@ public class PlayerSelectorCommand extends CommandInterface implements Inventory
 				else {
 					player.getBoard().selectPlayer((org.bukkit.entity.Player) e.getWhoClicked(), t);
 					e.getWhoClicked().closeInventory();
+					((org.bukkit.entity.Player)e.getWhoClicked()).setResourcePack("https://github.com/WOLFI3654/Minopoly-RessourcePack/releases/download/0.0/Minopoly-RessourcePack-master.zip");
 				}
 		}
 	}

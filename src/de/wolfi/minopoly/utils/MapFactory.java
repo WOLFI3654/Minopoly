@@ -22,20 +22,10 @@ public final class MapFactory {
 		private Image image;
 		protected InternMapRenderer(Minopoly game) {
 			this.game = game;
-			try {
-				this.image = ImageIO.read(getClass().getResourceAsStream("monopoly.png"));
-			} catch (IOException e) {
-
-
-				e.printStackTrace();
-			}
 		}
 
 		@Override
 		public void render(MapView paramMapView, MapCanvas paramMapCanvas, Player paramPlayer) {
-			final de.wolfi.minopoly.components.Player p = this.game.getByBukkitPlayer(paramPlayer);
-			paramMapCanvas.drawImage(0, 0, image);
-			paramMapCanvas.drawText(0, 0, new MinecraftFont(), p.getFigure().getName());
 		}
 
 	}
