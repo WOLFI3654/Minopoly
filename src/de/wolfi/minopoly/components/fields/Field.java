@@ -287,6 +287,7 @@ public abstract class Field extends GameObject {
 	}
 
 	public void playerStand(Player player) {
+		Messages.FIELD_ENTERED.broadcast(player.getDisplay(),this.toString());
 		Bukkit.getPluginManager().callEvent(new FieldEvent(player, this));
 		if (this.isOwned())
 			if (!this.owner.equals(player.getFigure()))

@@ -5,17 +5,20 @@ import org.bukkit.command.CommandSender;
 
 public enum Messages {
 
-	COMMUNITY_FIELD_ENTER("$0 hat ein Gemeinschaffts Feld betreten!\n\n\nOh was ist denn das? Es sieht aus als würde sich hier ein Minispiel verstecken!"), EVENT_FIELD_ENTER(
-			"$0 hat ein Ereigniss Feld betreten!"), JAIL_FIELD_ENTER(
-					"$0 stattet dem Gefängnis einen Besuch ab."), MINIGAME_SELECTED("$0 hat das Minispiel $1 gefunden."), MINIGAME_DEATH(
-							"$0 ist in $1 gestorben."), MINIGAME_GOT_KILLED(
-									"$0 wurde in $1 von $2 getötet!"), MINIGAME_KILL(
-											"Du hast $0 in $1 getötet!"), MINIGAME_WIN(
-													"Das Minispiel $0 wurde von $1 gewonnen!"), MONEY_GAIN(
-															"Du hast $0 Geld bekommen. ($1)"), MONEY_PAYD(
-																	"Du hast $0 Geld bezahlt. ($1)"), MONEY_TRANSFER_GAIN(
-																			"Du hast $0 Geld von $1 bekommen. ($2)"), MONEY_TRANSFER_SENT(
-																					"Du hast $0 Geld an $1 bezahlt. ($2)"),
+	COMMUNITY_FIELD_ENTER(
+			"$0 hat ein Gemeinschaffts Feld betreten!\n\n\nOh was ist denn das? Es sieht aus als würde sich hier ein Minispiel verstecken!"), EVENT_FIELD_ENTER(
+					"$0 hat ein Ereigniss Feld betreten!"), JAIL_FIELD_ENTER(
+							"$0 stattet dem Gefängnis einen Besuch ab."), MINIGAME_SELECTED(
+									"$0 hat das Minispiel $1 gefunden."), MINIGAME_DEATH(
+											"$0 ist in $1 gestorben."), MINIGAME_GOT_KILLED(
+													"$0 wurde in $1 von $2 getötet!"), MINIGAME_KILL(
+															"Du hast $0 in $1 getötet!"), MINIGAME_WIN(
+																	"Das Minispiel $0 wurde von $1 gewonnen!"), MONEY_GAIN(
+																			"Du hast $0 Geld bekommen. ($1)"), MONEY_PAYD(
+																					"Du hast $0 Geld bezahlt. ($1)"), MONEY_TRANSFER_GAIN(
+																							"Du hast $0 Geld von $1 bekommen. ($2)"), MONEY_TRANSFER_SENT(
+																									"Du hast $0 Geld an $1 bezahlt. ($2)"), FIELD_ENTERED(
+																											"$0 betrat $1"),
 
 	OTHER_FIELD_ENTERED("$0 ist auf ein Feld von $1 getreten! §l($2)"), FIELD_BOUGHT(
 			"$0 hat das Feld $1 gekauft!"), POLICE_FIELD_ENTER(
@@ -31,7 +34,10 @@ public enum Messages {
 																							"$0 Geld wurden bei $1 abgebucht. ($2)"), MONEY_GLOBAL_TRANSFER(
 																									"$0 Geld wurden von $1 auf das Konto von $2 überwiesen. ($3)"), FIGURE_SELECTED(
 																											"$0 hat sich Figur $1 ausgesucht. o/"), FIGURE_ALREADY_TAKEN(
-																													"§cDie Figur $0 ist bereits von jemandem Ausgewählt!"), TRIPPLE_JAILED("$0 hat 3 mal nacheinander einen Pasch gewürfelt. \nDas riecht verdächtig nach cheaten. Ab in den Knast!"), JAIL_EXIT("$0 hat es geschafft durch einen Pasch das Gefängniss zu verlassen."), JAIL_EXIT_FAILED("Du hast noch $0 Versuche einen Pasch zu Würfeln");
+																													"§cDie Figur $0 ist bereits von jemandem Ausgewählt!"), TRIPPLE_JAILED(
+																															"$0 hat 3 mal nacheinander einen Pasch gewürfelt. \nDas riecht verdächtig nach cheaten. Ab in den Knast!"), JAIL_EXIT(
+																																	"$0 hat es geschafft durch einen Pasch das Gefängniss zu verlassen."), JAIL_EXIT_FAILED(
+																																			"Du hast noch $0 Versuche einen Pasch zu Würfeln");
 
 	public static String Prefix = "§0[§1Minopoly§0] §a";
 	private String txt;
