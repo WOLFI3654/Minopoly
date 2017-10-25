@@ -23,7 +23,9 @@ import de.wolfi.minopoly.events.NextPlayerEvent;
 import de.wolfi.minopoly.events.PlayerJailedEvent;
 import de.wolfi.minopoly.utils.CancelConstants;
 import de.wolfi.minopoly.utils.Messages;
+import de.wolfi.utils.ActionBarAPI;
 import de.wolfi.utils.ItemBuilder;
+import de.wolfi.utils.TitlesAPI;
 
 public class GameListener implements Listener {
 
@@ -38,16 +40,24 @@ public class GameListener implements Listener {
 	public GameListener(Minopoly game) {
 		this.game = game;
 		Bukkit.getPluginManager().registerEvents(this, Main.getMain());
+		Bukkit.getScheduler().runTaskTimer(Main.getMain(), () -> ActionBarAPI
+				.sendActionBarToAllPlayers(currentPlayer.getName() + " | " + lastDice + " | " + internalCounter), 60,
+				62);
 	}
 
 	@EventHandler
 	public void onItemUse(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_AIR
 				|| e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getItem() != null) {
-			if (e.getItem().equals(finishMove))
-				if (e.getPlayer().getUniqueId().equals(currentPlayer.getHook().getUniqueId())) {
-					Bukkit.getPluginManager().callEvent(new MoveFinishedEvent(currentPlayer));
-				}else e.getPlayer().sendMessage("Du nix dran...");
+			if (e.getItem().getType() == Material.SKULL_ITEM){
+				TitlesAPI.sendTabTitle(e.getPlayer(),finishMove.toString(), e.getItem().toString());
+				if (ItemBuilder.isSimilar(GameListener.finishMove, e.getItem())) {
+					if (e.getPlayer().getUniqueId().equals(currentPlayer.getHook().getUniqueId())) {
+						Bukkit.getPluginManager().callEvent(new MoveFinishedEvent(currentPlayer));
+					} else
+						e.getPlayer().sendMessage("Du nix dran...");
+				}
+			}
 		}
 	}
 
@@ -60,13 +70,13 @@ public class GameListener implements Listener {
 					Bukkit.getPluginManager().callEvent(new NextPlayerEvent());
 				} else if (e.isPasch()) {
 					this.game.unjailPlayer(e.getPlayer().getFigure());
+					this.internalCounter = 0;
 					Bukkit.dispatchCommand(this.game, "dice " + e.getPlayer().getName());
 					Messages.JAIL_EXIT.broadcast(e.getPlayer().getDisplay());
 				} else {
 					Bukkit.dispatchCommand(this.game, "dice " + e.getPlayer().getName());
 					internalCounter++;
 					Messages.JAIL_EXIT_FAILED.send(e.getPlayer().getHook(), 3 - internalCounter);
-					Bukkit.getPluginManager().callEvent(new NextPlayerEvent());
 
 				}
 
@@ -192,4 +202,5 @@ public class GameListener implements Listener {
 			e.setCancelled(true);
 		}
 	}
+
 }
