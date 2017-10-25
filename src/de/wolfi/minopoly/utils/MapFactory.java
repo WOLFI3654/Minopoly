@@ -1,16 +1,12 @@
 package de.wolfi.minopoly.utils;
 
 import java.awt.Image;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.map.MapCanvas;
 import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
-import org.bukkit.map.MinecraftFont;
 
 import de.wolfi.minopoly.components.Minopoly;
 

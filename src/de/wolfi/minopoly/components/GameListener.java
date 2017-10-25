@@ -28,7 +28,7 @@ import de.wolfi.utils.ItemBuilder;
 public class GameListener implements Listener {
 
 	public static final ItemStack finishMove = new ItemBuilder(Material.SKULL_ITEM).setMeta((short) 3)
-			.setSkullOwner("MHF_LEFT").setName("§aZug beenden").build();
+			.setSkullOwner("MHF_ArrowLeft").setName("§aZug beenden").build();
 
 	private byte internalCounter = 0;
 	private byte lastDice = 0;
