@@ -1,6 +1,7 @@
 package de.wolfi.minopoly.components;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -119,10 +120,16 @@ public class Player {
 	public void setInventory() {
 		this.hook.getInventory().clear();
 		
+		this.hook.setGameMode(GameMode.ADVENTURE);
+		this.hook.setAllowFlight(true);
+		this.hook.setFlying(true);
+		
 		this.hook.getInventory().addItem(getMap());
 		this.hook.getInventory().addItem(GameListener.finishMove);
 		this.hook.getInventory().addItem(BankCommand.payGUI);
-
+		
+		this.hook.setSaturation(20);
+		this.hook.setHealth(this.hook.getMaxHealth());
 	}
 
 	private ItemStack getMap() {
