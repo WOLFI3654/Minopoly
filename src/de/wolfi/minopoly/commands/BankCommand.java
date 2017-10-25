@@ -95,7 +95,7 @@ public class BankCommand extends CommandInterface implements InventoryHolder {
 				|| e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getItem() != null) {
 			if (e.getItem().equals(payGUI)) {
 				e.setCancelled(true);
-				Bukkit.dispatchCommand(Main.getMain().getMinopoly(e.getPlayer().getWorld()),"bank "+e.getPlayer().getName()+ " gui x x");
+				Bukkit.dispatchCommand(Main.getMain().getMinopoly(e.getPlayer().getWorld()),"bank "+e.getPlayer().getName()+ " gui 3654 x");
 			}
 		}
 	}
@@ -107,7 +107,7 @@ public class BankCommand extends CommandInterface implements InventoryHolder {
 			if(e.getCurrentItem() != null){
 				if(e.getCurrentItem().getType() == Material.FLOWER_POT_ITEM || e.getCurrentItem().getType() == Material.SKULL_ITEM){
 					Minopoly game = Main.getMain().getMinopoly(e.getWhoClicked().getWorld());
-					InventoryCounter counter = new InventoryCounter("Wie viel soll "+e.getCurrentItem().getItemMeta().getDisplayName()+" bekommen?");
+					InventoryCounter counter = new InventoryCounter(">"+e.getCurrentItem().getItemMeta().getDisplayName());
 					counter.setCallback((c)->{
 						int amount = c.getAmount();
 						
