@@ -204,6 +204,7 @@ public abstract class Field extends GameObject {
 	}
 
 	private void spawnHouse() {
+		if(this.stored_home == null) return;
 		WorldEdit worldEdit = WorldEdit.getInstance();
 		LocalConfiguration config = worldEdit.getConfiguration();
 		com.sk89q.worldedit.world.World world = new BukkitWorld(stored_home.getWorld());
