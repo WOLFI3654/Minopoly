@@ -34,20 +34,17 @@ Main Settings >
 ---
 # Important things
 
-Make payments user controlled
-
-(Add empty streets.)
-
-Add billing into pott things
-
+- [ ] Messages!
+- [ ] Delays
+- [ ] import MAEDN dice or MarioParty dice
 
 # Things must be fixed
 
-- [ ] Jail
+- [x] Jail
 
-- [ ] Minigame
+- [x] Minigame
 
-- [ ] Dice
+- [ ] Dice > Pasch
 
 - [ ] Shitty Items in inventory
 
