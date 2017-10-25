@@ -95,7 +95,7 @@ public class BankCommand extends CommandInterface implements InventoryHolder {
 				|| e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getItem() != null) {
 			if (e.getItem().equals(payGUI)) {
 				e.setCancelled(true);
-				Bukkit.dispatchCommand(Main.getMain().getMinopoly(e.getPlayer().getWorld()),"bank "+e.getPlayer().getName()+ " gui x");
+				Bukkit.dispatchCommand(Main.getMain().getMinopoly(e.getPlayer().getWorld()),"bank "+e.getPlayer().getName()+ " gui x x");
 			}
 		}
 	}
