@@ -6,7 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -33,38 +32,6 @@ public class BankCommand extends CommandInterface implements InventoryHolder {
 
 	public BankCommand(Main plugin) {
 		super(plugin, 3, true);
-	}
-
-	// bank pay *USER* *AMOUNT* *REASON*
-	// bank get *USER* *AMOUNT* *REASON*
-	// bank move *FROM* *TO* *AMOUNT* *REASON*
-	@Override
-	public boolean onCommand(final CommandSender paramCommandSender, final Command paramCommand,
-			final String paramString, final String[] args) {
-		if (paramCommandSender instanceof ConsoleCommandSender)
-			return false;
-		final org.bukkit.entity.Player sender = (org.bukkit.entity.Player) paramCommandSender;
-		if (!Main.getMain().isMinopolyWorld(sender.getWorld())) {
-			sender.sendMessage("command.wrongworld");
-			return true;
-		}
-		final Minopoly game = Main.getMain().getMinopoly(sender.getWorld());
-		if (args.length < 4) {
-			paramCommandSender.sendMessage("args.missing");
-			return true;
-		}
-		final org.bukkit.entity.Player playername = Bukkit.getPlayer(args[1]);
-		if (playername == null) {
-			sender.sendMessage("player.missing");
-			return true;
-		}
-		final Player p = game.getByBukkitPlayer(playername);
-		if (p == null) {
-			sender.sendMessage("player.missing.game");
-			return true;
-		}
-
-		return true;
 	}
 
 	@Override
