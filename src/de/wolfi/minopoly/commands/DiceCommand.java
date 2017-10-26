@@ -92,8 +92,10 @@ public class DiceCommand extends CommandInterface {
 
 			if (dice.getFirst() == 0) {
 				dice.first = dice.getValue();
+				e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ORB_PICKUP, 1f, 1f);
 			} else {
 				dice.remove();
+				e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.LEVEL_UP, 1f, 1f);
 
 				int first = dice.getFirst();
 				int second = dice.getValue();
