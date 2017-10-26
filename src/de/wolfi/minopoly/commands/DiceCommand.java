@@ -8,6 +8,7 @@ import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -44,10 +45,10 @@ public class DiceCommand extends CommandInterface {
 
 			short dur = (short) (ThreadLocalRandom.current().nextInt(6));
 			this.selected_slot = dur;
-			TitlesAPI.sendFullTitle(this.player.getHook(), 0, 10, 0, "§" + String.valueOf(11 % dur) + "Würfel:",
-					"§" + String.valueOf(dur % 10) + (dur + 1));
+			TitlesAPI.sendFullTitle(this.player.getHook(), 0, 10, 0, "Â§" + String.valueOf(11 % dur) + "WÃ¼rfel:",
+					"Â§" + String.valueOf(dur % 10) + (dur + 1));
 			this.player.getHook().getInventory().setItem(this.player.getHook().getInventory().getHeldItemSlot(),
-					new ItemBuilder(Material.INK_SACK).setName("Würfel").setMeta((short) dur).build());
+					new ItemBuilder(Material.INK_SACK).setName("WÃ¼rfel").setMeta((short) dur).build());
 			try {
 				Thread.sleep(120);
 			} catch (InterruptedException e) {
@@ -78,6 +79,12 @@ public class DiceCommand extends CommandInterface {
 		public short getValue() {
 			return selected_slot;
 		}
+	}
+	
+	@EventHandler
+	public void onDrop(PlayerDropItemEvent e){
+		DiceRunnable dice = this.getSched(e.getPlayer());
+		if(dice != null) e.setCancelled(true);
 	}
 
 	@EventHandler
