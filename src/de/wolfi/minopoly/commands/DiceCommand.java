@@ -47,7 +47,7 @@ public class DiceCommand extends CommandInterface {
 			TitlesAPI.sendFullTitle(this.player.getHook(), 0, 10, 0, "§" + String.valueOf(11 % dur) + "Würfel:",
 					"§" + String.valueOf(dur % 10) + (dur + 1));
 			this.player.getHook().getInventory().setItem(this.player.getHook().getInventory().getHeldItemSlot(),
-					new ItemBuilder(Material.INK_SACK).setName("§6Zahl: §a" + (dur + 1)).setMeta((short) dur).build());
+					new ItemBuilder(Material.INK_SACK).setName("Würfel").setMeta((short) dur).build());
 			try {
 				Thread.sleep(120);
 			} catch (InterruptedException e) {
