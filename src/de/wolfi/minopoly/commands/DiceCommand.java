@@ -8,6 +8,7 @@ import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.scheduler.BukkitTask;
 
 import de.wolfi.minopoly.Main;
@@ -79,6 +80,11 @@ public class DiceCommand extends CommandInterface {
 		}
 	}
 
+	@EventHandler
+	public void onSlotChange(PlayerItemHeldEvent e){
+		DiceRunnable dice = this.getSched(e.getPlayer());
+		if(dice != null) e.setCancelled(true);
+	}
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e) {
 		DiceRunnable dice = this.getSched(e.getPlayer());
