@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.map.MapView;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -125,6 +126,7 @@ public class Player {
 	}
 	
 	public void activateDice(){
+		this.hook.playSound(this.hook.getLocation(), Sound.CHICKEN_EGG_POP, 1F, 7F);
 		this.hook.getInventory().setItem(Player.DICE_SLOT, DiceCommand.dice);
 	}
 
