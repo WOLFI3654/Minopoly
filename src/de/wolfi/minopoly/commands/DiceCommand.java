@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
 import de.wolfi.minopoly.Main;
@@ -29,6 +30,8 @@ public class DiceCommand extends CommandInterface {
 
 	private static final ArrayList<DiceRunnable> scheds = new ArrayList<>();
 
+	public static final ItemStack dice = new ItemBuilder(Material.INK_SACK).setName("§aWürfel").build();
+
 	private static class DiceRunnable implements Runnable {
 		private BukkitTask task;
 		private Player player;
@@ -46,7 +49,8 @@ public class DiceCommand extends CommandInterface {
 			this.selected_slot = dur;
 			TitlesAPI.sendFullTitle(this.player.getHook(), 0, 10, 0, "§" + String.valueOf(11 % dur) + "Würfel:",
 					"§" + String.valueOf(dur % 10) + (dur + 1));
-			this.player.getHook().getInventory().setItemInHand(new ItemBuilder(Material.INK_SACK).setName("Würfel").setMeta((short) dur).build());
+			this.player.getHook().getInventory()
+					.setItemInHand(new ItemBuilder(Material.INK_SACK).setName("Würfel").setMeta((short) dur).build());
 			try {
 				Thread.sleep(120);
 			} catch (InterruptedException e) {
@@ -54,15 +58,18 @@ public class DiceCommand extends CommandInterface {
 			}
 
 		}
-		/*@Override
-
-		public void run() {
-
-			player.getHook().getInventory().setHeldItemSlot(++selected_slot+DiceCommand.SLOT_OFFSET);
-
-			if(selected_slot >= 6) selected_slot = 0;
-
-		}*/
+		/*
+		 * @Override
+		 * 
+		 * public void run() {
+		 * 
+		 * player.getHook().getInventory().setHeldItemSlot(++selected_slot+
+		 * DiceCommand.SLOT_OFFSET);
+		 * 
+		 * if(selected_slot >= 6) selected_slot = 0;
+		 * 
+		 * }
+		 */
 
 		public void remove() {
 			task.cancel();
@@ -80,32 +87,38 @@ public class DiceCommand extends CommandInterface {
 	}
 
 	@EventHandler
-	public void onSlotChange(PlayerItemHeldEvent e){
+	public void onSlotChange(PlayerItemHeldEvent e) {
 		DiceRunnable dice = this.getSched(e.getPlayer());
-		if(dice != null) e.setCancelled(true);
+		if (dice != null)
+			e.setCancelled(true);
 	}
+
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e) {
 		DiceRunnable dice = this.getSched(e.getPlayer());
-		if (e.getAction() != Action.PHYSICAL & dice != null) {
+		if (e.getAction() != Action.PHYSICAL)
+			if (dice != null) {
 
-			if (dice.getFirst() == 0) {
-				dice.first = dice.getValue();
-				e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ORB_PICKUP, 1f, 1f);
-			} else {
-				e.getPlayer().getInventory().setItemInHand(null);
-				dice.remove();
-				e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.LEVEL_UP, 1f, 1f);
+				if (dice.getFirst() == 0) {
+					dice.first = dice.getValue();
+					e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ORB_PICKUP, 1f, 1f);
+				} else {
+					e.getPlayer().getInventory().setItemInHand(null);
+					dice.remove();
+					e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.LEVEL_UP, 1f, 1f);
 
-				int first = dice.getFirst();
-				int second = dice.getValue();
-				DiceEvent event = new DiceEvent(dice.player, first, second);
-				Bukkit.getPluginManager().callEvent(event);
-				Messages.PLAYER_ROLLED_THE_DICE.broadcast(dice.player.getName(), String.valueOf(event.getOne()),
-						String.valueOf(event.getTwo()));
+					int first = dice.getFirst();
+					int second = dice.getValue();
+					DiceEvent event = new DiceEvent(dice.player, first, second);
+					Bukkit.getPluginManager().callEvent(event);
+					Messages.PLAYER_ROLLED_THE_DICE.broadcast(dice.player.getName(), String.valueOf(event.getOne()),
+							String.valueOf(event.getTwo()));
 
+				}
+			} else if(DiceCommand.dice.isSimilar(e.getItem())){
+				e.setCancelled(true);
+				this.createDice(Main.getMain().getMinopoly(e.getPlayer().getWorld()).getByBukkitPlayer(e.getPlayer()));
 			}
-		}
 	}
 
 	private DiceRunnable getSched(org.bukkit.entity.Player player) {
@@ -118,11 +131,20 @@ public class DiceCommand extends CommandInterface {
 
 	@Override
 	protected void executeCommand(Minopoly board, Player player, String[] args) {
+		if (args.length != 0) {
+			player.activateDice();
+			return;
+		}
+		this.createDice(player);
+
+	}
+	
+	private void createDice(Player player){
 		DiceRunnable dice = new DiceRunnable();
 		dice.player = player;
+		player.selectDiceSlot();
 		dice.task = Bukkit.getScheduler().runTaskTimer(DiceCommand.MAIN, dice, 3, 1);
 		scheds.add(dice);
-
 	}
 
 }

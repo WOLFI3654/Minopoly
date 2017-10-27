@@ -164,7 +164,7 @@ public class GameListener implements Listener {
 		if (this.isAuto()) {
 			internalCounter = 0;
 			currentPlayer = getNext();
-			Bukkit.dispatchCommand(game, "dice " + currentPlayer.getName());
+			Bukkit.dispatchCommand(game, "dice " + currentPlayer.getName()+" x");
 
 		}
 	}
