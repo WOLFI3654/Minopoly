@@ -14,10 +14,10 @@ public enum Messages {
 													"$0 wurde in $1 von $2 getötet!"), MINIGAME_KILL(
 															"Du hast $0 in $1 getötet!"), MINIGAME_WIN(
 																	"Das Minispiel $0 wurde von $1 gewonnen!"), MONEY_GAIN(
-																			"Du hast $0 Geld bekommen. ($1)"), MONEY_PAYD(
-																					"Du hast $0 Geld bezahlt. ($1)"), MONEY_TRANSFER_GAIN(
-																							"Du hast $0 Geld von $1 bekommen. ($2)"), MONEY_TRANSFER_SENT(
-																									"Du hast $0 Geld an $1 bezahlt. ($2)"), FIELD_ENTERED(
+																			"Du hast $0 "+Messages.Econemy+" bekommen. ($1)"), MONEY_PAYD(
+																					"Du hast $0 "+Messages.Econemy+" bezahlt. ($1)"), MONEY_TRANSFER_GAIN(
+																							"Du hast $0 "+Messages.Econemy+" von $1 bekommen. ($2)"), MONEY_TRANSFER_SENT(
+																									"Du hast $0 "+Messages.Econemy+" an $1 bezahlt. ($2)"), FIELD_ENTERED(
 																											"$0 betrat $1"),
 
 	OTHER_FIELD_ENTERED("$0 ist auf ein Feld von $1 getreten! §l($2)"), FIELD_BOUGHT(
@@ -30,9 +30,9 @@ public enum Messages {
 															"§cDu befindest dich nicht in einer Minopoly Welt!"), COMMAND_NO_ARGUMENTS(
 																	"§cEs werden Mindestens(!) $0 Argumente benötigt!"), COMMAND_NO_PLAYER(
 																			"§c$0 ist kein valider Spieler!"), MONEY_GLOBAL_PAID(
-																					"$0 Geld wurden an $1 überwiesen. ($2)"), MONEY_GLOBAL_GOT(
-																							"$0 Geld wurden bei $1 abgebucht. ($2)"), MONEY_GLOBAL_TRANSFER(
-																									"$0 Geld wurden von $1 auf das Konto von $2 überwiesen. ($3)"), FIGURE_SELECTED(
+																					"$0 "+Messages.Econemy+" wurden an $1 überwiesen. ($2)"), MONEY_GLOBAL_GOT(
+																							"$0 "+Messages.Econemy+" wurden bei $1 abgebucht. ($2)"), MONEY_GLOBAL_TRANSFER(
+																									"$0 "+Messages.Econemy+" wurden von $1 auf das Konto von $2 überwiesen. ($3)"), FIGURE_SELECTED(
 																											"$0 hat sich Figur $1 ausgesucht. o/"), FIGURE_ALREADY_TAKEN(
 																													"§cDie Figur $0 ist bereits von jemandem Ausgewählt!"), TRIPPLE_JAILED(
 																															"$0 hat 3 mal nacheinander einen Pasch gewürfelt. \nDas riecht verdächtig nach cheaten. Ab in den Knast!"), JAIL_EXIT(
@@ -40,6 +40,7 @@ public enum Messages {
 																																			"Du hast noch $0 Versuche einen Pasch zu Würfeln");
 
 	public static String Prefix = "§0[§1Minopoly§0] §a";
+	public static final String Econemy = "Katzenbabys";
 	private String txt;
 
 	private Messages(String txt) {
