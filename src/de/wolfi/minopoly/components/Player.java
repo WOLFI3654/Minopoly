@@ -126,7 +126,6 @@ public class Player {
 	
 	public void activateDice(){
 		this.hook.getInventory().setItem(Player.DICE_SLOT, DiceCommand.dice);
-		Bukkit.dispatchCommand(this.game, "dice "+this.getHook().getName());
 	}
 
 	public void setInventory() {
