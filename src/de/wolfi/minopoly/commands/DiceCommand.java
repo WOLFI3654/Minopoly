@@ -46,8 +46,7 @@ public class DiceCommand extends CommandInterface {
 			this.selected_slot = dur;
 			TitlesAPI.sendFullTitle(this.player.getHook(), 0, 10, 0, "§" + String.valueOf(11 % dur) + "Würfel:",
 					"§" + String.valueOf(dur % 10) + (dur + 1));
-			this.player.getHook().getInventory().setItem(this.player.getHook().getInventory().getHeldItemSlot(),
-					new ItemBuilder(Material.INK_SACK).setName("Würfel").setMeta((short) dur).build());
+			this.player.getHook().getInventory().setItemInHand(new ItemBuilder(Material.INK_SACK).setName("Würfel").setMeta((short) dur).build());
 			try {
 				Thread.sleep(120);
 			} catch (InterruptedException e) {
@@ -94,6 +93,7 @@ public class DiceCommand extends CommandInterface {
 				dice.first = dice.getValue();
 				e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ORB_PICKUP, 1f, 1f);
 			} else {
+				e.getPlayer().getInventory().setItemInHand(null);
 				dice.remove();
 				e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.LEVEL_UP, 1f, 1f);
 
