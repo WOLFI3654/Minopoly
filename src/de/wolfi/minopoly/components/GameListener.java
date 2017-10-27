@@ -200,7 +200,7 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void onChangeWorld(EntityChangeBlockEvent e) {
 		if (e.getEntity().hasMetadata(CancelConstants.CANCEL_BLOCK_CHANGE)) {
-			e.setCancelled(true);
+			if(e.getTo() != Material.AIR) e.setCancelled(true);
 		}
 	}
 
