@@ -24,7 +24,6 @@ import de.wolfi.minopoly.events.PlayerJailedEvent;
 import de.wolfi.minopoly.utils.CancelConstants;
 import de.wolfi.minopoly.utils.Messages;
 import de.wolfi.minopoly.utils.TeleportCause;
-import de.wolfi.utils.ActionBarAPI;
 import de.wolfi.utils.ItemBuilder;
 import de.wolfi.utils.TitlesAPI;
 
@@ -41,9 +40,9 @@ public class GameListener implements Listener {
 	public GameListener(Minopoly game) {
 		this.game = game;
 		Bukkit.getPluginManager().registerEvents(this, Main.getMain());
-		Bukkit.getScheduler().runTaskTimer(Main.getMain(), () -> ActionBarAPI
-				.sendActionBarToAllPlayers(currentPlayer.getName() + " | " + lastDice + " | " + internalCounter), 60,
-				62);
+//		Bukkit.getScheduler().runTaskTimer(Main.getMain(), () -> ActionBarAPI
+//				.sendActionBarToAllPlayers(currentPlayer.getName() + " | " + lastDice + " | " + internalCounter), 60,
+//				62);
 	}
 
 	@EventHandler
@@ -51,7 +50,7 @@ public class GameListener implements Listener {
 		if (e.getAction() == Action.RIGHT_CLICK_AIR
 				|| e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getItem() != null) {
 			if (e.getItem().getType() == Material.SKULL_ITEM){
-				TitlesAPI.sendTabTitle(e.getPlayer(),finishMove.toString(), e.getItem().toString());
+//				TitlesAPI.sendTabTitle(e.getPlayer(),finishMove.toString(), e.getItem().toString());
 				if (ItemBuilder.isSimilar(GameListener.finishMove, e.getItem())) {
 					if (e.getPlayer().getUniqueId().equals(currentPlayer.getHook().getUniqueId())) {
 						Bukkit.getPluginManager().callEvent(new MoveFinishedEvent(currentPlayer));
@@ -86,7 +85,6 @@ public class GameListener implements Listener {
 			}
 			e.getPlayer().move(e.getOne() + e.getTwo());
 			if (e.isPasch()) {
-				Bukkit.broadcastMessage("Pasch");
 				internalCounter++;
 				if (internalCounter >= 3) {
 					Bukkit.getPluginManager().callEvent(new PlayerJailedEvent(e.getPlayer()));
