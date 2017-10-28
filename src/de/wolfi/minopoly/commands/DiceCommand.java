@@ -31,7 +31,7 @@ public class DiceCommand extends CommandInterface {
 
 	private static final ArrayList<DiceRunnable> scheds = new ArrayList<>();
 
-	public static final ItemStack dice = new ItemBuilder(Material.INK_SACK).setName("§aWürfel").build();
+	public static final ItemStack dice = new ItemBuilder(Material.INK_SACK).setName("§aWürfel").setMeta((short) 15).build();
 
 	private static class DiceRunnable implements Runnable {
 		private BukkitTask task;
@@ -47,7 +47,7 @@ public class DiceCommand extends CommandInterface {
 			player.getHook().playSound(player.getHook().getLocation(), Sound.CLICK, 1f, 1f);
 
 			short dur = (short) (ThreadLocalRandom.current().nextInt(6));
-			this.selected_slot = dur;
+			this.selected_slot = (short) (dur+1);
 			TitlesAPI.sendFullTitle(this.player.getHook(), 0, 10, 0, "§" + String.valueOf(11 % dur) + "Würfel:",
 					"§" + String.valueOf(dur % 10) + (dur + 1));
 			this.player.getHook().getInventory()
