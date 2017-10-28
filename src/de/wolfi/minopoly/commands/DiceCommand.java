@@ -8,6 +8,7 @@ import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
@@ -30,7 +31,7 @@ public class DiceCommand extends CommandInterface {
 
 	private static final ArrayList<DiceRunnable> scheds = new ArrayList<>();
 
-	public static final ItemStack dice = new ItemBuilder(Material.INK_SACK).setName("§aWürfel").build();
+	public static final ItemStack dice = new ItemBuilder(Material.INK_SACK).setName("Â§aWÃ¼rfel").build();
 
 	private static class DiceRunnable implements Runnable {
 		private BukkitTask task;
@@ -47,10 +48,10 @@ public class DiceCommand extends CommandInterface {
 
 			short dur = (short) (ThreadLocalRandom.current().nextInt(6));
 			this.selected_slot = dur;
-			TitlesAPI.sendFullTitle(this.player.getHook(), 0, 10, 0, "§" + String.valueOf(11 % dur) + "Würfel:",
-					"§" + String.valueOf(dur % 10) + (dur + 1));
+			TitlesAPI.sendFullTitle(this.player.getHook(), 0, 10, 0, "Â§" + String.valueOf(11 % dur) + "WÃ¼rfel:",
+					"Â§" + String.valueOf(dur % 10) + (dur + 1));
 			this.player.getHook().getInventory()
-					.setItemInHand(new ItemBuilder(Material.INK_SACK).setName("Würfel").setMeta((short) dur).build());
+					.setItemInHand(new ItemBuilder(Material.INK_SACK).setName("WÃ¼rfel").setMeta((short) dur).build());
 			try {
 				Thread.sleep(120);
 			} catch (InterruptedException e) {
@@ -87,7 +88,13 @@ public class DiceCommand extends CommandInterface {
 	}
 
 	@EventHandler
-	public void onSlotChange(PlayerItemHeldEvent e) {
+	public void onDrop(PlayerDropItemEvent e){
+		DiceRunnable dice = this.getSched(e.getPlayer());
+		if(dice != null) e.setCancelled(true);
+	}
+
+	@EventHandler
+	public void onSlotChange(PlayerItemHeldEvent e){
 		DiceRunnable dice = this.getSched(e.getPlayer());
 		if (dice != null)
 			e.setCancelled(true);
