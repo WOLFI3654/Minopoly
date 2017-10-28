@@ -23,6 +23,7 @@ import de.wolfi.minopoly.events.NextPlayerEvent;
 import de.wolfi.minopoly.events.PlayerJailedEvent;
 import de.wolfi.minopoly.utils.CancelConstants;
 import de.wolfi.minopoly.utils.Messages;
+import de.wolfi.minopoly.utils.TeleportCause;
 import de.wolfi.utils.ActionBarAPI;
 import de.wolfi.utils.ItemBuilder;
 import de.wolfi.utils.TitlesAPI;
@@ -164,8 +165,8 @@ public class GameListener implements Listener {
 		if (this.isAuto()) {
 			internalCounter = 0;
 			currentPlayer = getNext();
-			Bukkit.dispatchCommand(game, "dice " + currentPlayer.getName());
-
+			Bukkit.dispatchCommand(game, "dice " + currentPlayer.getName()+" x");
+			e.getPlayer().teleport(e.getPlayer().getLocation().getLocation(), TeleportCause.UNKNOWN);
 		}
 	}
 
@@ -199,7 +200,7 @@ public class GameListener implements Listener {
 	@EventHandler
 	public void onChangeWorld(EntityChangeBlockEvent e) {
 		if (e.getEntity().hasMetadata(CancelConstants.CANCEL_BLOCK_CHANGE)) {
-			e.setCancelled(true);
+			if(e.getTo() != Material.AIR) e.setCancelled(true);
 		}
 	}
 

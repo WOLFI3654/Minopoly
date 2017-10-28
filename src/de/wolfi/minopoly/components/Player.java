@@ -4,12 +4,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.map.MapView;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import de.wolfi.minopoly.Main;
 import de.wolfi.minopoly.commands.BankCommand;
+import de.wolfi.minopoly.commands.DiceCommand;
 import de.wolfi.minopoly.components.fields.Field;
 import de.wolfi.minopoly.events.MoneyEvent;
 import de.wolfi.minopoly.utils.Dangerous;
@@ -116,6 +118,17 @@ public class Player {
 		Bukkit.getPluginManager().callEvent(new MoneyEvent(this, this.getMoney(), reason));
 		Messages.MONEY_PAYD.send(this.hook, String.valueOf(amount), reason);
 	}
+	
+	private static final int DICE_SLOT = 8;
+	
+	public void selectDiceSlot() {
+		this.hook.getInventory().setHeldItemSlot(Player.DICE_SLOT);
+	}
+	
+	public void activateDice(){
+		this.hook.playSound(this.hook.getLocation(), Sound.CHICKEN_EGG_POP, 1F, 7F);
+		this.hook.getInventory().setItem(Player.DICE_SLOT, DiceCommand.dice);
+	}
 
 	public void setInventory() {
 		this.hook.getInventory().clear();
@@ -210,4 +223,5 @@ public class Player {
 	public boolean isJailed() {
 		return game.isJailed(this.getFigure());
 	}
+
 }
