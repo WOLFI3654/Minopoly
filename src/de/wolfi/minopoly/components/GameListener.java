@@ -93,7 +93,7 @@ public class GameListener implements Listener {
 
 				} else
 					return;
-			}
+			}else internalCounter = 0;
 		}
 	}
 
