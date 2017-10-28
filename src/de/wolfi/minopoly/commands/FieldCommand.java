@@ -70,6 +70,13 @@ public class FieldCommand extends CommandInterface implements InventoryHolder {
 		case "buy":
 			if(!player.getLocation().isOwned()) player.getLocation().buy(player);
 			break;
+		case "sell":
+			if(player.getLocation().isOwnedBy(player)) player.getLocation().sell();
+			break;
+		case "move":
+			Player pr = board.getByPlayerName(args[1]);
+			if(player.getLocation().isOwnedBy(player)) player.getLocation().moveProperty(pr);
+			break;
 		default:
 			break;
 		}
