@@ -75,33 +75,56 @@ public class FieldManager extends GameObject {
 
 	public Field getFieldByType(Field start, Class<? extends Field> type) {
 		boolean found = false;
-		if (start == null)
-			found = true;
 		Field next = null;
-		for (final Field f : this.fields) {
-			if (f.getClass() == type) {
-				next = f;
-				found = true;
-				break;
+		if (start != null)
+			for (final Field f : this.fields) {
+				if (f.equals(start)) {
+					next = f;
+					found = true;
+					break;
+				}
 			}
-		}
-		while(found == false){
+		while (found == false) {
 			next = getNextField(next);
-			if(next.getClass() == type) found = true;
+			if (next.getClass() == type)
+				found = true;
 		}
-		
+
+		return next;
+	}
+
+	public Field getFieldByString(Field start, String toString) {
+		boolean found = false;
+		Field next = null;
+		if (start != null)
+			for (final Field f : this.fields) {
+				if (f.equals(start)) {
+					next = f;
+					break;
+				}
+			}
+		while (found == false) {
+			next = getNextField(next);
+			if (next.toString().equalsIgnoreCase(toString))
+				found = true;
+		}
+
 		return next;
 	}
 
 	public Field getStartField() {
 		return this.getFieldByType(null, StartField.class);
 	}
-	
-	public Field getJailField(){
+
+	public Field getJailField() {
 		return this.getFieldByType(null, JailField.class);
 	}
 
 	public boolean hasAll(Player player, FieldColor color) {
 		return this.countProperties(player, color) >= this.mappedList.get(color).size();
+	}
+
+	public ArrayList<Field> getFields() {
+		return new ArrayList<>(this.fields);
 	}
 }
