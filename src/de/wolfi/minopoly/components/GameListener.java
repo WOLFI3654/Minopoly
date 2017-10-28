@@ -69,6 +69,7 @@ public class GameListener implements Listener {
 			if (currentPlayer.isJailed()) {
 				if (internalCounter >= 3) {
 					Bukkit.getPluginManager().callEvent(new NextPlayerEvent());
+					Messages.MOVE_FINISHED.broadcast(e.getPlayer().getDisplay());
 				} else if (e.isPasch()) {
 					this.game.unjailPlayer(e.getPlayer().getFigure());
 					this.internalCounter = 0;
