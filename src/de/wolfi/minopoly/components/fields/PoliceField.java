@@ -18,14 +18,13 @@ public class PoliceField extends Field {
 	private static final long serialVersionUID = -7221854907860638801L;
 
 	public PoliceField(Location loc, Minopoly game, int size) {
-		super("Polizei", FieldColor.SPECIAL, loc, game, size, 0);
+		super("Polizei", FieldColor.SPECIAL, loc, game, size, -1);
 	}
 
 	@Override
-	public void byPass(Player player) {
-
+	public boolean buy(Player player) {
+		return false;
 	}
-
 	@Override
 	public boolean isOwned() {
 		return false;
@@ -38,10 +37,8 @@ public class PoliceField extends Field {
 	}
 
 	@Override
-	public void spawn() {
-		System.out.println("Spawning police");
-		this.getCircle(0, false, new MaterialData(Material.AIR));
-		this.getCircle(0, true, new MaterialData(Material.COAL_BLOCK));
+	public MaterialData getBlock() {
+		return new MaterialData(Material.SEA_LANTERN);
 	}
 
 }

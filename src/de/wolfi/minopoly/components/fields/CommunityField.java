@@ -18,15 +18,10 @@ public class CommunityField extends Field {
 	private static final long serialVersionUID = 2546033930136925490L;
 
 	public CommunityField(Location l, Minopoly game, int size) {
-		super("Gemeinschaffts Feld", FieldColor.SPECIAL, l, game, size, 0);
+		super("Gemeinschaffts Feld", FieldColor.SPECIAL, l, game, size, -1);
 
 	}
 
-	@Override
-	public void byPass(Player player) {
-
-	}
-	
 	@Override
 	public boolean buy(Player player) {
 		return false;
@@ -44,9 +39,7 @@ public class CommunityField extends Field {
 	}
 
 	@Override
-	public void spawn() {
-		System.out.println("Spawn community");
-		this.getCircle(0, false, new MaterialData(Material.AIR));
-		this.getCircle(0, true, new MaterialData(Material.MELON_BLOCK));
+	public MaterialData getBlock() {
+		return new MaterialData(Material.MELON_BLOCK);
 	}
 }

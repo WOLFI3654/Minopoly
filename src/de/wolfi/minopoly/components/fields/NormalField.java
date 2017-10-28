@@ -1,12 +1,10 @@
 package de.wolfi.minopoly.components.fields;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.material.Dye;
 import org.bukkit.material.MaterialData;
 
 import de.wolfi.minopoly.components.Minopoly;
-import de.wolfi.minopoly.components.Player;
 
 public class NormalField extends Field {
 
@@ -18,18 +16,11 @@ public class NormalField extends Field {
 	public NormalField(String name, FieldColor color, Location l, Minopoly game, int size, int price) {
 		super(name, color, l, game, size, price);
 	}
-
+	
 	@Override
-	public void byPass(Player player) {
-
+	public MaterialData getBlock() {
+		Dye dye = new Dye();
+		dye.setColor(this.getColor().getColor());
+		return dye;
 	}
-
-	@SuppressWarnings("deprecation")
-	@Override
-	public void spawn() {
-		Bukkit.broadcastMessage("Spawning Normal");
-		this.getCircle(0, false, new MaterialData(Material.AIR));
-		this.getCircle(0, true, new MaterialData(Material.STAINED_CLAY, this.getColor().getColor().getWoolData()));
-	}
-
 }

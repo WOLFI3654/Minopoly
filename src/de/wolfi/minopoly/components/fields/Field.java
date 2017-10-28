@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
@@ -94,7 +95,7 @@ public abstract class Field extends GameObject {
 		this.load();
 	}
 
-	public abstract void byPass(Player player);
+	public void byPass(Player player){};
 
 	
 	public void setHome(Location loc){
@@ -128,6 +129,8 @@ public abstract class Field extends GameObject {
 		}
 	}
 
+	public abstract MaterialData getBlock();
+	
 	public FieldColor getColor() {
 		return this.color;
 	}
@@ -295,7 +298,11 @@ public abstract class Field extends GameObject {
 						this.color.getColorChat() + this.getName());
 	}
 
-	public abstract void spawn();
+	public final void spawn(){
+		this.getCircle(0, false, new MaterialData(Material.AIR));
+		this.getCircle(5, true, this.getBlock());
+
+	}
 
 	public boolean isOwnedBy(Player player) {
 		return this.isOwned() && this.getOwner().equals(player);

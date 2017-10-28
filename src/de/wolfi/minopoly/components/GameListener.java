@@ -25,7 +25,6 @@ import de.wolfi.minopoly.utils.CancelConstants;
 import de.wolfi.minopoly.utils.Messages;
 import de.wolfi.minopoly.utils.TeleportCause;
 import de.wolfi.utils.ItemBuilder;
-import de.wolfi.utils.TitlesAPI;
 
 public class GameListener implements Listener {
 
