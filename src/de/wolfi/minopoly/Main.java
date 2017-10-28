@@ -16,7 +16,6 @@ import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.wolfi.minopoly.commands.BankCommand;
-import de.wolfi.minopoly.commands.BuyCommand;
 import de.wolfi.minopoly.commands.DiceCommand;
 import de.wolfi.minopoly.commands.FieldCommand;
 import de.wolfi.minopoly.commands.MinigameCommand;
