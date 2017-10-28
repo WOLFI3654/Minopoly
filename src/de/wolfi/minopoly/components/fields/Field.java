@@ -162,6 +162,25 @@ public abstract class Field extends GameObject {
 	}
 
 	
+	public void moveProperty(Player player){
+		Player oldOwner = this.getOwner();
+		this.setOwner(player);
+		removeName();
+		createNametag();
+		Messages.FIELD_PROPERTY_MOVED.broadcast(oldOwner.getDisplay(),this.toString());
+
+	}
+	
+	public void sell() {
+		Player oldOwner = this.getOwner();
+		this.setOwner(null);
+		oldOwner.addMoney(this.price,"Sell "+this.toString());
+		this.removeHouse();
+		removeName();
+		createNametag();
+		Messages.FIELD_SOLD.broadcast(oldOwner.getDisplay(),this.toString());
+
+	}
 	public boolean buy(Player player){
 		player.removeMoney(this.price, "Buy "+this.toString());
 		this.setOwner(player);
@@ -206,6 +225,69 @@ public abstract class Field extends GameObject {
 
 	}
 
+	private void removeHouse(){
+		if(this.stored_home == null) return;
+		WorldEdit worldEdit = WorldEdit.getInstance();
+		LocalConfiguration config = worldEdit.getConfiguration();
+		com.sk89q.worldedit.world.World world = new BukkitWorld(stored_home.getWorld());
+		EditSession esession = worldEdit.getEditSessionFactory().getEditSession(world, 9999);
+        File dir = worldEdit.getWorkingDirectoryFile(config.saveDir);
+        File f = new File(dir, "UNOWNED.schematic");
+
+        if (!f.exists()) {
+        	Bukkit.broadcastMessage("ERROR NO SCHEMATIC FOR "+f.getName());
+//            player.printError("Schematic " + filename + " does not exist!");
+            return;
+        }
+        ClipboardFormat format = ClipboardFormat.findByAlias("schematic");
+        if (format == null) {
+        	Bukkit.broadcastMessage("W00T");
+//            player.printError("Unknown schematic format: " + formatName);
+            return;
+        }
+        LocalSession session = new LocalSession();
+        Closer closer = Closer.create();
+        try {
+            FileInputStream fis = closer.register(new FileInputStream(f));
+            BufferedInputStream bis = closer.register(new BufferedInputStream(fis));
+            ClipboardReader reader = format.getReader(bis);
+
+            WorldData worldData =world.getWorldData();
+            Clipboard clipboard = reader.read(worldData);
+            session.setClipboard(new ClipboardHolder(clipboard, worldData));
+            
+            Logger.getGlobal().info(" loaded " + f.getCanonicalPath());
+//            Vector to = atOrigin ? clipboard.getOrigin() : session.getPlacementPosition(player);
+            Operation operation = session.getClipboard()
+                    .createPaste(esession, worldData)
+                    .to(new Vector(this.stored_home.getBlockX(), this.stored_home.getY(), this.stored_home.getBlockZ()))
+                    .ignoreAirBlocks(true)
+                    .build();
+            
+            Operations.completeLegacy(operation);
+
+           
+//            player.print("The clipboard has been pasted at " + to);
+
+            //            player.print(filename + " loaded. Paste it with //paste");
+        } catch (IOException e) {
+//            player.printError("Schematic could not read or it does not exist: " + e.getMessage());
+            Logger.getGlobal().log(Level.WARNING, "Failed to load a saved clipboard", e);
+        } catch (MaxChangedBlocksException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (EmptyClipboardException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+            try {
+                closer.close();
+            } catch (IOException ignored) {
+            }
+        }
+
+	}
+	
 	private void spawnHouse() {
 		if(this.stored_home == null) return;
 		WorldEdit worldEdit = WorldEdit.getInstance();
@@ -318,5 +400,7 @@ public abstract class Field extends GameObject {
 	public void unload() {
 		removeName();
 	}
+
+	
 
 }
