@@ -44,7 +44,9 @@ Main Settings >
 
 - [x] Minigame
 
-- [ ] Dice > Pasch
+- [x] Dice > Pasch
+
+- [ ] fix items according to pack
 
 - [ ] Shitty Items in inventory -> Field overview
 
