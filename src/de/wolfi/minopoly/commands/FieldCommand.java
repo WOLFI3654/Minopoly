@@ -23,6 +23,7 @@ import de.wolfi.minopoly.components.Player;
 import de.wolfi.minopoly.components.fields.Field;
 import de.wolfi.minopoly.components.fields.NormalField;
 import de.wolfi.utils.ItemBuilder;
+import de.wolfi.utils.inventory.InventoryConfirmation;
 
 public class FieldCommand extends CommandInterface implements InventoryHolder {
 
@@ -115,12 +116,26 @@ public class FieldCommand extends CommandInterface implements InventoryHolder {
 		if (e.getInventory().getHolder() == this) {
 			e.setCancelled(true);
 			if (e.getCurrentItem() != null) {
+				if (FieldCommand.buyItem.isSimilar(e.getCurrentItem())) {
+					InventoryConfirmation confirm = new InventoryConfirmation(
+							"Mˆchtest du wirkich die Straﬂe " + e.getInventory().getTitle() + " verkaufen?");
+					confirm.setCallback((i) -> {
+						if (!confirm.isCancelled())
+							Bukkit.dispatchCommand(e.getWhoClicked(), "field buy");
+						return true;
+					});
+					confirm.open((org.bukkit.entity.Player) e.getWhoClicked());
+				} else if (FieldCommand.sellItem.isSimilar(e.getCurrentItem())) {
 
-				Minopoly game = Main.getMain().getMinopoly(e.getWhoClicked().getWorld());
-				Field f = game.getFieldManager().getFieldByString(null,
-						e.getCurrentItem().getItemMeta().getDisplayName());
-				Player p = game.getByBukkitPlayer((org.bukkit.entity.Player) e.getWhoClicked());
-				e.getWhoClicked().openInventory(this.createFieldInv(p, f));
+				} else if (FieldCommand.moveItem.isSimilar(e.getCurrentItem())) {
+
+				} else {
+					Minopoly game = Main.getMain().getMinopoly(e.getWhoClicked().getWorld());
+					Field f = game.getFieldManager().getFieldByString(null,
+							e.getCurrentItem().getItemMeta().getDisplayName());
+					Player p = game.getByBukkitPlayer((org.bukkit.entity.Player) e.getWhoClicked());
+					e.getWhoClicked().openInventory(this.createFieldInv(p, f));
+				}
 			}
 		}
 	}
@@ -129,9 +144,13 @@ public class FieldCommand extends CommandInterface implements InventoryHolder {
 		Inventory inv = Bukkit.createInventory(this, InventoryType.HOPPER, f.toString());
 		inv.addItem(this.createFieldInfo(player, f));
 		if (!f.isOwned())
-			inv.addItem(FieldCommand.buyItem);
-		else if(f.isOwnedBy(player))
-			inv.addItem(FieldCommand.sellItem,FieldCommand.moveItem);
+			if (player.getLocation().equals(f))
+				inv.addItem(FieldCommand.buyItem);
+			else
+				inv.addItem(new ItemBuilder(FieldCommand.buyItem).enchant(Enchantment.THORNS, 1)
+						.addLore("ßaDu musst auf der Straﬂe stehen, um sie zu erwerben!").build());
+		else if (f.isOwnedBy(player))
+			inv.addItem(FieldCommand.sellItem, FieldCommand.moveItem);
 		return inv;
 	}
 
