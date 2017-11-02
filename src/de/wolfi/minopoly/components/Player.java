@@ -83,6 +83,11 @@ public class Player {
 		return this.hook;
 	}
 
+	
+	/**
+	 * Returns the Name of the Hook
+	 * @return this.hook.getName()
+	 */
 	public String getName() {
 		return this.hook.getName();
 	}
