@@ -3,6 +3,8 @@ package de.wolfi.minopoly.components;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
+
 import de.wolfi.minopoly.components.fields.Field;
 import de.wolfi.minopoly.components.fields.FieldColor;
 import de.wolfi.minopoly.components.fields.JailField;
@@ -80,7 +82,6 @@ public class FieldManager extends GameObject {
 			for (final Field f : this.fields) {
 				if (f.equals(start)) {
 					next = f;
-					found = true;
 					break;
 				}
 			}
@@ -94,6 +95,7 @@ public class FieldManager extends GameObject {
 	}
 
 	public Field getFieldByString(Field start, String toString) {
+		Bukkit.broadcastMessage("Searching "+toString);
 		boolean found = false;
 		Field next = null;
 		if (start != null)
@@ -105,6 +107,7 @@ public class FieldManager extends GameObject {
 			}
 		while (found == false) {
 			next = getNextField(next);
+			Bukkit.broadcastMessage(next.toString());
 			if (next.toString().equalsIgnoreCase(toString))
 				found = true;
 		}

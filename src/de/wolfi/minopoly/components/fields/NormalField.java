@@ -1,6 +1,7 @@
 package de.wolfi.minopoly.components.fields;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.material.Dye;
 import org.bukkit.material.MaterialData;
 
@@ -19,7 +20,7 @@ public class NormalField extends Field {
 	
 	@Override
 	public MaterialData getBlock() {
-		Dye dye = new Dye();
+		Dye dye = new Dye(Material.STAINED_CLAY);
 		dye.setColor(this.getColor().getColor());
 		return dye;
 	}
