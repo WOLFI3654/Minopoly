@@ -15,7 +15,10 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
+
+import com.mysql.jdbc.PreparedStatement;
 
 import de.wolfi.minopoly.Main;
 import de.wolfi.minopoly.components.Minopoly;
@@ -24,6 +27,7 @@ import de.wolfi.minopoly.components.fields.Field;
 import de.wolfi.minopoly.components.fields.NormalField;
 import de.wolfi.utils.ItemBuilder;
 import de.wolfi.utils.inventory.InventoryConfirmation;
+import de.wolfi.utils.inventory.InventorySelector;
 
 public class FieldCommand extends CommandInterface implements InventoryHolder {
 
@@ -116,28 +120,59 @@ public class FieldCommand extends CommandInterface implements InventoryHolder {
 		if (e.getInventory().getHolder() == this) {
 			e.setCancelled(true);
 			if (e.getCurrentItem() != null) {
+				Minopoly game = Main.getMain().getMinopoly(e.getWhoClicked().getWorld());
+				Player p = game.getByBukkitPlayer((org.bukkit.entity.Player) e.getWhoClicked());
 				if (FieldCommand.buyItem.isSimilar(e.getCurrentItem())) {
 					InventoryConfirmation confirm = new InventoryConfirmation(
-							"Möchtest du wirkich die Straße " + e.getInventory().getTitle() + " verkaufen?");
+							"Möchtest du wirkich die Straße " + e.getInventory().getTitle() + " kaufen?");
 					confirm.setCallback((i) -> {
 						if (!confirm.isCancelled())
-							Bukkit.dispatchCommand(e.getWhoClicked(), "field buy");
+							Bukkit.dispatchCommand(e.getWhoClicked(), "field "+ e.getWhoClicked().getName()+" buy");
 						return true;
 					});
 					confirm.open((org.bukkit.entity.Player) e.getWhoClicked());
 				} else if (FieldCommand.sellItem.isSimilar(e.getCurrentItem())) {
+					InventoryConfirmation confirm = new InventoryConfirmation(
+							"Möchtest du wirkich die Straße " + e.getInventory().getTitle() + " verkaufen?");
+					confirm.setCallback((i) -> {
+						if (!confirm.isCancelled())
+							Bukkit.dispatchCommand(e.getWhoClicked(), "field "+ e.getWhoClicked().getName()+" sell");
+						return true;
+					});
+					confirm.open((org.bukkit.entity.Player) e.getWhoClicked());
 
 				} else if (FieldCommand.moveItem.isSimilar(e.getCurrentItem())) {
-
+					InventorySelector sel = this.createPlayerSelector(game, "Wer soll die Straße bekommen?");
+					sel.setCallback((i)->{
+						String name = ((SkullMeta) i.getItemMeta()).getOwner();
+						if(e.getWhoClicked().getName().equals(name)) return false;
+						Field f =  game.getFieldManager().getFieldByString(null,
+								e.getInventory().getItem(0).getItemMeta().getDisplayName());
+						Player selected = game.getByPlayerName(name);
+						InventoryConfirmation confirm = new InventoryConfirmation(p.getDisplay()+ " möchte dir seine Straße "+f.toString()+" überlassen o/");
+						confirm.setCallback((x) -> {
+							if (!confirm.isCancelled())
+								Bukkit.dispatchCommand(e.getWhoClicked(), "field "+ e.getWhoClicked().getName()+" move "+selected.getName());
+							return true;
+						});
+						confirm.open(selected.getHook());
+						return true;
+					});
+					sel.open((org.bukkit.entity.Player) e.getWhoClicked());
 				} else {
-					Minopoly game = Main.getMain().getMinopoly(e.getWhoClicked().getWorld());
 					Field f = game.getFieldManager().getFieldByString(null,
 							e.getCurrentItem().getItemMeta().getDisplayName());
-					Player p = game.getByBukkitPlayer((org.bukkit.entity.Player) e.getWhoClicked());
 					e.getWhoClicked().openInventory(this.createFieldInv(p, f));
 				}
 			}
 		}
+	}
+	
+	private InventorySelector createPlayerSelector(Minopoly game, String title){
+		InventorySelector selector = new InventorySelector(title);
+		for(Player p : game.getPlayingPlayers())
+			selector.addEntry(ItemBuilder.skullFromPlayer(p.getName()).addLore(p.getFigure().getDisplay()).build());
+		return selector;
 	}
 
 	private Inventory createFieldInv(Player player, Field f) {
