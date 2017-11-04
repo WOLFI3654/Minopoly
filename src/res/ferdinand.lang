@@ -1,0 +1,26 @@
+minopoly.ferdinand.not_your_turn=Hey, du bist nicht dran...
+
+minopoly.ferdinand.jail_exit=%s hat einen Pasch gewürfelt und darf das Gefängnis verlassen.
+minopoly.ferdinand.jail_tripple_pasch=Drei Pasche nacheinander? Cheater kommen bei mir sofort hinter Gittern!
+
+minopoly.ferdinand.move_finished=Uuund nächster Spieler!
+
+minopoly.ferdinand.field.community.entered=Oh, in dem Feld scheint sich ein Minispiel zu verstecken!
+minopoly.ferdinand.field.event.entered=Ein Ereignisfeld! Mal sehen was ich da mache...
+minopoly.ferdinand.field.police.entered=Hey, etwas freundlicher zu dem Officer bitte!
+minopoly.ferdinand.field.start.passed=Neue Runde neues Glück!
+minopoly.ferdinand.field.others.entered=Ohoh das wird teuer für dich! Versuche aber nicht dich vor deinen Schulden zu drücken!
+minopoly.ferdinand.field.moved_property=Das war aber freundlich! Ich hoffe du entlohnst ihn irgendwie dafür!
+minopoly.ferdinand.field.sold=Ob das so eine kluge Idee war? Naja wir werden sehen...
+minopoly.ferdinand.field.bought=Viel Spaß mit deiner neuen Straße :D
+
+minopoly.ferdinand.countdown.10=Das Spiel startet in 10 Sekunden! [...] Alle bereit?
+minopoly.ferdinand.countdown.5=5!
+minopoly.ferdinand.countdown.4=4!
+minopoly.ferdinand.countdown.3=3!
+minopoly.ferdinand.countdown.2=2!
+minopoly.ferdinand.countdown.1=1!
+minopoly.ferdinand.countdown.1=1!
+minopoly.ferdinand.countdown.start=Ferdinand Röckl !Letse Go!
+
+minopoly.ferdinand.minigame.win=Haha das war ein Spaß.
