@@ -6,6 +6,7 @@ import org.bukkit.material.MaterialData;
 
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
+import de.wolfi.minopoly.utils.I18nHelper;
 
 public class FreeParkingField extends Field{
 
@@ -25,6 +26,10 @@ public class FreeParkingField extends Field{
 	}
 
 
+	@Override
+	public void playerStand(Player player) {
+		I18nHelper.broadcast("minopoly.gameplay.field.free_parking.entered", false, player.getDisplay());
+	}
 	@Override
 	public boolean buy(Player player) {
 		return false;

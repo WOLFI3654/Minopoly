@@ -6,7 +6,7 @@ import org.bukkit.material.MaterialData;
 
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
-import de.wolfi.minopoly.utils.Messages;
+import de.wolfi.minopoly.utils.I18nHelper;
 
 public class JailField extends Field {
 
@@ -30,7 +30,7 @@ public class JailField extends Field {
 
 	@Override
 	public void playerStand(Player player) {
-		Messages.JAIL_FIELD_ENTER.broadcast(player.getName());
+		I18nHelper.broadcast("minopoly.gameplay.field.jail.entered", false, player.getDisplay());
 	}
 	
 	@Override

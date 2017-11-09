@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.annotation.Nullable;
 
 import de.wolfi.minopoly.MinigameRegistry.MinigameStyleSheet;
+import de.wolfi.minopoly.components.minigames.Countdown;
 import de.wolfi.minopoly.components.minigames.Minigame;
 import io.netty.util.internal.ThreadLocalRandom;
 
@@ -31,7 +32,7 @@ public class MinigameManager extends GameObject {
 	protected void load() {
 		for (final Minigame minigame : this.minigames)
 			minigame.load();
-
+		Countdown.countdown.load();
 	}
 
 	@Override
@@ -45,6 +46,11 @@ public class MinigameManager extends GameObject {
 		currentGame = minigame;
 		for(Player p : game.getPlayingPlayers()){
 			minigame.getMinigameHook().addPlayer(p);
+		}
+		if(game.getSettings().isAuto()){
+			Countdown.countdown.setMessage(currentGame.getName());
+			Countdown.countdown.setTime(16);
+			Countdown.countdown.start();
 		}
 	}
 	

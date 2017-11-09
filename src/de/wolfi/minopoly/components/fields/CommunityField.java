@@ -8,7 +8,7 @@ import org.bukkit.material.MaterialData;
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
 import de.wolfi.minopoly.events.MinigameFoundEvent;
-import de.wolfi.minopoly.utils.Messages;
+import de.wolfi.minopoly.utils.I18nHelper;
 
 public class CommunityField extends Field {
 
@@ -34,7 +34,9 @@ public class CommunityField extends Field {
 
 	@Override
 	public void playerStand(Player player) {
-		Messages.COMMUNITY_FIELD_ENTER.broadcast(player.getName());
+		I18nHelper.broadcast("minopoly.gameplay.field.community.entered", false, player.getDisplay());
+		I18nHelper.broadcast("minopoly.ferdinand.field.community.entered", true);
+//		Messages.COMMUNITY_FIELD_ENTER.broadcast(player.getName());
 		Bukkit.getPluginManager().callEvent(new MinigameFoundEvent(player));
 	}
 

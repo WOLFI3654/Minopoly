@@ -6,7 +6,7 @@ import org.bukkit.material.MaterialData;
 
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
-import de.wolfi.minopoly.utils.Messages;
+import de.wolfi.minopoly.utils.I18nHelper;
 
 public class EventField extends Field {
 
@@ -31,7 +31,9 @@ public class EventField extends Field {
 
 	@Override
 	public void playerStand(Player player) {
-		Messages.EVENT_FIELD_ENTER.broadcast(player.getName());
+		I18nHelper.broadcast("minopoly.gameplay.field.event.entered", false, player.getDisplay());
+		I18nHelper.broadcast("minopoly.ferdinand.field.event.entered", true);
+//		Messages.EVENT_FIELD_ENTER.broadcast(player.getName());
 	}
 	
 	@Override

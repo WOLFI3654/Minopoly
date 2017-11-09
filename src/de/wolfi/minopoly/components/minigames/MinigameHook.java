@@ -10,7 +10,7 @@ import org.bukkit.event.Listener;
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
 import de.wolfi.minopoly.events.MinigameWinEvent;
-import de.wolfi.minopoly.utils.Messages;
+import de.wolfi.minopoly.utils.I18nHelper;
 import de.wolfi.minopoly.utils.TeleportCause;
 
 public abstract class MinigameHook implements Listener {
@@ -22,7 +22,7 @@ public abstract class MinigameHook implements Listener {
 		this.mg = mg;
 		this.init();
 	}
-	
+
 	public void addPlayer(Player player) {
 		this.players.add(player);
 		player.teleport(this.mg.getLocation(), TeleportCause.MINIGAME_STARTED);
@@ -35,12 +35,12 @@ public abstract class MinigameHook implements Listener {
 	public final List<Player> getPlayers() {
 		return new ArrayList<>(this.players);
 	}
-	
-	public final boolean isPlaying(org.bukkit.entity.Player player){
+
+	public final boolean isPlaying(org.bukkit.entity.Player player) {
 		return this.players.contains(this.getBoard().getByBukkitPlayer(player));
 	}
-	
-	public final boolean isPlaying(Player player){
+
+	public final boolean isPlaying(Player player) {
 		return this.players.contains(player);
 	}
 
@@ -51,15 +51,15 @@ public abstract class MinigameHook implements Listener {
 	public abstract void start();
 
 	public abstract void endGame();
-	
-	protected final Minopoly getBoard(){
+
+	protected final Minopoly getBoard() {
 		return this.mg.getBoard();
 	}
-	
-	protected final Minigame getMinigame(){
+
+	protected final Minigame getMinigame() {
 		return mg;
 	}
-	
+
 	protected final void win(Player... players) {
 		final StringBuilder string = new StringBuilder(players[0].getName());
 		for (int i = 1; i < players.length; i++) {
@@ -67,9 +67,10 @@ public abstract class MinigameHook implements Listener {
 			string.append(players[i].getName());
 		}
 		Bukkit.getPluginManager().callEvent(new MinigameWinEvent(players[0]));
-		Messages.MINIGAME_WIN.broadcast(this.getName(), string.toString());
+		I18nHelper.broadcast("minopoly.ferdinand.minigame.win", true);
+		I18nHelper.broadcast("minopoly.gameplay.minigame.win", false, string.toString());
 	}
-	
+
 	protected abstract void init();
 
 }

@@ -6,7 +6,7 @@ import org.bukkit.material.MaterialData;
 
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
-import de.wolfi.minopoly.utils.Messages;
+import de.wolfi.minopoly.utils.I18nHelper;
 
 public class StartField extends Field {
 
@@ -30,12 +30,15 @@ public class StartField extends Field {
 	
 	@Override
 	public void byPass(Player player) {
-		Messages.START_FIELD_BYPASS.broadcast(player.getName());
+		player.sendMessage("minopoly.ferdinand.field.start.passed",true);
+		I18nHelper.broadcast("minopoly.gameplay.field.start.passed", false, player.getDisplay());
 		player.addMoney(200, "Los passiert");
 
 	}
 	@Override
 	public void playerStand(Player player) {
+		player.sendMessage("minopoly.ferdinand.field.start.passed",true);
+		I18nHelper.broadcast("minopoly.gameplay.field.start.passed", false, player.getDisplay());
 		player.addMoney(400,"Los besucht");
 		super.playerStand(player);
 	}

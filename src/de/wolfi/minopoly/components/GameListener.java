@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import de.wolfi.minopoly.Main;
 import de.wolfi.minopoly.components.fields.FieldColor;
 import de.wolfi.minopoly.components.fields.PayingField;
+import de.wolfi.minopoly.events.CountdownFinishedEvent;
 import de.wolfi.minopoly.events.DiceEvent;
 import de.wolfi.minopoly.events.FieldEvent;
 import de.wolfi.minopoly.events.MinigameFoundEvent;
@@ -22,7 +23,7 @@ import de.wolfi.minopoly.events.MoveFinishedEvent;
 import de.wolfi.minopoly.events.NextPlayerEvent;
 import de.wolfi.minopoly.events.PlayerJailedEvent;
 import de.wolfi.minopoly.utils.CancelConstants;
-import de.wolfi.minopoly.utils.Messages;
+import de.wolfi.minopoly.utils.I18nHelper;
 import de.wolfi.minopoly.utils.TeleportCause;
 import de.wolfi.utils.ItemBuilder;
 
@@ -53,7 +54,7 @@ public class GameListener implements Listener {
 				if (ItemBuilder.isSimilar(GameListener.finishMove, e.getItem())) {
 					if (e.getPlayer().getUniqueId().equals(currentPlayer.getHook().getUniqueId())) {
 						Bukkit.getPluginManager().callEvent(new MoveFinishedEvent(currentPlayer));
-					} else
+					} else///XXX ferdinand.minopoly.not_your_turn
 						e.getPlayer().sendMessage("Du nix dran...");
 				}
 			}
@@ -67,16 +68,20 @@ public class GameListener implements Listener {
 			if (currentPlayer.isJailed()) {
 				if (internalCounter >= 3) {
 					Bukkit.getPluginManager().callEvent(new NextPlayerEvent());
-					Messages.MOVE_FINISHED.broadcast(e.getPlayer().getDisplay());
+//					Messages.MOVE_FINISHED.broadcast(e.getPlayer().getDisplay());
+					I18nHelper.broadcast("minopoly.gameplay.move_finished", false, e.getPlayer().getDisplay());
 				} else if (e.isPasch()) {
 					this.game.unjailPlayer(e.getPlayer().getFigure());
 					this.internalCounter = 0;
 					Bukkit.dispatchCommand(this.game, "dice " + e.getPlayer().getName());
-					Messages.JAIL_EXIT.broadcast(e.getPlayer().getDisplay());
+					//Messages.JAIL_EXIT.broadcast(e.getPlayer().getDisplay());
+					I18nHelper.broadcast("minopoly.ferdinand.jail_exit", true, e.getPlayer().getDisplay());
+
 				} else {
 					Bukkit.dispatchCommand(this.game, "dice " + e.getPlayer().getName());
 					internalCounter++;
-					Messages.JAIL_EXIT_FAILED.send(e.getPlayer().getHook(), 3 - internalCounter);
+					e.getPlayer().sendMessage("minopoly.gameplay.jail_exit_failed", false, String.valueOf(3 - (internalCounter-1)));
+//					Messages.JAIL_EXIT_FAILED.send(e.getPlayer().getHook(), 3 - internalCounter);
 
 				}
 
@@ -87,7 +92,10 @@ public class GameListener implements Listener {
 				internalCounter++;
 				if (internalCounter >= 3) {
 					Bukkit.getPluginManager().callEvent(new PlayerJailedEvent(e.getPlayer()));
-					Messages.TRIPPLE_JAILED.broadcast(e.getPlayer().getDisplay());
+					//Messages.TRIPPLE_JAILED.broadcast(e.getPlayer().getDisplay());
+					I18nHelper.broadcast("minopoly.ferdinand.jail_tripple_pasch", true);
+					e.getPlayer().sendMessage("minopoly.gameplay.jail_tripple_pasch", false);
+//					
 
 				} else
 					return;
@@ -101,6 +109,12 @@ public class GameListener implements Listener {
 		game.getScoreboardManager().updatePlayer(e.getPlayer());
 	}
 
+	@EventHandler
+	public void onCountdownEnd(CountdownFinishedEvent e){
+		Bukkit.dispatchCommand(this.game, "minigame " + this.game.getPlayingPlayers().get(0).getName() + " start");
+
+	}
+	
 	@EventHandler
 	public void onMinigameWin(MinigameWinEvent e) {
 		if (this.isAuto()) {
@@ -130,7 +144,9 @@ public class GameListener implements Listener {
 			return;
 		}
 		Bukkit.getPluginManager().callEvent(new NextPlayerEvent());
-		Messages.MOVE_FINISHED.broadcast(e.getPlayer().getDisplay());
+		I18nHelper.broadcast("minopoly.gameplay.move_finished", false, e.getPlayer().getDisplay());
+		I18nHelper.broadcast("minopoly.ferdinand.move_finished", true);
+
 
 	}
 

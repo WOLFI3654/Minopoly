@@ -8,7 +8,7 @@ import org.bukkit.material.MaterialData;
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
 import de.wolfi.minopoly.events.PlayerJailedEvent;
-import de.wolfi.minopoly.utils.Messages;
+import de.wolfi.minopoly.utils.I18nHelper;
 
 public class PoliceField extends Field {
 
@@ -33,7 +33,9 @@ public class PoliceField extends Field {
 	@Override
 	public void playerStand(Player p) {
 		Bukkit.getPluginManager().callEvent(new PlayerJailedEvent(p));
-		Messages.POLICE_FIELD_ENTER.broadcast(p.getName());
+		p.sendMessage("minopoly.ferdinand.field.police.entered",true);
+		I18nHelper.broadcast("minopoly.gameplay.field.police.entered", false, p.getDisplay());
+
 	}
 
 	@Override
