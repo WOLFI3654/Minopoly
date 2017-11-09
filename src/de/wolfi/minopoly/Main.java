@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
@@ -24,9 +25,13 @@ import de.wolfi.minopoly.commands.MoveCommand;
 import de.wolfi.minopoly.commands.PlayerSelectorCommand;
 import de.wolfi.minopoly.commands.SetupCommand;
 import de.wolfi.minopoly.components.Minopoly;
+import de.wolfi.utils.i18n.I18n;
+import de.wolfi.utils.i18n.Locale;
 
 public class Main extends JavaPlugin implements Listener {
-
+	
+	private Locale minopLocale;
+	
 	public static Main getMain() {
 		return JavaPlugin.getPlugin(Main.class);
 	}
@@ -94,6 +99,9 @@ public class Main extends JavaPlugin implements Listener {
 
 	@Override
 	public void onEnable() {
+		minopLocale = new Locale();
+		minopLocale.loadLocaleDataFiles(getDataFolder(), Arrays.asList("ferdinand","minigames","gameplay"));
+		I18n.setLocale(minopLocale);
 		this.getCommand("setupminopoly").setExecutor(new SetupCommand());
 		this.getCommand("bank").setExecutor(new BankCommand(this));
 		this.getCommand("move").setExecutor(new MoveCommand(this));
