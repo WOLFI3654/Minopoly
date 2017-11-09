@@ -50,4 +50,6 @@ Main Settings >
 
 - [ ] Shitty Items in inventory -> Field overview
 
+- [ ] FUCKING EVENT FIELD
+
 - [ ] Add price and blocks to Fundsfield & the ability to create the funds with a price in _SetupCommand_
