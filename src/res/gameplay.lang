@@ -1,3 +1,5 @@
+minopoly.prefix=§4ICH BIN EINE ROTE PREFIX§a 
+
 minopoly.gameplay.move_finished=%s hat seinen Zug beendet.
 
 minopoly.gameplay.jail_exit_failed=Du hast in dieser Runde noch %s versuche einen Pasch zu würfeln!
