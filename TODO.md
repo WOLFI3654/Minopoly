@@ -6,7 +6,7 @@
    	2. [x] !*Fields
         [x] !Railway
         [x] !Haus
-    3. [ ] >*!Minigames
+    3. [x] >*!Minigames
 4. [x] Würfel Befehl imolement dam usage 
 5. [x] Move Befehl
 6. [x] Player Selector
