@@ -155,6 +155,10 @@ public abstract class Field extends GameObject {
 		return billing;
 	}
 
+	public Minopoly getGame() {
+		return game;
+	}
+	
 	@Override
 	public String toString() {
 		return this.getColor().getColorChat() + this.getName();

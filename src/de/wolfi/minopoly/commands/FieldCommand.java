@@ -110,6 +110,19 @@ public class FieldCommand extends CommandInterface implements InventoryHolder {
 			field.addLore("§aVerfügbar");
 		if (f.isOwnedBy(p))
 			field.enchant(owned, 10);
+
+		StringBuilder spieler = new StringBuilder();
+		int amount = 0;
+		for (Player pi : f.getGame().getPlayingPlayers()) {
+			if (pi.getLocation().equals(f)) {
+				if (spieler.length() != 0)
+					spieler.append(',');
+				spieler.append(pi.getDisplay());
+				amount++;
+			}
+		}
+		field.addLore(spieler.toString());
+		field.setAmount(amount);
 		return field.build();
 	}
 
@@ -125,7 +138,7 @@ public class FieldCommand extends CommandInterface implements InventoryHolder {
 							"Möchtest du wirkich die Straße " + e.getInventory().getTitle() + " kaufen?");
 					confirm.setCallback((i) -> {
 						if (!confirm.isCancelled())
-							Bukkit.dispatchCommand(e.getWhoClicked(), "field "+ e.getWhoClicked().getName()+" buy");
+							Bukkit.dispatchCommand(e.getWhoClicked(), "field " + e.getWhoClicked().getName() + " buy");
 						return true;
 					});
 					confirm.open((org.bukkit.entity.Player) e.getWhoClicked());
@@ -134,23 +147,26 @@ public class FieldCommand extends CommandInterface implements InventoryHolder {
 							"Möchtest du wirkich die Straße " + e.getInventory().getTitle() + " verkaufen?");
 					confirm.setCallback((i) -> {
 						if (!confirm.isCancelled())
-							Bukkit.dispatchCommand(e.getWhoClicked(), "field "+ e.getWhoClicked().getName()+" sell");
+							Bukkit.dispatchCommand(e.getWhoClicked(), "field " + e.getWhoClicked().getName() + " sell");
 						return true;
 					});
 					confirm.open((org.bukkit.entity.Player) e.getWhoClicked());
 
 				} else if (FieldCommand.moveItem.isSimilar(e.getCurrentItem())) {
 					InventorySelector sel = this.createPlayerSelector(game, "Wer soll die Straße bekommen?");
-					sel.setCallback((i)->{
+					sel.setCallback((i) -> {
 						String name = ((SkullMeta) i.getItemMeta()).getOwner();
-						if(e.getWhoClicked().getName().equals(name)) return false;
-						Field f =  game.getFieldManager().getFieldByString(null,
+						if (e.getWhoClicked().getName().equals(name))
+							return false;
+						Field f = game.getFieldManager().getFieldByString(null,
 								e.getInventory().getItem(0).getItemMeta().getDisplayName());
 						Player selected = game.getByPlayerName(name);
-						InventoryConfirmation confirm = new InventoryConfirmation(p.getDisplay()+ " möchte dir seine Straße "+f.toString()+" überlassen o/");
+						InventoryConfirmation confirm = new InventoryConfirmation(
+								p.getDisplay() + " möchte dir seine Straße " + f.toString() + " überlassen o/");
 						confirm.setCallback((x) -> {
 							if (!confirm.isCancelled())
-								Bukkit.dispatchCommand(e.getWhoClicked(), "field "+ e.getWhoClicked().getName()+" move "+selected.getName());
+								Bukkit.dispatchCommand(e.getWhoClicked(),
+										"field " + e.getWhoClicked().getName() + " move " + selected.getName());
 							return true;
 						});
 						confirm.open(selected.getHook());
@@ -165,10 +181,10 @@ public class FieldCommand extends CommandInterface implements InventoryHolder {
 			}
 		}
 	}
-	
-	private InventorySelector createPlayerSelector(Minopoly game, String title){
+
+	private InventorySelector createPlayerSelector(Minopoly game, String title) {
 		InventorySelector selector = new InventorySelector(title);
-		for(Player p : game.getPlayingPlayers())
+		for (Player p : game.getPlayingPlayers())
 			selector.addEntry(ItemBuilder.skullFromPlayer(p.getName()).addLore(p.getFigure().getDisplay()).build());
 		return selector;
 	}
