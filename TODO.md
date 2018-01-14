@@ -52,4 +52,4 @@ Main Settings >
 
 - [ ] FUCKING EVENT FIELD
 
-- [ ] Add price and blocks to Fundsfield & the ability to create the funds with a price in _SetupCommand_
+- [x] Add price and blocks to Fundsfield & the ability to create the funds with a price in _SetupCommand_
