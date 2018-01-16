@@ -4,11 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 
 import de.wolfi.minopoly.components.fields.Field;
 import de.wolfi.minopoly.components.fields.FieldColor;
 import de.wolfi.minopoly.components.fields.JailField;
+import de.wolfi.minopoly.components.fields.NormalField;
 import de.wolfi.minopoly.components.fields.StartField;
+import de.wolfi.utils.ItemBuilder;
 
 public class FieldManager extends GameObject {
 
@@ -19,6 +24,9 @@ public class FieldManager extends GameObject {
 
 	private final ArrayList<Field> fields = new ArrayList<>();
 	private final HashMap<FieldColor, ArrayList<Field>> mappedList = new HashMap<>();
+	
+	private static final Enchantment owned = new ItemBuilder.MyEnchantment("Owned");
+
 
 	protected FieldManager() {
 	}
@@ -75,6 +83,42 @@ public class FieldManager extends GameObject {
 
 	}
 
+	
+	public ItemStack createFieldInfo(Player p, Field f) {
+		MaterialData data = f.getBlock();
+		ItemBuilder field = new ItemBuilder(data.toItemStack());
+		field.setName(f.toString());
+		field.addLore("Typ: " + f.getClass().getSimpleName());
+		if (f instanceof NormalField)
+			field.addLore("Farbe: " + f.getColor().toString());
+		if (f.getPrice() >= 0) {
+			field.addLore("Preis: " + f.getPrice());
+			field.addLore("Steuern: " + f.getBilling());
+		}
+
+		if (f.isOwned())
+			field.addLore("Owner: " + f.getOwner().getDisplay());
+		else
+			field.addLore("§aVerfügbar");
+		if (f.isOwnedBy(p))
+			field.enchant(owned, 10);
+
+		StringBuilder spieler = new StringBuilder();
+		int amount = 0;
+		for (Player pi : f.getGame().getPlayingPlayers()) {
+			if (pi.getLocation().equals(f)) {
+				if (spieler.length() != 0)
+					spieler.append(',');
+				spieler.append(pi.getDisplay());
+				amount++;
+			}
+		}
+		field.addLore(spieler.toString());
+		field.setAmount(amount);
+		return field.build();
+	}
+	
+	
 	public Field getFieldByType(Field start, Class<? extends Field> type) {
 		boolean found = false;
 		Field next = null;
