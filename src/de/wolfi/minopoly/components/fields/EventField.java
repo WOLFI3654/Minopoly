@@ -1,11 +1,13 @@
 package de.wolfi.minopoly.components.fields;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
+import de.wolfi.minopoly.events.EventFoundEvent;
 import de.wolfi.minopoly.utils.I18nHelper;
 
 public class EventField extends Field {
@@ -34,6 +36,8 @@ public class EventField extends Field {
 		I18nHelper.broadcast("minopoly.gameplay.field.event.entered", false, player.getDisplay());
 		I18nHelper.broadcast("minopoly.ferdinand.field.event.entered", true);
 //		Messages.EVENT_FIELD_ENTER.broadcast(player.getName());
+		Bukkit.getPluginManager().callEvent(new EventFoundEvent(player));
+
 	}
 	
 	@Override
