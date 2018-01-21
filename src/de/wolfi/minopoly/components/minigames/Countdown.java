@@ -67,7 +67,6 @@ public class Countdown implements Listener {
 					try {
 						Thread.sleep(2000);
 					} catch (InterruptedException e2) {
-						// TODO Auto-generated catch block
 						e2.printStackTrace();
 					};
 				while (running) {
