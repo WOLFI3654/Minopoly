@@ -18,7 +18,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import de.wolfi.minopoly.commands.BankCommand;
 import de.wolfi.minopoly.commands.DiceCommand;
+import de.wolfi.minopoly.commands.EventCommand;
 import de.wolfi.minopoly.commands.FieldCommand;
+import de.wolfi.minopoly.commands.FlyAwayToVictoryCommand;
 import de.wolfi.minopoly.commands.MinigameCommand;
 import de.wolfi.minopoly.commands.MinopolyCommand;
 import de.wolfi.minopoly.commands.MoveCommand;
@@ -102,6 +104,9 @@ public class Main extends JavaPlugin implements Listener {
 		minopLocale = new Locale();
 		minopLocale.loadLocaleDataFiles(getDataFolder(), Arrays.asList("ferdinand","minigames","gameplay"));
 		I18n.setLocale(minopLocale);
+		
+		this.getCommand("event").setExecutor(new EventCommand(this));
+		this.getCommand("flyawaytovictory").setExecutor(new FlyAwayToVictoryCommand(this));
 		this.getCommand("setupminopoly").setExecutor(new SetupCommand());
 		this.getCommand("bank").setExecutor(new BankCommand(this));
 		this.getCommand("move").setExecutor(new MoveCommand(this));
