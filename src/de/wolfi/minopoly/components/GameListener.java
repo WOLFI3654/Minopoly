@@ -15,6 +15,7 @@ import de.wolfi.minopoly.components.fields.FieldColor;
 import de.wolfi.minopoly.components.fields.PayingField;
 import de.wolfi.minopoly.events.CountdownFinishedEvent;
 import de.wolfi.minopoly.events.DiceEvent;
+import de.wolfi.minopoly.events.EventFoundEvent;
 import de.wolfi.minopoly.events.FieldEvent;
 import de.wolfi.minopoly.events.MinigameFoundEvent;
 import de.wolfi.minopoly.events.MinigameWinEvent;
@@ -126,6 +127,13 @@ public class GameListener implements Listener {
 	public void onMinigameFound(MinigameFoundEvent e) {
 		if (this.isAuto()) {
 			Bukkit.dispatchCommand(this.game, "minigame " + e.getPlayer().getName() + " select");
+		}
+	}
+	
+	@EventHandler
+	public void onEventFound(EventFoundEvent e) {
+		if (this.isAuto()) {
+			Bukkit.dispatchCommand(this.game, "event " + e.getPlayer().getName() + " select");
 		}
 	}
 
