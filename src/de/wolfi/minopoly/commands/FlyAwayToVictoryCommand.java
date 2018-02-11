@@ -14,7 +14,7 @@ import de.wolfi.minopoly.components.fields.Field;
 public class FlyAwayToVictoryCommand extends CommandInterface implements InventoryHolder{
 
 	public FlyAwayToVictoryCommand(Main plugin) {
-		super(plugin, 0, false);
+		super(plugin, 0, true);
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class FlyAwayToVictoryCommand extends CommandInterface implements Invento
 	}
 	@Override
 	public Inventory getInventory() {
-		return Bukkit.createInventory(this, 9*3,"Hey");
+		return Bukkit.createInventory(this, 9*3,"FlyAwayToVictory");
 	}
 
 }
