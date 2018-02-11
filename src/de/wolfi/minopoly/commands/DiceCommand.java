@@ -31,7 +31,7 @@ public class DiceCommand extends CommandInterface {
 
 	private static final ArrayList<DiceRunnable> scheds = new ArrayList<>();
 
-	public static final ItemStack dice = new ItemBuilder(Material.INK_SACK).setName("§aW�rfel").setMeta((short) 15).build();
+	public static final ItemStack dice = new ItemBuilder(Material.INK_SACK).setName("Â§aWürfel").setMeta((short) 15).build();
 
 	private static class DiceRunnable implements Runnable {
 		private BukkitTask task;
@@ -48,10 +48,10 @@ public class DiceCommand extends CommandInterface {
 
 			short dur = (short) (ThreadLocalRandom.current().nextInt(6));
 			this.selected_slot = (short) (dur+1);
-			TitlesAPI.sendFullTitle(this.player.getHook(), 0, 10, 0, "§" + String.valueOf(11 % (dur+1)) + "W�rfel:",
-					"§" + String.valueOf(dur % 10) + (dur + 1));
+			TitlesAPI.sendFullTitle(this.player.getHook(), 0, 10, 0, "Â§" + String.valueOf(11 % (dur+1)) + "Würfel:",
+					"Â§" + String.valueOf(dur % 10) + (dur + 1));
 			this.player.getHook().getInventory()
-					.setItemInHand(new ItemBuilder(Material.INK_SACK).setName("W�rfel").setMeta((short) dur).build());
+					.setItemInHand(new ItemBuilder(Material.INK_SACK).setName("Würfel").setMeta((short) dur).build());
 			try {
 				Thread.sleep(120);
 			} catch (InterruptedException e) {
@@ -85,6 +85,12 @@ public class DiceCommand extends CommandInterface {
 		public short getValue() {
 			return selected_slot;
 		}
+	}
+	
+	@EventHandler
+	public void onDrop(PlayerDropItemEvent e){
+		DiceRunnable dice = this.getSched(e.getPlayer());
+		if(dice != null) e.setCancelled(true);
 	}
 
 	@EventHandler
