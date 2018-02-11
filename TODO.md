@@ -4,9 +4,9 @@
 3. [x] !*Setup Befehl
     1. [x] !Main Settings
    	2. [x] !*Fields
-        [ ] !Railway
+        [x] !Railway
         [x] !Haus
-    3. [ ] >*!Minigames
+    3. [x] >*!Minigames
 4. [x] Würfel Befehl imolement dam usage 
 5. [x] Move Befehl
 6. [x] Player Selector
@@ -36,7 +36,7 @@ Main Settings >
 
 - [ ] Messages!
 - [ ] Delays
-- [ ] import MAEDN dice or MarioParty dice
+- [x] import MAEDN dice or MarioParty dice
 
 # Things must be fixed
 
@@ -44,8 +44,12 @@ Main Settings >
 
 - [x] Minigame
 
-- [ ] Dice > Pasch
+- [x] Dice > Pasch
 
-- [ ] Shitty Items in inventory
+- [ ] fix items according to pack
 
-- [ ] Add price and blocks to Fundsfield & the ability to create the funds with a price in _SetupCommand_
+- [ ] Shitty Items in inventory -> Field overview
+
+- [ ] FUCKING EVENT FIELD -> Event listener
+
+- [x] Add price and blocks to Fundsfield & the ability to create the funds with a price in _SetupCommand_

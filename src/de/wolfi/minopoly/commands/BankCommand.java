@@ -73,7 +73,7 @@ public class BankCommand extends CommandInterface implements InventoryHolder {
 		}
 			break;
 		case "gui": {
-			Inventory inv = Bukkit.createInventory(this, 9 * 2, title);
+			Inventory inv = this.getInventory();
 			for (Player p : board.getPlayingPlayers()) {
 				if (p != player)
 					inv.addItem(new ItemBuilder(Material.SKULL_ITEM).setMeta((short) 3).setSkullOwner(p.getName())
@@ -128,7 +128,7 @@ public class BankCommand extends CommandInterface implements InventoryHolder {
 
 	@Override
 	public Inventory getInventory() {
-		return Bukkit.createInventory(this, 9, title);
+		return Bukkit.createInventory(this, 9*2, title);
 	}
 
 }

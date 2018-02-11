@@ -1,9 +1,10 @@
 package de.wolfi.minopoly.components.fields;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.material.MaterialData;
 
 import de.wolfi.minopoly.components.Minopoly;
-import de.wolfi.minopoly.components.Player;
 
 public class FundsField extends Field{
 
@@ -15,17 +16,11 @@ public class FundsField extends Field{
 	public FundsField(String name, Location l, Minopoly game, int size, int prize) {
 		super(name, FieldColor.FUNDS, l, game, size,  prize);
 	}
+	
 
 	@Override
-	public void byPass(Player player) {
-		
-		
-	}
-
-	@Override
-	public void spawn() {
-		// TODO Auto-generated method stub
-		
+	public MaterialData getBlock() {
+		return new MaterialData(Material.EMERALD_BLOCK);
 	}
 
 }

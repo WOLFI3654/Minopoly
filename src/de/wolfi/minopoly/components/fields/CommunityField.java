@@ -8,7 +8,7 @@ import org.bukkit.material.MaterialData;
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
 import de.wolfi.minopoly.events.MinigameFoundEvent;
-import de.wolfi.minopoly.utils.Messages;
+import de.wolfi.minopoly.utils.I18nHelper;
 
 public class CommunityField extends Field {
 
@@ -18,15 +18,10 @@ public class CommunityField extends Field {
 	private static final long serialVersionUID = 2546033930136925490L;
 
 	public CommunityField(Location l, Minopoly game, int size) {
-		super("Gemeinschaffts Feld", FieldColor.SPECIAL, l, game, size, 0);
+		super("Gemeinschaffts Feld", FieldColor.SPECIAL, l, game, size, -1);
 
 	}
 
-	@Override
-	public void byPass(Player player) {
-
-	}
-	
 	@Override
 	public boolean buy(Player player) {
 		return false;
@@ -39,14 +34,14 @@ public class CommunityField extends Field {
 
 	@Override
 	public void playerStand(Player player) {
-		Messages.COMMUNITY_FIELD_ENTER.broadcast(player.getName());
+		I18nHelper.broadcast("minopoly.gameplay.field.community.entered", false, player.getDisplay());
+		I18nHelper.broadcast("minopoly.ferdinand.field.community.entered", true);
+//		Messages.COMMUNITY_FIELD_ENTER.broadcast(player.getName());
 		Bukkit.getPluginManager().callEvent(new MinigameFoundEvent(player));
 	}
 
 	@Override
-	public void spawn() {
-		System.out.println("Spawn community");
-		this.getCircle(0, false, new MaterialData(Material.AIR));
-		this.getCircle(0, true, new MaterialData(Material.MELON_BLOCK));
+	public MaterialData getBlock() {
+		return new MaterialData(Material.MELON_BLOCK);
 	}
 }

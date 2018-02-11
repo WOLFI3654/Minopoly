@@ -8,7 +8,7 @@ import org.bukkit.material.MaterialData;
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
 import de.wolfi.minopoly.events.PlayerJailedEvent;
-import de.wolfi.minopoly.utils.Messages;
+import de.wolfi.minopoly.utils.I18nHelper;
 
 public class PoliceField extends Field {
 
@@ -18,14 +18,13 @@ public class PoliceField extends Field {
 	private static final long serialVersionUID = -7221854907860638801L;
 
 	public PoliceField(Location loc, Minopoly game, int size) {
-		super("Polizei", FieldColor.SPECIAL, loc, game, size, 0);
+		super("Polizei", FieldColor.SPECIAL, loc, game, size, -1);
 	}
 
 	@Override
-	public void byPass(Player player) {
-
+	public boolean buy(Player player) {
+		return false;
 	}
-
 	@Override
 	public boolean isOwned() {
 		return false;
@@ -34,14 +33,14 @@ public class PoliceField extends Field {
 	@Override
 	public void playerStand(Player p) {
 		Bukkit.getPluginManager().callEvent(new PlayerJailedEvent(p));
-		Messages.POLICE_FIELD_ENTER.broadcast(p.getName());
+		p.sendMessage("minopoly.ferdinand.field.police.entered",true);
+		I18nHelper.broadcast("minopoly.gameplay.field.police.entered", false, p.getDisplay());
+
 	}
 
 	@Override
-	public void spawn() {
-		System.out.println("Spawning police");
-		this.getCircle(0, false, new MaterialData(Material.AIR));
-		this.getCircle(0, true, new MaterialData(Material.COAL_BLOCK));
+	public MaterialData getBlock() {
+		return new MaterialData(Material.SEA_LANTERN);
 	}
 
 }

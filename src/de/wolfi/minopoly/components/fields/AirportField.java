@@ -1,9 +1,10 @@
 package de.wolfi.minopoly.components.fields;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.material.MaterialData;
 
 import de.wolfi.minopoly.components.Minopoly;
-import de.wolfi.minopoly.components.Player;
 
 public class AirportField extends Field{
 
@@ -17,15 +18,8 @@ public class AirportField extends Field{
 	}
 
 	@Override
-	public void byPass(Player player) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void spawn() {
-		// TODO Auto-generated method stub
-		
+	public MaterialData getBlock() {
+		return new MaterialData(Material.MOSSY_COBBLESTONE);
 	}
 
 }

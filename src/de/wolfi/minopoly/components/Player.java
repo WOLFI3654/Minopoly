@@ -4,17 +4,21 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.map.MapView;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import de.wolfi.minopoly.Main;
 import de.wolfi.minopoly.commands.BankCommand;
+import de.wolfi.minopoly.commands.DiceCommand;
+import de.wolfi.minopoly.commands.FieldCommand;
 import de.wolfi.minopoly.components.fields.Field;
 import de.wolfi.minopoly.events.MoneyEvent;
 import de.wolfi.minopoly.utils.Dangerous;
 import de.wolfi.minopoly.utils.DisguiseManager;
 import de.wolfi.minopoly.utils.FigureType;
+import de.wolfi.minopoly.utils.I18nHelper;
 import de.wolfi.minopoly.utils.MapFactory;
 import de.wolfi.minopoly.utils.Messages;
 import de.wolfi.minopoly.utils.TeleportCause;
@@ -50,8 +54,8 @@ public class Player {
 		Bukkit.getPluginManager().callEvent(new MoneyEvent(this, this.getMoney(), reason));
 		Messages.MONEY_GAIN.send(this.hook, String.valueOf(amount), reason);
 	}
-	
-	public int getMoney(){
+
+	public int getMoney() {
 		return this.money.getMoney(this);
 	}
 
@@ -80,6 +84,15 @@ public class Player {
 		return this.hook;
 	}
 
+	public void sendMessage(String msg, boolean audio, Object... args) {
+		I18nHelper.sendMessage(this.getHook(), msg, audio, args);
+	}
+
+	/**
+	 * Returns the Name of the Hook
+	 * 
+	 * @return this.hook.getName()
+	 */
 	public String getName() {
 		return this.hook.getName();
 	}
@@ -106,7 +119,7 @@ public class Player {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			Bukkit.getScheduler().runTask(Main.getMain(), ()->Player.this.location.playerStand(Player.this));
+			Bukkit.getScheduler().runTask(Main.getMain(), () -> Player.this.location.playerStand(Player.this));
 		});
 
 	}
@@ -117,55 +130,70 @@ public class Player {
 		Messages.MONEY_PAYD.send(this.hook, String.valueOf(amount), reason);
 	}
 
+	private static final int DICE_SLOT = 8;
+
+	public void selectDiceSlot() {
+		this.hook.getInventory().setHeldItemSlot(Player.DICE_SLOT);
+	}
+
+	public void activateDice() {
+		this.hook.playSound(this.hook.getLocation(), Sound.CHICKEN_EGG_POP, 1F, 7F);
+		this.hook.getInventory().setItem(Player.DICE_SLOT, DiceCommand.dice);
+	}
+
 	public void setInventory() {
 		this.hook.getInventory().clear();
-		
+
 		this.hook.setGameMode(GameMode.ADVENTURE);
 		this.hook.setAllowFlight(true);
 		this.hook.setFlying(true);
-		
+
 		this.hook.getInventory().addItem(getMap());
 		this.hook.getInventory().addItem(GameListener.finishMove);
 		this.hook.getInventory().addItem(BankCommand.payGUI);
-		
+		this.hook.getInventory().addItem(FieldCommand.fieldGUI);
+
 		this.hook.setSaturation(20);
 		this.hook.setHealth(this.hook.getMaxHealth());
 	}
 
 	private ItemStack getMap() {
-		
-			MapView mapView = MapFactory.getMap(this.game, this.hook);
-			@SuppressWarnings("deprecation")
-			ItemStack mapItem = new ItemStack(Material.MAP, 1, mapView.getId());
-			return mapItem;
+
+		MapView mapView = MapFactory.getMap(this.game, this.hook);
+		@SuppressWarnings("deprecation")
+		ItemStack mapItem = new ItemStack(Material.MAP, 1, mapView.getId());
+		return mapItem;
 	}
 
 	private void spawnFigure() {
 		if (this.tmp != null)
 			this.tmp.remove();
-//		final Entity e = this.location.getWorld().spawnEntity(this.location.getTeleportLocation(), this.type.getEntityType());
-//		e.setCustomName(this.hook.getName());
-//		e.setCustomNameVisible(true);
-//		e.setMetadata("PlayerNPC", new FixedMetadataValue(Main.getMain(), this));
+		// final Entity e =
+		// this.location.getWorld().spawnEntity(this.location.getTeleportLocation(),
+		// this.type.getEntityType());
+		// e.setCustomName(this.hook.getName());
+		// e.setCustomNameVisible(true);
+		// e.setMetadata("PlayerNPC", new FixedMetadataValue(Main.getMain(),
+		// this));
 		TimedEntity t = new TimedEntity(this.type.getEntityType(), this.location.getTeleportLocation(), 0)
-		.name(this.hook.getName())
-		.nbt("NoAI", 1)
-		.metadata("PlayerNPC", new FixedMetadataValue(Main.getMain(), this));
-		
-//		if (e instanceof LivingEntity)
-//			((LivingEntity) e).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 60 * 60, 20));
+				.name(this.hook.getName()).nbt("NoAI", 1)
+				.metadata("PlayerNPC", new FixedMetadataValue(Main.getMain(), this));
+
+		// if (e instanceof LivingEntity)
+		// ((LivingEntity) e).addPotionEffect(new
+		// PotionEffect(PotionEffectType.SLOW, 20 * 60 * 60, 20));
 		this.tmp = t;
 	}
-	
+
 	public Field getLocation() {
 		return location;
 	}
 
-	public void teleport(Field to){
+	public void teleport(Field to) {
 		this.location = to;
 		this.spawnFigure();
 	}
-	
+
 	public void teleport(Location to, TeleportCause cause) {
 		this.hook.teleport(to);
 		if (cause == TeleportCause.MINIGAME_STARTED) {
@@ -181,12 +209,12 @@ public class Player {
 	}
 
 	private void transferMoneyFrom(Player player, int amount, String reason) {
-		player.addMoney( amount,reason);
+		player.addMoney(amount, reason);
 		Messages.MONEY_TRANSFER_GAIN.send(this.hook, String.valueOf(amount), player.getDisplay(), reason);
 	}
 
 	public void transferMoneyTo(Player player, int amount, String reason) {
-		this.removeMoney(amount,reason);
+		this.removeMoney(amount, reason);
 		Messages.MONEY_TRANSFER_SENT.send(this.hook, String.valueOf(amount), player.getDisplay(), reason);
 		player.transferMoneyFrom(this, amount, reason);
 	}
@@ -195,14 +223,14 @@ public class Player {
 		return this instanceof DummyPlayer;
 	}
 
-	protected void update(SerializeablePlayer s){
+	protected void update(SerializeablePlayer s) {
 		this.type = s.getF();
 		this.location = s.getLoc();
 		this.money.checkOut(this);
 		this.money.checkIn(this, s.getBankCard());
-		
+
 	}
-	
+
 	protected SerializeablePlayer serialize() {
 		return new SerializeablePlayer(this.game, this.location, this.type, this.money.getConsumerID(this));
 	}
@@ -210,4 +238,5 @@ public class Player {
 	public boolean isJailed() {
 		return game.isJailed(this.getFigure());
 	}
+
 }

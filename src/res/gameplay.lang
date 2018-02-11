@@ -1,0 +1,20 @@
+minopoly.prefix=§4ICH BIN EINE ROTE PREFIX§a 
+
+minopoly.gameplay.move_finished=%s hat seinen Zug beendet.
+
+minopoly.gameplay.jail_exit_failed=Du hast in dieser Runde noch %s versuche einen Pasch zu würfeln!
+minopoly.gameplay.jail_tripple_pasch=Mit drei Paschen nacheinander musst du leider ins Gefängniss...
+
+minopoly.gameplay.field.community.entered=%s betrat ein Community Feld.
+minopoly.gameplay.field.event.entered=%s betrat ein Ereignis Feld.
+minopoly.gameplay.field.free_parking.entered=%s betrat Freies Parken.
+minopoly.gameplay.field.jail.entered=%s betrat das Gefängniss.
+minopoly.gameplay.field.police.entered=%s wurde in das Gefängniss geschickt.
+minopoly.gameplay.field.normal.entered=%s betrat %s.
+minopoly.gameplay.field.start.passed=%s zog über Los.
+minopoly.gameplay.field.others.entered=Das Feld gehört %s. %s muss eine Miete in höhe von %s%s Zahlen!
+minopoly.gameplay.field.moved_property=%s hat das Feld %s %s überlassen.
+minopoly.gameplay.field.sold=%s hat das Feld %s verkauft.
+minopoly.gameplay.field.bought=%s hat das Feld %s gekauft.
+
+minopoly.gameplay.minigame.win=Das Minispiel %s wurde von %s gewonnen!

@@ -6,7 +6,7 @@ import org.bukkit.material.MaterialData;
 
 import de.wolfi.minopoly.components.Minopoly;
 import de.wolfi.minopoly.components.Player;
-import de.wolfi.minopoly.utils.Messages;
+import de.wolfi.minopoly.utils.I18nHelper;
 
 public class JailField extends Field {
 
@@ -16,15 +16,9 @@ public class JailField extends Field {
 	private static final long serialVersionUID = -2034500067547136860L;
 
 	public JailField(Location l, Minopoly game, int size) {
-		super("Gefängniss", FieldColor.SPECIAL, l, game, size, 0);
+		super("Gefängniss", FieldColor.SPECIAL, l, game, size, -1);
 	}
 
-	@Override
-	public void byPass(Player player) {
-
-	}
-
-	
 	@Override
 	public boolean buy(Player player) {
 		return false;
@@ -36,13 +30,11 @@ public class JailField extends Field {
 
 	@Override
 	public void playerStand(Player player) {
-		Messages.JAIL_FIELD_ENTER.broadcast(player.getName());
+		I18nHelper.broadcast("minopoly.gameplay.field.jail.entered", false, player.getDisplay());
 	}
-
+	
 	@Override
-	public void spawn() {
-		System.out.println("Spawning jail");
-		this.getCircle(0, false, new MaterialData(Material.AIR));
-		this.getCircle(0, true, new MaterialData(Material.IRON_FENCE));
+	public MaterialData getBlock() {
+		return new MaterialData(Material.IRON_BLOCK);
 	}
 }

@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
@@ -16,17 +17,23 @@ import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.wolfi.minopoly.commands.BankCommand;
-import de.wolfi.minopoly.commands.BuyCommand;
 import de.wolfi.minopoly.commands.DiceCommand;
+import de.wolfi.minopoly.commands.EventCommand;
+import de.wolfi.minopoly.commands.FieldCommand;
+import de.wolfi.minopoly.commands.FlyAwayToVictoryCommand;
 import de.wolfi.minopoly.commands.MinigameCommand;
 import de.wolfi.minopoly.commands.MinopolyCommand;
 import de.wolfi.minopoly.commands.MoveCommand;
 import de.wolfi.minopoly.commands.PlayerSelectorCommand;
 import de.wolfi.minopoly.commands.SetupCommand;
 import de.wolfi.minopoly.components.Minopoly;
+import de.wolfi.utils.i18n.I18n;
+import de.wolfi.utils.i18n.Locale;
 
 public class Main extends JavaPlugin implements Listener {
-
+	
+	private Locale minopLocale;
+	
 	public static Main getMain() {
 		return JavaPlugin.getPlugin(Main.class);
 	}
@@ -94,13 +101,19 @@ public class Main extends JavaPlugin implements Listener {
 
 	@Override
 	public void onEnable() {
+		minopLocale = new Locale();
+		minopLocale.loadLocaleDataFiles(getDataFolder(), Arrays.asList("ferdinand","minigames","gameplay"));
+		I18n.setLocale(minopLocale);
+		
+		this.getCommand("event").setExecutor(new EventCommand(this));
+		this.getCommand("flyawaytovictory").setExecutor(new FlyAwayToVictoryCommand(this));
 		this.getCommand("setupminopoly").setExecutor(new SetupCommand());
 		this.getCommand("bank").setExecutor(new BankCommand(this));
 		this.getCommand("move").setExecutor(new MoveCommand(this));
 		this.getCommand("dice").setExecutor(new DiceCommand(this));
 		this.getCommand("playerselector").setExecutor(new PlayerSelectorCommand(this));
 		this.getCommand("minigame").setExecutor(new MinigameCommand(this));
-		this.getCommand("buy").setExecutor(new BuyCommand(this));
+		this.getCommand("field").setExecutor(new FieldCommand(this));
 		this.getCommand("minopoly").setExecutor(new MinopolyCommand(this));
 
 		Bukkit.getPluginManager().registerEvents(this, this);
