@@ -24,9 +24,8 @@ public class FieldManager extends GameObject {
 
 	private final ArrayList<Field> fields = new ArrayList<>();
 	private final HashMap<FieldColor, ArrayList<Field>> mappedList = new HashMap<>();
-	
-	private static final Enchantment owned = new ItemBuilder.MyEnchantment("Owned");
 
+	private static final Enchantment owned = new ItemBuilder.MyEnchantment("Owned");
 
 	protected FieldManager() {
 	}
@@ -83,7 +82,6 @@ public class FieldManager extends GameObject {
 
 	}
 
-	
 	public ItemStack createFieldInfo(Player p, Field f) {
 		MaterialData data = f.getBlock();
 		ItemBuilder field = new ItemBuilder(data.toItemStack());
@@ -96,9 +94,12 @@ public class FieldManager extends GameObject {
 			field.addLore("Steuern: " + f.getBilling());
 		}
 
-		if (f.isOwned())
-			field.addLore("Owner: " + f.getOwner().getDisplay());
-		else
+		if (f.isOwned()) {
+			Player owner = f.getOwner();
+
+			field.addLore("Owner: " +( owner != null ? owner.getDisplay() : f.getTypeOwner().getDisplay()));
+
+		} else
 			field.addLore("§aVerfügbar");
 		if (f.isOwnedBy(p))
 			field.enchant(owned, 10);
@@ -117,8 +118,7 @@ public class FieldManager extends GameObject {
 		field.setAmount(amount);
 		return field.build();
 	}
-	
-	
+
 	public Field getFieldByType(Field start, Class<? extends Field> type) {
 		boolean found = false;
 		Field next = null;
@@ -139,7 +139,7 @@ public class FieldManager extends GameObject {
 	}
 
 	public Field getFieldByString(Field start, String toString) {
-		Bukkit.broadcastMessage("Searching "+toString);
+		Bukkit.broadcastMessage("Searching " + toString);
 		boolean found = false;
 		Field next = null;
 		if (start != null)
