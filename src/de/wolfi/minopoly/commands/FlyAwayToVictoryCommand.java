@@ -43,7 +43,7 @@ public class FlyAwayToVictoryCommand extends CommandInterface implements Invento
 	}
 	@Override
 	public Inventory getInventory() {
-		return Bukkit.createInventory(this, 9*3,"FlyAwayToVictory");
+		return Bukkit.createInventory(this, 9*5,"FlyAwayToVictory");
 	}
 
 }
