@@ -37,6 +37,7 @@ Main Settings >
 - [ ] Messages!
 - [ ] Delays
 - [x] import MAEDN dice or MarioParty dice
+- [ ] Formatting Unicode
 
 # Things must be fixed
 
