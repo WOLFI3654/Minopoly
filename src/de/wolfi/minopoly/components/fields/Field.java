@@ -208,6 +208,11 @@ public abstract class Field extends GameObject {
 	public Player getOwner() {
 		return this.game.getByFigureType(this.owner);
 	}
+	
+	public FigureType getTypeOwner() {
+		return this.owner;
+
+	}
 
 	public World getWorld() {
 		return this.location.getWorld();
@@ -403,7 +408,7 @@ public abstract class Field extends GameObject {
 	}
 
 	public boolean isOwnedBy(Player player) {
-		return this.isOwned() && this.getOwner().equals(player);
+		return this.isOwned() && this.getTypeOwner().equals(player.getFigure());
 	}
 
 	private final void removeName() {

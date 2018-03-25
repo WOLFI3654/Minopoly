@@ -93,11 +93,6 @@ public class DiceCommand extends CommandInterface {
 		if(dice != null) e.setCancelled(true);
 	}
 
-	@EventHandler
-	public void onDrop(PlayerDropItemEvent e){
-		DiceRunnable dice = this.getSched(e.getPlayer());
-		if(dice != null) e.setCancelled(true);
-	}
 
 	@EventHandler
 	public void onSlotChange(PlayerItemHeldEvent e){
