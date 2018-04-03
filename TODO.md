@@ -38,6 +38,7 @@ Main Settings >
 - [ ] Delays
 - [x] import MAEDN dice or MarioParty dice
 - [ ] Formatting Unicode
+- [ ] Field Manager beatufication -> Current player and Owner, Status
 
 # Things must be fixed
 
