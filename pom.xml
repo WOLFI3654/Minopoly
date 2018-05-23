@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>de.teamcreate</groupId>
+    <artifactId>minopoly</artifactId>
+    <version>1.8.8-SNAPSHOT</version>
+    <name>Mineopoly</name>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.1.2</version>
+                <executions>
+                    <execution>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <properties>
+        <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+    </properties>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>teamcreate</id>
+            <name>teamcreate-depl</name>
+            <url>http://teamcreate.de:8081/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <repositories>
+        <repository>
+            <id>robingrether-repo</id>
+            <url>http://repo.robingrether.de/</url>
+        </repository>
+        <repository>
+            <id>sk89q-snapshots</id>
+            <url>http://maven.sk89q.com/artifactory/repo</url>
+            <releases>
+                <enabled>true</enabled> <!-- releases enabled: this specific repository also hosts release versions -->
+            </releases>
+            <snapshots>
+                <enabled>true</enabled> <!-- snapshots enabled: we declare a SNAPSHOT repository because we need to download a SNAPSHOT dependency -->
+            </snapshots>
+        </repository>
+
+        <repository>
+            <id>teamcreate</id>
+            <name>teamcreate</name>
+            <url>http://teamcreate.de:8081/nexus/content/repositories/snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+    </repositories>
+    <dependencies>
+        <!--Spigot API-->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.robingrether.idisguise</groupId>
+            <artifactId>idisguise-core</artifactId>
+            <version>5.7.3</version>
+        </dependency>
+        <dependency>
+            <groupId>de.wolfi</groupId>
+            <artifactId>PublicUtils</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sk89q.worldedit</groupId>
+            <artifactId>worldedit-bukkit</artifactId>
+            <version>6.1.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+</project>
