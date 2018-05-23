@@ -27,7 +27,7 @@ public class FieldManager extends GameObject {
 
 	private static final Enchantment owned = new ItemBuilder.MyEnchantment("Owned");
 
-	protected FieldManager() {
+	FieldManager() {
 	}
 
 	public Field addField(Field f) {
@@ -46,7 +46,7 @@ public class FieldManager extends GameObject {
 		this.mappedList.put(color, list);
 	}
 
-	public Field getNextField(Field from) {
+	Field getNextField(Field from) {
 		boolean next = false;
 		for (final Field f : this.fields) {
 			if (f.equals(from)) {
@@ -66,7 +66,7 @@ public class FieldManager extends GameObject {
 			f.load();
 	}
 
-	public int countProperties(Player player, FieldColor color) {
+	int countProperties(Player player, FieldColor color) {
 		int count = 0;
 		for (Field f : mappedList.get(color)) {
 			if (f.isOwnedBy(player))
@@ -95,14 +95,16 @@ public class FieldManager extends GameObject {
 		}
 
 		if (f.isOwned()) {
+			if (f.isOwnedBy(p))
+				field.enchant(owned, 10);
+
 			Player owner = f.getOwner();
 
 			field.addLore("Owner: " +( owner != null ? owner.getDisplay() : f.getTypeOwner().getDisplay()));
 
 		} else
 			field.addLore("§aVerfügbar");
-		if (f.isOwnedBy(p))
-			field.enchant(owned, 10);
+
 
 		StringBuilder spieler = new StringBuilder();
 		int amount = 0;
