@@ -6,7 +6,7 @@
 
     <groupId>de.teamcreate</groupId>
     <artifactId>minopoly</artifactId>
-    <version>1.8.8-SNAPSHOT</version>
+    <version>1.12.2-SNAPSHOT</version>
     <name>Mineopoly</name>
     <build>
         <plugins>
