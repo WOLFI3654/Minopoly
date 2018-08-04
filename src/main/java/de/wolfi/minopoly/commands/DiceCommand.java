@@ -31,7 +31,7 @@ public class DiceCommand extends CommandInterface {
 
 	private static final ArrayList<DiceRunnable> scheds = new ArrayList<>();
 
-	public static final ItemStack dice = new ItemBuilder(Material.INK_SACK).setName("Â§aWürfel").setMeta((short) 15).build();
+	public static final ItemStack dice = new ItemBuilder(Material.INK_SACK).setName("§aWürfel").setMeta((short) 15).build();
 
 	private static class DiceRunnable implements Runnable {
 		private BukkitTask task;
@@ -44,7 +44,7 @@ public class DiceCommand extends CommandInterface {
 
 		@Override
 		public void run() {
-			player.getHook().playSound(player.getHook().getLocation(), Sound.CLICK, 1f, 1f);
+			player.getHook().playSound(player.getHook().getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f);
 
 			short dur = (short) (ThreadLocalRandom.current().nextInt(6));
 			this.selected_slot = (short) (dur+1);
@@ -109,11 +109,11 @@ public class DiceCommand extends CommandInterface {
 
 				if (dice.getFirst() == 0) {
 					dice.first = dice.getValue();
-					e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ORB_PICKUP, 1f, 1f);
+					e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
 				} else {
-					e.getPlayer().getInventory().setItemInHand(null);
+					e.getPlayer().getInventory().setItemInMainHand(null);
 					dice.remove();
-					e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.LEVEL_UP, 1f, 1f);
+					e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
 
 					int first = dice.getFirst();
 					int second = dice.getValue();

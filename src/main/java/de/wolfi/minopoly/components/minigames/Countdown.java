@@ -86,7 +86,7 @@ public class Countdown implements Listener {
 								Bukkit.broadcastMessage(message + " ß6Spiel startet in ßl" + i + "ßrß6 Sekunden!");
 								for (Player p : Bukkit.getOnlinePlayers()) {
 
-									p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 1);
+									p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
 									title(p, "{\"text\":\"Spiel startet in\",\"color\":\"gold\"}", false);
 									title(p, "{\"text\":\"" + i + "\",\"color\":\"aqua\"}", true);
 								}
@@ -99,7 +99,7 @@ public class Countdown implements Listener {
 						}
 						if (running) {
 							for (Player p : Bukkit.getOnlinePlayers()) {
-								p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
+								p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
 								title(p, "{\"text\":\"Viel Spaﬂ!\",\"color\":\"red\"}", false);
 								title(p, "{\"text\":\"" + p.getDisplayName() + "\",\"color\":\"aqua\"}", true);
 								p.setLevel(0);

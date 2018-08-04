@@ -137,7 +137,7 @@ public class Player {
 	}
 
 	public void activateDice() {
-		this.hook.playSound(this.hook.getLocation(), Sound.CHICKEN_EGG_POP, 1F, 7F);
+		this.hook.playSound(this.hook.getLocation(), Sound.ENTITY_CHICKEN_EGG, 1F, 7F);
 		this.hook.getInventory().setItem(Player.DICE_SLOT, DiceCommand.dice);
 	}
 

@@ -47,7 +47,6 @@ import de.wolfi.utils.inventory.InventorySelector;
 import de.wolfi.utils.nms.AnvilGUI;
 import de.wolfi.utils.nms.AnvilGUI.AnvilSlot;
 
-@SuppressWarnings("deprecation")
 public class SetupCommand implements CommandExecutor, Listener {
 
 	/**
@@ -138,7 +137,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 
 		for (short i = 0; i < 16; i++) {
 			COLOR_SELECTOR.addEntry(
-					new ItemBuilder(Material.WOOL).setMeta(i).setName(DyeColor.getByData((byte) i).toString()).build());
+					new ItemBuilder(Material.WOOL).setMeta(i).setName(DyeColor.getByDyeData((byte) i).toString()).build());
 		}
 	}
 
@@ -277,11 +276,11 @@ public class SetupCommand implements CommandExecutor, Listener {
 					if (enabled) {
 						m.getMinigameManager().removeMinigame(sheet);
 						clicked.removeEnchantment(SetupCommand.selected);
-						((Player) e.getWhoClicked()).playSound(e.getWhoClicked().getLocation(), Sound.LEVEL_UP, 1F, 1F);
+						((Player) e.getWhoClicked()).playSound(e.getWhoClicked().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
 					} else {
 						m.getMinigameManager().addMinigame(m, sheet);
 						clicked.addUnsafeEnchantment(SetupCommand.selected, 10);
-						((Player) e.getWhoClicked()).playSound(e.getWhoClicked().getLocation(), Sound.LEVEL_UP, 1F, 1F);
+						((Player) e.getWhoClicked()).playSound(e.getWhoClicked().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
 					}
 
 				}

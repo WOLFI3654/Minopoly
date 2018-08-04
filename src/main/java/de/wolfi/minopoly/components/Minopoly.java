@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.HandlerList;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
@@ -153,6 +154,11 @@ public class Minopoly extends GameObject implements CommandSender {
 	@Override
 	public String getName() {
 		return this.toString();
+	}
+
+	@Override
+	public Spigot spigot() {
+		return new Entity.Spigot();
 	}
 
 	@Override
