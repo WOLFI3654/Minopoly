@@ -3,6 +3,7 @@ package de.wolfi.minopoly.commands;
 import java.util.HashMap;
 import java.util.UUID;
 
+import de.wolfi.minopoly.utils.nms1122.AnvilGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -44,8 +45,7 @@ import de.wolfi.minopoly.components.fields.StartField;
 import de.wolfi.utils.ItemBuilder;
 import de.wolfi.utils.inventory.InventoryCounter;
 import de.wolfi.utils.inventory.InventorySelector;
-import de.wolfi.utils.nms.AnvilGUI;
-import de.wolfi.utils.nms.AnvilGUI.AnvilSlot;
+
 
 public class SetupCommand implements CommandExecutor, Listener {
 
@@ -67,13 +67,13 @@ public class SetupCommand implements CommandExecutor, Listener {
 			.setName("§7Flughafen Feld").build();
 	private static final ItemStack fieldtype_communityField = new ItemBuilder(Material.GOLD_PLATE)
 			.setName("§7Community Feld").build();
-	private static final ItemStack fieldtype_eventField = new ItemBuilder(Material.IRON_PLATE).setName("§Event Feld")
+	private static final ItemStack fieldtype_eventField = new ItemBuilder(Material.IRON_PLATE).setName("§eEvent Feld")
 			.build();
 	private static final ItemStack fieldtype_fundsField = new ItemBuilder(Material.GOLD_INGOT)
-			.setName("§Fundation Feld").build();
+			.setName("§eFundation Feld").build();
 	private static final ItemStack fieldtype_freeParkingField = new ItemBuilder(Material.FLOWER_POT_ITEM)
-			.setName("§Freies Parken Feld").build();
-	private static final ItemStack fieldtype_payingField = new ItemBuilder(Material.PAPER).setName("§Zahl Feld")
+			.setName("§eFreies Parken Feld").build();
+	private static final ItemStack fieldtype_payingField = new ItemBuilder(Material.PAPER).setName("§eZahl Feld")
 			.build();
 	private static final ItemStack fieldtype_jailField = new ItemBuilder(Material.IRON_BARDING).setName("§7Jelly Feld")
 			.build();
@@ -137,7 +137,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 
 		for (short i = 0; i < 16; i++) {
 			COLOR_SELECTOR.addEntry(
-					new ItemBuilder(Material.WOOL).setMeta(i).setName(DyeColor.getByDyeData((byte) i).toString()).build());
+					new ItemBuilder(Material.WOOL).setMeta(i).setName(DyeColor.getByWoolData((byte) i).toString()).build());
 		}
 	}
 
@@ -228,7 +228,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 						event.setWillClose(false);
 						e.getWhoClicked().openInventory(e.getInventory());
 					});
-					gui.setSlot(AnvilSlot.INPUT_LEFT, field_setup_renamer);
+					gui.setSlot(AnvilGUI.AnvilSlot.INPUT_LEFT, field_setup_renamer);
 					gui.open("RENAME YOUR STREET");
 				} else if (clicked.equals(SetupCommand.field_setup_colorer)) {
 					COLOR_SELECTOR.setCallback((i) -> {
@@ -368,7 +368,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 					});
 					PRICE_SELECTOR.open(e.getPlayer());
 				});
-				gui.setSlot(AnvilSlot.INPUT_LEFT, field_setup_renamer);
+				gui.setSlot(AnvilGUI.AnvilSlot.INPUT_LEFT, field_setup_renamer);
 				gui.open("RENAME YOUR STREET");
 			} else if (e.getItem().equals(SetupCommand.fieldtype_fundsField)) {
 				AnvilGUI gui = new AnvilGUI(e.getPlayer(), (event) -> {
@@ -385,9 +385,10 @@ public class SetupCommand implements CommandExecutor, Listener {
 						return true;
 
 					});
+					PRICE_SELECTOR.open(e.getPlayer());
+
 				});
-				PRICE_SELECTOR.open(e.getPlayer());
-				gui.setSlot(AnvilSlot.INPUT_LEFT, field_setup_renamer);
+				gui.setSlot(AnvilGUI.AnvilSlot.INPUT_LEFT, field_setup_renamer);
 				gui.open("RENAME YOUR STREET");
 			} else if (e.getItem().equals(SetupCommand.fieldtype_payingField)) {
 				AnvilGUI gui = new AnvilGUI(e.getPlayer(), (event) -> {
@@ -402,7 +403,7 @@ public class SetupCommand implements CommandExecutor, Listener {
 					RANGE_SELECTOR.open(e.getPlayer());
 
 				});
-				gui.setSlot(AnvilSlot.INPUT_LEFT, field_setup_renamer);
+				gui.setSlot(AnvilGUI.AnvilSlot.INPUT_LEFT, field_setup_renamer);
 				gui.open("RENAME YOUR STREET");
 			}
 		}

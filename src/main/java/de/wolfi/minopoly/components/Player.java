@@ -30,9 +30,9 @@ public class Player {
 
 	private final org.bukkit.entity.Player hook;
 
-	private Field location;
-
 	private final Bank money;
+
+	private Field location;
 
 	private TimedEntity tmp;
 

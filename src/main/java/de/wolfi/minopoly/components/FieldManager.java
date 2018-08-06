@@ -22,10 +22,11 @@ public class FieldManager extends GameObject {
 	 */
 	private static final long serialVersionUID = 6097015591168469852L;
 
+	private static final Enchantment owned = new ItemBuilder.MyEnchantment("Owned");
+
 	private final ArrayList<Field> fields = new ArrayList<>();
 	private final HashMap<FieldColor, ArrayList<Field>> mappedList = new HashMap<>();
 
-	private static final Enchantment owned = new ItemBuilder.MyEnchantment("Owned");
 
 	FieldManager() {
 	}
@@ -56,7 +57,7 @@ public class FieldManager extends GameObject {
 			if (next)
 				return f;
 		}
-
+		if(this.fields.size() == 0) return null;
 		return this.fields.get(0);
 	}
 
@@ -133,6 +134,7 @@ public class FieldManager extends GameObject {
 			}
 		while (found == false) {
 			next = getNextField(next);
+			if(next == null) return null;
 			if (next.getClass() == type)
 				found = true;
 		}
