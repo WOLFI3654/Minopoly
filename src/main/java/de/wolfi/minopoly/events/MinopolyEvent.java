@@ -17,7 +17,6 @@ public class MinopolyEvent extends Event implements Cancellable{
 	private static final HandlerList list = new HandlerList();
 	@Override
 	public HandlerList getHandlers() {
-		// TODO Auto-generated method stub
 		return list;
 	}
 	

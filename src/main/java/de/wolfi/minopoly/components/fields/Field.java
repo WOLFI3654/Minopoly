@@ -97,7 +97,7 @@ public abstract class Field extends GameObject {
 	}
 
 	public void byPass(Player player) {
-	};
+	}
 
 	public void setHome(Location loc) {
 		this.stored_home = loc;
@@ -235,6 +235,7 @@ public abstract class Field extends GameObject {
 			if (this.isOwned())
 				this.spawnHouse();
 		} catch (Exception e) {
+			Bukkit.broadcastMessage(e.toString());
 			// XXX TODO FIX
 		}
 
@@ -263,47 +264,47 @@ public abstract class Field extends GameObject {
 		}
 		LocalSession session = new LocalSession();
 		Closer closer = Closer.create();
-		try {
-			FileInputStream fis = closer.register(new FileInputStream(f));
-			BufferedInputStream bis = closer.register(new BufferedInputStream(fis));
-			ClipboardReader reader = format.getReader(bis);
+        doWorldeditMagic(world, esession, f, format, session, closer);
 
-			WorldData worldData = world.getWorldData();
-			Clipboard clipboard = reader.read(worldData);
-			session.setClipboard(new ClipboardHolder(clipboard, worldData));
+    }
 
-			Logger.getGlobal().info(" loaded " + f.getCanonicalPath());
-			// Vector to = atOrigin ? clipboard.getOrigin() :
-			// session.getPlacementPosition(player);
-			Operation operation = session.getClipboard().createPaste(esession, worldData)
-					.to(new Vector(this.stored_home.getBlockX(), this.stored_home.getY(), this.stored_home.getBlockZ()))
-					.ignoreAirBlocks(true).build();
+    private void doWorldeditMagic(com.sk89q.worldedit.world.World world, EditSession esession, File f, ClipboardFormat format, LocalSession session, Closer closer) {
+        try {
+            FileInputStream fis = closer.register(new FileInputStream(f));
+            BufferedInputStream bis = closer.register(new BufferedInputStream(fis));
+            ClipboardReader reader = format.getReader(bis);
 
-			Operations.completeLegacy(operation);
+            WorldData worldData = world.getWorldData();
+            Clipboard clipboard = reader.read(worldData);
+            session.setClipboard(new ClipboardHolder(clipboard, worldData));
 
-			// player.print("The clipboard has been pasted at " + to);
+            Logger.getGlobal().info(" loaded " + f.getCanonicalPath());
+            // Vector to = atOrigin ? clipboard.getOrigin() :
+            // session.getPlacementPosition(player);
+            Operation operation = session.getClipboard().createPaste(esession, worldData)
+                    .to(new Vector(this.stored_home.getBlockX(), this.stored_home.getY(), this.stored_home.getBlockZ()))
+                    .ignoreAirBlocks(true).build();
 
-			// player.print(filename + " loaded. Paste it with //paste");
-		} catch (IOException e) {
-			// player.printError("Schematic could not read or it does not exist:
-			// " + e.getMessage());
-			Logger.getGlobal().log(Level.WARNING, "Failed to load a saved clipboard", e);
-		} catch (MaxChangedBlocksException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (EmptyClipboardException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				closer.close();
-			} catch (IOException ignored) {
-			}
-		}
+            Operations.completeLegacy(operation);
 
-	}
+            // player.print("The clipboard has been pasted at " + to);
 
-	private void spawnHouse() {
+            // player.print(filename + " loaded. Paste it with //paste");
+        } catch (IOException e) {
+            // player.printError("Schematic could not read or it does not exist:
+            // " + e.getMessage());
+            Logger.getGlobal().log(Level.WARNING, "Failed to load a saved clipboard", e);
+        } catch (MaxChangedBlocksException | EmptyClipboardException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                closer.close();
+            } catch (IOException ignored) {
+            }
+        }
+    }
+
+    private void spawnHouse() {
 		if (this.stored_home == null)
 			return;
 		WorldEdit worldEdit = WorldEdit.getInstance();
@@ -326,45 +327,9 @@ public abstract class Field extends GameObject {
 		}
 		LocalSession session = new LocalSession();
 		Closer closer = Closer.create();
-		try {
-			FileInputStream fis = closer.register(new FileInputStream(f));
-			BufferedInputStream bis = closer.register(new BufferedInputStream(fis));
-			ClipboardReader reader = format.getReader(bis);
+        doWorldeditMagic(world, esession, f, format, session, closer);
 
-			WorldData worldData = world.getWorldData();
-			Clipboard clipboard = reader.read(worldData);
-			session.setClipboard(new ClipboardHolder(clipboard, worldData));
-
-			Logger.getGlobal().info(" loaded " + f.getCanonicalPath());
-			// Vector to = atOrigin ? clipboard.getOrigin() :
-			// session.getPlacementPosition(player);
-			Operation operation = session.getClipboard().createPaste(esession, worldData)
-					.to(new Vector(this.stored_home.getBlockX(), this.stored_home.getY(), this.stored_home.getBlockZ()))
-					.ignoreAirBlocks(true).build();
-
-			Operations.completeLegacy(operation);
-
-			// player.print("The clipboard has been pasted at " + to);
-
-			// player.print(filename + " loaded. Paste it with //paste");
-		} catch (IOException e) {
-			// player.printError("Schematic could not read or it does not exist:
-			// " + e.getMessage());
-			Logger.getGlobal().log(Level.WARNING, "Failed to load a saved clipboard", e);
-		} catch (MaxChangedBlocksException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (EmptyClipboardException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				closer.close();
-			} catch (IOException ignored) {
-			}
-		}
-
-	}
+    }
 	// worldEdit.getEditSessionFactory().getEditSession(worldEdit., 99999);
 
 	private void createNametag() {

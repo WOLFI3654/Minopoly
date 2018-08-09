@@ -11,7 +11,6 @@ public class MinopolyCommand extends CommandInterface{
 
 	public MinopolyCommand(Main plugin) {
 		super(plugin, 1, false);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

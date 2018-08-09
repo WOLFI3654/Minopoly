@@ -31,9 +31,7 @@ import de.wolfi.utils.i18n.I18n;
 import de.wolfi.utils.i18n.Locale;
 
 public class Main extends JavaPlugin implements Listener {
-	
-	private Locale minopLocale;
-	
+
 	public static Main getMain() {
 		return JavaPlugin.getPlugin(Main.class);
 	}
@@ -101,7 +99,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	@Override
 	public void onEnable() {
-		minopLocale = new Locale();
+		Locale minopLocale = new Locale();
 		minopLocale.loadLocaleDataFiles(getDataFolder(), Arrays.asList("ferdinand","minigames","gameplay"));
 		I18n.setLocale(minopLocale);
 		
