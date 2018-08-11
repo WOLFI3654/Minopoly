@@ -25,7 +25,7 @@ public enum FieldColor {
 	private DyeColor color;
 	private ChatColor color2;
 
-	private FieldColor(DyeColor color, ChatColor color2, int max) {
+	FieldColor(DyeColor color, ChatColor color2, int max) {
 		this.color = color;
 		this.color2 = color2;
 	}
