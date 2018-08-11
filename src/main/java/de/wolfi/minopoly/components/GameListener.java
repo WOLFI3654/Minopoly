@@ -167,7 +167,7 @@ public class GameListener implements Listener {
                 if (game.getSettings().isPayForced())
                     e.getPlayer().transferMoneyTo(e.getField().getOwner(), billing, "Schulden :3");
             } else if (e.getField() instanceof PayingField) {
-                e.getPlayer().removeMoney(e.getField().getPrice(), e.getField().toString());
+                e.getPlayer().removeMoney(e.getField().getBilling(), e.getField().toString());
                 if (this.game.getSettings().hasPott())
                     this.game.getTHE_POTT_OF_DOOM___andmore_cute_puppies().addMoney(e.getField().getPrice());
             }
