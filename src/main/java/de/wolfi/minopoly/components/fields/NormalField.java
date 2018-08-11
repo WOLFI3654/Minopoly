@@ -6,6 +6,7 @@ import org.bukkit.material.Dye;
 import org.bukkit.material.MaterialData;
 
 import de.wolfi.minopoly.components.Minopoly;
+import org.bukkit.material.Wool;
 
 public class NormalField extends Field {
 
@@ -20,7 +21,7 @@ public class NormalField extends Field {
 	
 	@Override
 	public MaterialData getBlock() {
-		Dye dye = new Dye(Material.STAINED_CLAY);
+		Wool dye = new Wool(Material.STAINED_CLAY);
 		dye.setColor(this.getColor().getColor());
 		return dye;
 	}
