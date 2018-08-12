@@ -32,14 +32,14 @@ public class StartField extends Field {
 	public void byPass(Player player) {
 		player.sendMessage("minopoly.ferdinand.field.start.passed",true);
 		I18nHelper.broadcast("minopoly.gameplay.field.start.passed", false, player.getDisplay());
-		player.addMoney(200, "Los passiert");
+		player.addMoney(100, "Los passiert");
 
 	}
 	@Override
 	public void playerStand(Player player) {
 		player.sendMessage("minopoly.ferdinand.field.start.passed",true);
 		I18nHelper.broadcast("minopoly.gameplay.field.start.passed", false, player.getDisplay());
-		player.addMoney(400,"Los besucht");
+		player.addMoney(200,"Los besucht");
 		super.playerStand(player);
 	}
 
