@@ -1,5 +1,6 @@
 package de.wolfi.minopoly.components;
 
+import de.wolfi.minopoly.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -15,14 +16,6 @@ import de.wolfi.minopoly.commands.DiceCommand;
 import de.wolfi.minopoly.commands.FieldCommand;
 import de.wolfi.minopoly.components.fields.Field;
 import de.wolfi.minopoly.events.MoneyEvent;
-import de.wolfi.minopoly.utils.Dangerous;
-import de.wolfi.minopoly.utils.DisguiseManager;
-import de.wolfi.minopoly.utils.FigureType;
-import de.wolfi.minopoly.utils.I18nHelper;
-import de.wolfi.minopoly.utils.MapFactory;
-import de.wolfi.minopoly.utils.Messages;
-import de.wolfi.minopoly.utils.TeleportCause;
-import de.wolfi.utils.TimedEntity;
 
 public class Player {
 
@@ -176,7 +169,7 @@ public class Player {
 		// e.setMetadata("PlayerNPC", new FixedMetadataValue(Main.getMain(),
 		// this));
 		TimedEntity t = new TimedEntity(this.type.getEntityType(), this.location.getTeleportLocation(), 0)
-				.name(this.hook.getName()).nbt("NoAI", 1)
+				.name(this.hook.getName())
 				.metadata("PlayerNPC", new FixedMetadataValue(Main.getMain(), this));
 
 		// if (e instanceof LivingEntity)
@@ -209,7 +202,7 @@ public class Player {
 	}
 
 	private void transferMoneyFrom(Player player, int amount, String reason) {
-		player.addMoney(amount, reason);
+		addMoney(amount, reason);
 		Messages.MONEY_TRANSFER_GAIN.send(this.hook, String.valueOf(amount), player.getDisplay(), reason);
 	}
 

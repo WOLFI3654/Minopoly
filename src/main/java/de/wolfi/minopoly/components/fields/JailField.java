@@ -16,7 +16,7 @@ public class JailField extends Field {
 	private static final long serialVersionUID = -2034500067547136860L;
 
 	public JailField(Location l, Minopoly game, int size) {
-		super("Gefängniss", FieldColor.SPECIAL, l, game, size, -1);
+		super("Gefängnis", FieldColor.SPECIAL, l, game, size, -1);
 	}
 
 	@Override

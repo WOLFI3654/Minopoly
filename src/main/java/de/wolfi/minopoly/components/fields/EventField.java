@@ -18,7 +18,7 @@ public class EventField extends Field {
 	private static final long serialVersionUID = 2546033930136925490L;
 
 	public EventField(Location l, Minopoly game, int size) {
-		super("Ereigniss Feld", FieldColor.SPECIAL, l, game, size, -1);
+		super("Ereignis Feld", FieldColor.SPECIAL, l, game, size, -1);
 
 	}
 
