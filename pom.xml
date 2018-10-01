@@ -40,7 +40,7 @@
         <snapshotRepository>
             <id>teamcreate</id>
             <name>teamcreate-depl</name>
-            <url>http://teamcreate.de:8081/nexus/content/repositories/snapshots</url>
+            <url>http://164.132.204.23:8081/nexus/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
     <repositories>
@@ -62,7 +62,7 @@
         <repository>
             <id>teamcreate</id>
             <name>teamcreate</name>
-            <url>http://teamcreate.de:8081/nexus/content/repositories/snapshots/</url>
+            <url>http://164.132.204.23:8081/nexus/content/repositories/snapshots/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>

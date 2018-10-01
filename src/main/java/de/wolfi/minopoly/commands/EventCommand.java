@@ -18,7 +18,7 @@ import de.wolfi.utils.ItemBuilder;
 
 public class EventCommand extends CommandInterface {
 	
-	public static enum Events{
+	public enum Events{
 		LOTTERY("Du gewinnst in der Lotterie 50 Katzenbabys","bank %s add 50 Lotterie"),
 		LOTTERY1("Du gewinnst in der Lotterie 150 Katzenbabys","bank %s add 150 Lotterie"),
 		LOTTERY2("Du gewinnst in der Lotterie 250 Katzenbabys","bank %s add 250 Lotterie"),
